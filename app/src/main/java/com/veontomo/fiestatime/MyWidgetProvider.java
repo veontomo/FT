@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.util.Random;
+import java.util.Date;
 
 /**
- * Created by Mario Rossi on 05/10/2015 at 11:09.
- *
+ * Example of widget from
+ * http://www.vogella.com/tutorials/AndroidWidgets/article.html
  */
 public class MyWidgetProvider extends AppWidgetProvider {
     private static final String ACTION_CLICK = "ACTION_CLICK";
@@ -26,15 +26,17 @@ public class MyWidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context,
                 MyWidgetProvider.class);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
         for (int widgetId : allWidgetIds) {
+            Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
             // create some random data
-            int number = (new Random().nextInt(100));
+            String date = (new Date()).toString();
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget_layout);
-            Log.w("WidgetExample", String.valueOf(number));
+            Log.i(Config.APP_NAME, String.valueOf(date));
             // Set the text
-            remoteViews.setTextViewText(R.id.update, String.valueOf(number));
+            remoteViews.setTextViewText(R.id.update, String.valueOf(date));
 
             // Register an onClickListener
             Intent intent = new Intent(context, MyWidgetProvider.class);
