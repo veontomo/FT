@@ -1,13 +1,14 @@
-package com.veontomo.fiestatime;
+package com.veontomo.fiestatime.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.R;
 
 
 /**
@@ -62,6 +63,7 @@ public class AddHoliday extends Fragment {
         try {
             mListener = (OnFragmentInteractionListener) getActivity();
         } catch (ClassCastException e) {
+            Logger.log("hosting activity does not support fragment's interface");
             mListener = null;
         }
     }
@@ -76,7 +78,7 @@ public class AddHoliday extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onSave();
         }
     }
 
