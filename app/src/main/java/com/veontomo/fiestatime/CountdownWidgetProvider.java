@@ -15,7 +15,7 @@ import java.util.Date;
  * Example of widget from
  * http://www.vogella.com/tutorials/AndroidWidgets/article.html
  */
-public class MyWidgetProvider extends AppWidgetProvider {
+public class CountdownWidgetProvider extends AppWidgetProvider {
     private static final String ACTION_CLICK = "ACTION_CLICK";
 
     @Override
@@ -24,7 +24,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         // Get all ids
         ComponentName thisWidget = new ComponentName(context,
-                MyWidgetProvider.class);
+                CountdownWidgetProvider.class);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
         for (int widgetId : allWidgetIds) {
@@ -39,7 +39,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.update, String.valueOf(date));
 
             // Register an onClickListener
-            Intent intent = new Intent(context, MyWidgetProvider.class);
+            Intent intent = new Intent(context, CountdownWidgetProvider.class);
 
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
