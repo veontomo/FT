@@ -50,11 +50,15 @@ public class ShowHoliday extends Fragment {
     @Nullable
     private ShowHolidayActions mHostActivity;
 
+    public ShowHoliday() {
+        // Required empty public constructor
+    }
+
     /**
      * Factory method that creates a new instance of
      * this fragment using the provided parameters.
      *
-     * @param name holiday name
+     * @param name  holiday name
      * @param descr holiday description.
      * @return A new instance of fragment ShowHoliday.
      */
@@ -67,19 +71,16 @@ public class ShowHoliday extends Fragment {
         return fragment;
     }
 
-    public ShowHoliday() {
-        // Required empty public constructor
-    }
-
     /**
      * Initializes fragment's fields.
+     *
      * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle b = savedInstanceState;
-        if (b == null){
+        if (b == null) {
             b = getArguments();
         }
         if (b != null) {
@@ -103,7 +104,6 @@ public class ShowHoliday extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -117,7 +117,7 @@ public class ShowHoliday extends Fragment {
      * activity.
      */
     public interface ShowHolidayActions {
-        public void onFragmentInteraction();
+        void onFragmentInteraction();
     }
 
 }

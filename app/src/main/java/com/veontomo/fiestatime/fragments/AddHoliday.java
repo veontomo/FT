@@ -31,6 +31,10 @@ public class AddHoliday extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public AddHoliday() {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -47,10 +51,6 @@ public class AddHoliday extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public AddHoliday() {
-        // Required empty public constructor
     }
 
     @Override
@@ -97,7 +97,7 @@ public class AddHoliday extends Fragment {
      * <p/>
      */
     public interface OnFragmentInteractionListener {
-        public void onSave();
+        void onSave();
     }
 
 }
