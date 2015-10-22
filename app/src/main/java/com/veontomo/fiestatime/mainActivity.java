@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class mainActivity extends AppCompatActivity {
 
-//    private GoogleAccountCredential credential;
+    private GoogleAccountCredential credential;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,35 +39,35 @@ public class mainActivity extends AppCompatActivity {
             }
         });
 
-//        com.google.api.services.calendar.Calendar client = null;
-//        ArrayList l = new ArrayList<String>();
-//        l.add(CalendarScopes.CALENDAR);
-//        credential = GoogleAccountCredential.usingOAuth2(getApplicationContext(), l);
-//        credential.setSelectedAccountName("Ukraine");
-//        client = getCalendarService(credential);
-//        String pageToken = null;
-//        com.google.api.services.calendar.model.Events events;
-//        do {
-//            try {
-//                events = client.events().list("en.usa#holiday@group.v.calendar.google.com").setPageToken(pageToken).execute();
-//                pageToken = events.getNextPageToken();
-//                java.util.List<com.google.api.services.calendar.model.Event> list = events.getItems();
-//                Log.i(Config.APP_NAME, "event list contains " + list.size() + " elements");
-//                for (com.google.api.services.calendar.model.Event event : list) {
-//                    Log.i(Config.APP_NAME, "description: " + event.getDescription());
-//                }
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } while (pageToken != null);
+        com.google.api.services.calendar.Calendar client = null;
+        ArrayList<String> l = new ArrayList<>();
+        l.add(CalendarScopes.CALENDAR);
+        credential = GoogleAccountCredential.usingOAuth2(getApplicationContext(), l);
+        credential.setSelectedAccountName(null);
+        client = getCalendarService(credential);
+        String pageToken = null;
+        com.google.api.services.calendar.model.Events events;
+        do {
+            try {
+                events = client.events().list("en.usa#holiday@group.v.calendar.google.com").setPageToken(pageToken).execute();
+                pageToken = events.getNextPageToken();
+                java.util.List<com.google.api.services.calendar.model.Event> list = events.getItems();
+                Log.i(Config.APP_NAME, "event list contains " + list.size() + " elements");
+                for (com.google.api.services.calendar.model.Event event : list) {
+                    Log.i(Config.APP_NAME, "description: " + event.getDescription());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (pageToken != null);
 
 
     }
 
-//    private com.google.api.services.calendar.Calendar getCalendarService(GoogleAccountCredential credential) {
-//        return new com.google.api.services.calendar.Calendar.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential).build();
-//    }
+    private com.google.api.services.calendar.Calendar getCalendarService(GoogleAccountCredential credential) {
+        return new com.google.api.services.calendar.Calendar.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential).build();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
