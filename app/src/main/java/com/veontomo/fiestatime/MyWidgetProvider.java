@@ -26,9 +26,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context,
                 MyWidgetProvider.class);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-//        Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
+        Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
         for (int widgetId : allWidgetIds) {
-//            Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
+            Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
             // create some random data
             String date = (new Date()).toString();
 
@@ -49,5 +49,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        Log.i(Config.APP_NAME, "widget is deleted");
     }
 }
