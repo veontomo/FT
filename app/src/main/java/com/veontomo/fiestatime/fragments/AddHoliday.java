@@ -3,10 +3,12 @@ package com.veontomo.fiestatime.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.veontomo.fiestatime.Logger;
@@ -16,7 +18,7 @@ import com.veontomo.fiestatime.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddHoliday.OnFragmentInteractionListener} interface
+ * {@link OnFragmentActions} interface
  * to handle interaction events.
  * Use the {@link AddHoliday#newInstance} factory method to
  * create an instance of this fragment.
@@ -26,12 +28,14 @@ public class AddHoliday extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    Spinner spinner;
+    private Button confirmButton;
+    private Button cancelButton;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentActions mHostActivity;
 
     public AddHoliday() {
         // Required empty public constructor
@@ -63,12 +67,11 @@ public class AddHoliday extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
         try {
-            mListener = (OnFragmentInteractionListener) getActivity();
+            mHostActivity = (OnFragmentActions) getActivity();
         } catch (ClassCastException e) {
             Logger.log("hosting activity does not support fragment's interface");
-            mListener = null;
+            mHostActivity = null;
         }
     }
 
@@ -81,18 +84,62 @@ public class AddHoliday extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle bundle) {
-        Spinner spinner = (Spinner) view.findViewById(R.id.frag_add_holiday_periodicity);
+        super.onViewCreated(view, bundle);
+        spinner = (Spinner) view.findViewById(R.id.frag_add_holiday_periodicity);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        confirmButton = (Button) view.findViewById(R.id.frag_add_holiday_confirm);
+        cancelButton = (Button) view.findViewById(R.id.frag_add_holiday_cancel);
+
+        attachListeners();
     }
+
+    @Override
+    public void onDestroyView() {
+        detachListeners();
+        cancelButton = null;
+        confirmButton = null;
+        spinner.setAdapter(null);
+        spinner = null;
+        super.onDestroyView();
+
+    }
+
+
+    private void attachListeners() {
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHostActivity != null) {
+                    mHostActivity.onConfirm();
+                }
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHostActivity != null) {
+                    mHostActivity.onCancel();
+                }
+            }
+        });
+
+
+    }
+
+    private void detachListeners() {
+        cancelButton.setOnClickListener(null);
+        confirmButton.setOnClickListener(null);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onSave();
+        if (mHostActivity != null) {
+            mHostActivity.onConfirm();
         }
     }
 
@@ -100,7 +147,7 @@ public class AddHoliday extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mHostActivity = null;
     }
 
     /**
@@ -110,8 +157,11 @@ public class AddHoliday extends Fragment {
      * activity.
      * <p/>
      */
-    public interface OnFragmentInteractionListener {
-        void onSave();
+    public interface OnFragmentActions {
+        void onConfirm();
+
+        void onCancel();
+
     }
 
 }

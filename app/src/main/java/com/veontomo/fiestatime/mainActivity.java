@@ -14,11 +14,12 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.calendar.CalendarScopes;
+import com.veontomo.fiestatime.fragments.AddHoliday;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class mainActivity extends AppCompatActivity {
+public class mainActivity extends AppCompatActivity implements AddHoliday.OnFragmentActions {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +59,15 @@ public class mainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfirm() {
+        Logger.log("confirm");
+    }
+
+    @Override
+    public void onCancel() {
+        Logger.log("cancel");
     }
 }
