@@ -8,4 +8,13 @@
     <string name="holiday_name">name of the holiday</string>
     <string name="holiday_time_left">Time left</string>
     <string name="widget_name">Fiesta Time Widget</string>
+
+    <string-array name="periodicity">
+        <item>just once</item>
+        <item>weekly</item>
+        <item>montly</item>
+        <item>yearly</item>
+    </string-array>
+    <string name="title_activity_act_add_holiday">Add Holiday</string>
+
 </resources>
