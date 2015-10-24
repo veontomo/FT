@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,18 +39,21 @@ public class AddHoliday extends Fragment {
     private static final String HOLIDAY_NAME_TOKEN = "holidayName";
     private static final String NEXT_OCCURRENCE_TOKEN = "nextOccurrence";
     private static final String PERIODICITY_TOKEN = "periodicity";
-    Spinner spinner;
-    TextView dateView;
-    private Button confirmButton;
-    private Button cancelButton;
     private final static String DATE_VIEW_ID_TOKEN = "textView";
     private final static String ONSCREEN_DATE_FORMAT = "d MMMM yyyy";
+    private EditText mHolidayNameView;
+    private TextView mNextOccurrenceView;
+    private Spinner mPeriodicityView;
+    private Button mConfirmButton;
+    private Button mCancelButton;
+    private String mHolidayName;
+    private String mNextOccurrence;
+    private int mPeriodicity = -1;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentActions mHostActivity;
-    private TextView holidayNameView;
 
     public AddHoliday() {
         // Required empty public constructor
@@ -101,39 +105,65 @@ public class AddHoliday extends Fragment {
         super.onViewCreated(view, bundle);
 
 
-        holidayNameView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_name);
-        dateView = (TextView) view.findViewById(R.id.frag_add_holiday_next);
+    }
 
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
-        dateView.setText(format.format(calendar.getTime()));
-        spinner = (Spinner) view.findViewById(R.id.frag_add_holiday_periodicity);
+    @Override
+    public void onViewStateRestored(Bundle b) {
+        super.onViewStateRestored(b);
+        if (b != null) {
+            this.mHolidayName = b.getString(HOLIDAY_NAME_TOKEN);
+            this.mNextOccurrence = b.getString(NEXT_OCCURRENCE_TOKEN);
+            this.mPeriodicity = b.getInt(PERIODICITY_TOKEN, -1);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
+        mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
+        mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        mPeriodicityView.setAdapter(adapter);
 
-        confirmButton = (Button) view.findViewById(R.id.frag_add_holiday_confirm);
-        cancelButton = (Button) view.findViewById(R.id.frag_add_holiday_cancel);
+        mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
+        mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
 
         attachListeners();
+        if (this.mHolidayName != null) {
+            this.mHolidayNameView.setText(this.mHolidayName);
+        }
+        if (this.mNextOccurrence == null) {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
+            this.mNextOccurrence = format.format(calendar.getTime());
+        }
+        this.mNextOccurrenceView.setText(this.mNextOccurrence);
+        if (this.mPeriodicity != -1) {
+            this.mPeriodicityView.setSelection(this.mPeriodicity);
+
+        }
+
     }
 
     @Override
     public void onDestroyView() {
         detachListeners();
-        cancelButton = null;
-        confirmButton = null;
-        spinner.setAdapter(null);
-        spinner = null;
-        holidayNameView = null;
+        mCancelButton = null;
+        mConfirmButton = null;
+        mPeriodicityView.setAdapter(null);
+        mPeriodicityView = null;
+        mHolidayNameView = null;
         super.onDestroyView();
 
     }
 
 
     private void attachListeners() {
-        confirmButton.setOnClickListener(new View.OnClickListener() {
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mHostActivity != null) {
@@ -141,7 +171,7 @@ public class AddHoliday extends Fragment {
                 }
             }
         });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mHostActivity != null) {
@@ -149,7 +179,7 @@ public class AddHoliday extends Fragment {
                 }
             }
         });
-        dateView.setOnClickListener(new View.OnClickListener() {
+        mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datePickerDialog = new DatePickerFragment();
@@ -165,9 +195,9 @@ public class AddHoliday extends Fragment {
     }
 
     private void detachListeners() {
-        dateView.setOnClickListener(null);
-        cancelButton.setOnClickListener(null);
-        confirmButton.setOnClickListener(null);
+        mNextOccurrenceView.setOnClickListener(null);
+        mCancelButton.setOnClickListener(null);
+        mConfirmButton.setOnClickListener(null);
     }
 
 
@@ -186,10 +216,10 @@ public class AddHoliday extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle b){
-        b.putString(HOLIDAY_NAME_TOKEN, holidayNameView.getEditableText().toString());
-        b.putString(NEXT_OCCURRENCE_TOKEN, dateView.getEditableText().toString());
-        b.putInt(PERIODICITY_TOKEN, spinner.getSelectedItemPosition());
+    public void onSaveInstanceState(Bundle b) {
+        b.putString(HOLIDAY_NAME_TOKEN, this.mHolidayNameView.getEditableText().toString());
+        b.putString(NEXT_OCCURRENCE_TOKEN, this.mNextOccurrenceView.getText().toString());
+        b.putInt(PERIODICITY_TOKEN, this.mPeriodicityView.getSelectedItemPosition());
         super.onSaveInstanceState(b);
 
     }
@@ -241,6 +271,7 @@ public class AddHoliday extends Fragment {
                 calendar.set(Calendar.DAY_OF_MONTH, day);
                 SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
                 tv.setText(format.format(calendar.getTime()));
+
             }
         }
     }
