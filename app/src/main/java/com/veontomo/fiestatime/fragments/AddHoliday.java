@@ -1,18 +1,24 @@
 package com.veontomo.fiestatime.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+
+import java.util.Calendar;
 
 
 /**
@@ -29,6 +35,7 @@ public class AddHoliday extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     Spinner spinner;
+    TextView dateView;
     private Button confirmButton;
     private Button cancelButton;
     // TODO: Rename and change types of parameters
@@ -85,6 +92,8 @@ public class AddHoliday extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
+        dateView = (TextView) view.findViewById(R.id.frag_add_holiday_next);
+        dateView.setText("25 october 2015");
         spinner = (Spinner) view.findViewById(R.id.frag_add_holiday_periodicity);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
@@ -126,11 +135,23 @@ public class AddHoliday extends Fragment {
                 }
             }
         });
+        dateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                Bundle b = new Bundle();
+                b.putInt("viewId", v.getId());
+                newFragment.setArguments(b);
+                newFragment.show(getActivity().getFragmentManager(), "datePicker");
+
+            }
+        });
 
 
     }
 
     private void detachListeners() {
+        dateView.setOnClickListener(null);
         cancelButton.setOnClickListener(null);
         confirmButton.setOnClickListener(null);
     }
@@ -162,6 +183,37 @@ public class AddHoliday extends Fragment {
 
         void onCancel();
 
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        /**
+         * Id of a text view that must display the date selected by the user
+         */
+        private int viewId;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            if (savedInstanceState != null) {
+                this.viewId = savedInstanceState.getInt("viewId", -1);
+            }
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            TextView tv = (TextView) getActivity().findViewById(viewId);
+            if (tv != null) {
+                tv.setText(year + ", " + month + ", " + day);
+            }
+            Logger.log("selected: " + year + ", " + month + ", " + day);
+        }
     }
 
 }
