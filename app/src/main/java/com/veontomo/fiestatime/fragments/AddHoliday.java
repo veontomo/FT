@@ -40,6 +40,7 @@ public class AddHoliday extends Fragment {
     private Button confirmButton;
     private Button cancelButton;
     private final static String DATE_VIEW_ID_TOKEN = "textView";
+    private final static String ONSCREEN_DATE_FORMAT = "d MMMM yyyy";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -95,7 +96,9 @@ public class AddHoliday extends Fragment {
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
         dateView = (TextView) view.findViewById(R.id.frag_add_holiday_next);
-        dateView.setText("25 october 2015");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
+        dateView.setText(format.format(calendar.getTime()));
         spinner = (Spinner) view.findViewById(R.id.frag_add_holiday_periodicity);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
@@ -140,11 +143,11 @@ public class AddHoliday extends Fragment {
         dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment datePickerDialog = new DatePickerFragment();
                 Bundle b = new Bundle();
                 b.putInt(DATE_VIEW_ID_TOKEN, v.getId());
-                newFragment.setArguments(b);
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
+                datePickerDialog.setArguments(b);
+                datePickerDialog.show(getActivity().getFragmentManager(), "datePicker");
 
             }
         });
@@ -190,6 +193,8 @@ public class AddHoliday extends Fragment {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        private final static Calendar calendar = Calendar.getInstance();
+
         /**
          * Id of a text view that must display the date selected by the user
          */
@@ -198,29 +203,27 @@ public class AddHoliday extends Fragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
             Bundle b = getArguments();
             if (b != null) {
                 this.viewId = b.getInt(DATE_VIEW_ID_TOKEN, -1);
             }
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
+            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
+            return datePicker;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             TextView tv = (TextView) getActivity().findViewById(viewId);
             if (tv != null) {
-                final Calendar c = Calendar.getInstance();
-                c.set(Calendar.YEAR, year);
-                c.set(Calendar.MONTH, month);
-                c.set(Calendar.DAY_OF_MONTH, day);
-                SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
-                tv.setText(format.format(c.getTime()));
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
+                tv.setText(format.format(calendar.getTime()));
             }
-            Logger.log("selected: " + year + ", " + month + ", " + day);
         }
     }
 
