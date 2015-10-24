@@ -38,6 +38,7 @@ public class AddHoliday extends Fragment {
     TextView dateView;
     private Button confirmButton;
     private Button cancelButton;
+    private final static String DATE_VIEW_ID_TOKEN = "textView";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -140,7 +141,7 @@ public class AddHoliday extends Fragment {
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePickerFragment();
                 Bundle b = new Bundle();
-                b.putInt("viewId", v.getId());
+                b.putInt(DATE_VIEW_ID_TOKEN, v.getId());
                 newFragment.setArguments(b);
                 newFragment.show(getActivity().getFragmentManager(), "datePicker");
 
@@ -200,8 +201,9 @@ public class AddHoliday extends Fragment {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            if (savedInstanceState != null) {
-                this.viewId = savedInstanceState.getInt("viewId", -1);
+            Bundle b = getArguments();
+            if (b != null) {
+                this.viewId = b.getInt(DATE_VIEW_ID_TOKEN, -1);
             }
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
