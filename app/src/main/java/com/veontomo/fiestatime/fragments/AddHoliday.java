@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -212,7 +213,12 @@ public class AddHoliday extends Fragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             TextView tv = (TextView) getActivity().findViewById(viewId);
             if (tv != null) {
-                tv.setText(year + ", " + month + ", " + day);
+                final Calendar c = Calendar.getInstance();
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, day);
+                SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
+                tv.setText(format.format(c.getTime()));
             }
             Logger.log("selected: " + year + ", " + month + ", " + day);
         }
