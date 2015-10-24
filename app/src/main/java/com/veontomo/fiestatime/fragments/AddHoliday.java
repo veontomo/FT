@@ -35,6 +35,9 @@ public class AddHoliday extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String HOLIDAY_NAME_TOKEN = "holidayName";
+    private static final String NEXT_OCCURRENCE_TOKEN = "nextOccurrence";
+    private static final String PERIODICITY_TOKEN = "periodicity";
     Spinner spinner;
     TextView dateView;
     private Button confirmButton;
@@ -46,6 +49,7 @@ public class AddHoliday extends Fragment {
     private String mParam2;
 
     private OnFragmentActions mHostActivity;
+    private TextView holidayNameView;
 
     public AddHoliday() {
         // Required empty public constructor
@@ -95,7 +99,11 @@ public class AddHoliday extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
+
+
+        holidayNameView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_name);
         dateView = (TextView) view.findViewById(R.id.frag_add_holiday_next);
+
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
         dateView.setText(format.format(calendar.getTime()));
@@ -118,6 +126,7 @@ public class AddHoliday extends Fragment {
         confirmButton = null;
         spinner.setAdapter(null);
         spinner = null;
+        holidayNameView = null;
         super.onDestroyView();
 
     }
@@ -174,6 +183,15 @@ public class AddHoliday extends Fragment {
     public void onDetach() {
         super.onDetach();
         mHostActivity = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle b){
+        b.putString(HOLIDAY_NAME_TOKEN, holidayNameView.getEditableText().toString());
+        b.putString(NEXT_OCCURRENCE_TOKEN, dateView.getEditableText().toString());
+        b.putInt(PERIODICITY_TOKEN, spinner.getSelectedItemPosition());
+        super.onSaveInstanceState(b);
+
     }
 
     /**
