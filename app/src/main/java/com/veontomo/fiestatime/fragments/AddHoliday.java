@@ -167,7 +167,7 @@ public class AddHoliday extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mHostActivity != null) {
-                    mHostActivity.onConfirm();
+                    mHostActivity.onConfirm(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
                 }
             }
         });
@@ -200,15 +200,6 @@ public class AddHoliday extends Fragment {
         mConfirmButton.setOnClickListener(null);
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mHostActivity != null) {
-            mHostActivity.onConfirm();
-        }
-    }
-
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -232,7 +223,7 @@ public class AddHoliday extends Fragment {
      * <p/>
      */
     public interface OnFragmentActions {
-        void onConfirm();
+        void onConfirm(String name, String next, int periodicity);
 
         void onCancel();
 
