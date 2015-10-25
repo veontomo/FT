@@ -64,6 +64,7 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnFrag
     @Override
     public void onConfirm(String name, String next, int periodicity) {
         Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
+        Storage storage = new Storage(getApplicationContext());
     }
 
     @Override
