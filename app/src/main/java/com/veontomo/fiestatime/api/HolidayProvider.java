@@ -8,6 +8,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.veontomo.fiestatime.Config;
+import com.veontomo.fiestatime.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,22 @@ import java.util.ArrayList;
  * Provider of holidays: retrieves the holidays (either from internet or from calendar).
  */
 public class HolidayProvider {
+
+    private final Storage mStorage;
+
+    public HolidayProvider (Storage storage){
+        this.mStorage = storage;
+    }
+
+    public void save(final String name, final String next, final int periodicity){
+        Logger.log("saving " + name + ", " + next + ", " + periodicity);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mStorage.save(name, next, periodicity);
+            }
+        }).start();
+    }
     /**
      * gives the next nearest holiday
      *
@@ -25,6 +42,8 @@ public class HolidayProvider {
         return new Holiday("Next holiday", System.currentTimeMillis(), Holiday.WEEK);
 
     }
+
+
 
 
     public java.util.List<com.google.api.services.calendar.model.Event> events(final Context context) {

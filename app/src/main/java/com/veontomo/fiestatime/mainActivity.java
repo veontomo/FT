@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.veontomo.fiestatime.api.HolidayProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
 
@@ -59,6 +60,9 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnFrag
     public void onConfirm(String name, String next, int periodicity) {
         Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
         Storage storage = new Storage(getApplicationContext());
+
+        HolidayProvider hp = new HolidayProvider(storage);
+        hp.save(name, next, periodicity);
     }
 
     @Override
