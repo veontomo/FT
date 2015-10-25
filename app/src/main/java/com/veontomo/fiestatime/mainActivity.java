@@ -10,14 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.calendar.CalendarScopes;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class mainActivity extends AppCompatActivity implements AddHoliday.OnFragmentActions {
 

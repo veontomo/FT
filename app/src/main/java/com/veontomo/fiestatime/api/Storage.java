@@ -1,4 +1,4 @@
-package com.veontomo.fiestatime;
+package com.veontomo.fiestatime.api;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
