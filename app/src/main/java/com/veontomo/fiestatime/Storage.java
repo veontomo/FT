@@ -51,9 +51,17 @@ public class Storage extends SQLiteOpenHelper {
         db.execSQL(HolidayQueries.CREATE_TABLE);
     }
 
-    /**
-     * Various Proverbs-table related queries
-     */
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 1) {
+            // empty task: nothing to do
+        }
+
+    }
+
+        /**
+         * Various Proverbs-table related queries
+         */
     public static abstract class HolidayQueries {
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 HolidayEntry.TABLE_NAME + " (" +
