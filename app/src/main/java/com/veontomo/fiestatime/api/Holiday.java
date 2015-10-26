@@ -1,15 +1,26 @@
 package com.veontomo.fiestatime.api;
 
 /**
- * Holiday class
+ * Holiday
  *
  */
 public class Holiday {
-    public final String name;
-    public final long date;
+    /**
+     * How often the holiday occurs
+     */
+    public final static int ONCE = 0;
+    public final static int WEEK = 1;
+    public final static int MONTH = 2;
+    public final static int YEAR = 3;
 
-    public Holiday(String name, long date){
+    public final String name;
+    public long nextOccurence;
+    public int periodicity;
+
+    public Holiday(String name, long next, int periodicity){
         this.name = name;
-        this.date = date;
+        this.nextOccurence = next;
+        this.periodicity = periodicity;
     }
+
 }

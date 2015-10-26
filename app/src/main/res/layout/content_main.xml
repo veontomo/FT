@@ -13,8 +13,12 @@
     tools:showIn="@layout/activity_main"
     tools:context=".mainActivity">
 
-    <TextView
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
+    <fragment
+        android:id="@+id/act_main_add_holiday"
+        android:name="com.veontomo.fiestatime.fragments.AddHoliday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_add_holiday" />
+
 </RelativeLayout>

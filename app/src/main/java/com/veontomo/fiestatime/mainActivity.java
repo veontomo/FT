@@ -11,9 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.veontomo.fiestatime.api.HolidayProvider;
+import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.fragments.AddHoliday;
 
-
-public class mainActivity extends AppCompatActivity {
+public class mainActivity extends AppCompatActivity implements AddHoliday.OnFragmentActions {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,7 @@ public class mainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        HolidayProvider hp = new HolidayProvider();
-        Logger.log(hp.next(getApplicationContext()).name);
-
-
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,5 +54,19 @@ public class mainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfirm(String name, String next, int periodicity) {
+        Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
+        Storage storage = new Storage(getApplicationContext());
+
+        HolidayProvider hp = new HolidayProvider(storage);
+        hp.save(name, next, periodicity);
+    }
+
+    @Override
+    public void onCancel() {
+        Logger.log("cancel");
     }
 }
