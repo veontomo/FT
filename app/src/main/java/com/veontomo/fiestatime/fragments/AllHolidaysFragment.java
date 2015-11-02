@@ -15,13 +15,13 @@ import com.veontomo.fiestatime.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AllHolidaysFragment.AllHolidaysActions} interface
+ * {@link onActions} interface
  * to handle interaction events.
  */
 public class AllHolidaysFragment extends ListFragment {
 
 
-    private AllHolidaysActions mHostActivity;
+    private onActions mHostActivity;
 
     public AllHolidaysFragment() {
         // Required empty public constructor
@@ -48,7 +48,7 @@ public class AllHolidaysFragment extends ListFragment {
     public void onStart() {
         super.onStart();
         try {
-            mHostActivity = (AllHolidaysActions) getActivity();
+            mHostActivity = (onActions) getActivity();
         } catch (ClassCastException e) {
             Logger.log("AllHolidaysFragment is embedded to an activity that does not support interaction");
             mHostActivity = null;
@@ -57,7 +57,9 @@ public class AllHolidaysFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        // TODO implement some logic
+        if (mHostActivity != null){
+            mHostActivity.onItemClick(position);
+        }
     }
 
     @Override
@@ -76,7 +78,8 @@ public class AllHolidaysFragment extends ListFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface AllHolidaysActions {
+    public interface onActions {
+        void onItemClick(int pos);
 
     }
 

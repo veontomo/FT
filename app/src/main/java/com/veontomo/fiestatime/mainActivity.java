@@ -13,8 +13,9 @@ import android.view.View;
 import com.veontomo.fiestatime.api.HolidayProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
+import com.veontomo.fiestatime.fragments.AllHolidaysFragment;
 
-public class mainActivity extends AppCompatActivity implements AddHoliday.OnFragmentActions {
+public class mainActivity extends AppCompatActivity implements AddHoliday.OnActions, AllHolidaysFragment.onActions {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,5 +69,10 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnFrag
     @Override
     public void onCancel() {
         Logger.log("cancel");
+    }
+
+    @Override
+    public void onItemClick(int pos) {
+        Logger.log("click in " + pos);
     }
 }
