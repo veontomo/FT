@@ -21,4 +21,11 @@
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_add_holiday" />
 
+    <fragment
+        android:id="@+id/act_main_all_holiday"
+        android:name="com.veontomo.fiestatime.fragments.AllHolidaysFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_all_holidays" />
+
 </RelativeLayout>

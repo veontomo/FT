@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
 /**
@@ -18,7 +19,9 @@ import com.veontomo.fiestatime.R;
  */
 public class AllHolidaysFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+
+
+    private OnFragmentInteractionListener mHostActivity;
 
     public AllHolidaysFragment() {
         // Required empty public constructor
@@ -34,26 +37,31 @@ public class AllHolidaysFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+        if (mHostActivity != null) {
+            mHostActivity.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onStart(){
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mHostActivity = (OnFragmentInteractionListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+            Logger.log("AllHolidaysFragment is embedded to an activity that does not support interaction");
+            mHostActivity = null;
         }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mHostActivity = null;
     }
 
     /**
