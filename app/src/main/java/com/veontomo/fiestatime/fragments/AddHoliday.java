@@ -3,7 +3,6 @@ package com.veontomo.fiestatime.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentActions} interface
+ * {@link OnActions} interface
  * to handle interaction events.
  * Use the {@link AddHoliday#newInstance} factory method to
  * create an instance of this fragment.
@@ -53,7 +52,7 @@ public class AddHoliday extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentActions mHostActivity;
+    private OnActions mHostActivity;
 
     public AddHoliday() {
         // Required empty public constructor
@@ -86,7 +85,7 @@ public class AddHoliday extends Fragment {
         }
 
         try {
-            mHostActivity = (OnFragmentActions) getActivity();
+            mHostActivity = (OnActions) getActivity();
         } catch (ClassCastException e) {
             Logger.log("hosting activity does not support fragment's interface");
             mHostActivity = null;
@@ -222,7 +221,7 @@ public class AddHoliday extends Fragment {
      * activity.
      * <p/>
      */
-    public interface OnFragmentActions {
+    public interface OnActions {
         void onConfirm(String name, String next, int periodicity);
 
         void onCancel();

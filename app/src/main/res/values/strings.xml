@@ -16,5 +16,6 @@
         <item>yearly</item>
     </string-array>
     <string name="title_activity_act_add_holiday">Add Holiday</string>
+    <string name="no_data">No data</string>
 
 </resources>

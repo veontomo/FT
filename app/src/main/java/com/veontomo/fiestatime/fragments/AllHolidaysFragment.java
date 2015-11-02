@@ -1,27 +1,39 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.app.ListFragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AllHolidaysFragment.OnFragmentInteractionListener} interface
+ * {@link onActions} interface
  * to handle interaction events.
  */
-public class AllHolidaysFragment extends Fragment {
+public class AllHolidaysFragment extends ListFragment {
 
-    private OnFragmentInteractionListener mListener;
+
+    private onActions mHostActivity;
 
     public AllHolidaysFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        String[] values = new String[] { "New Year", "14 February", "8 march"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
     }
 
 
@@ -32,28 +44,28 @@ public class AllHolidaysFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            mHostActivity = (onActions) getActivity();
+        } catch (ClassCastException e) {
+            Logger.log("AllHolidaysFragment is embedded to an activity that does not support interaction");
+            mHostActivity = null;
         }
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if (mHostActivity != null){
+            mHostActivity.onItemClick(position);
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mHostActivity = null;
     }
 
     /**
@@ -66,9 +78,9 @@ public class AllHolidaysFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface onActions {
+        void onItemClick(int pos);
+
     }
 
 }
