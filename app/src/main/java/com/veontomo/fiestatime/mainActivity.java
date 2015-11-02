@@ -13,15 +13,29 @@ import android.view.View;
 import com.veontomo.fiestatime.api.HolidayProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
-import com.veontomo.fiestatime.fragments.AllHolidaysFragment;
+import com.veontomo.fiestatime.fragments.AllHolidays;
 
-public class mainActivity extends AppCompatActivity implements AddHoliday.OnActions, AllHolidaysFragment.onActions {
+public class mainActivity extends AppCompatActivity implements AddHoliday.OnActions, AllHolidays.onActions {
+    /**
+     * Fragment that displays holidays
+     */
+    private AllHolidays allHolidays;
+
+    /**
+     * Storage by means of which the holidays are saved and retrieved
+     */
+    private Storage storage;
+
+    private HolidayProvider hp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(Config.APP_NAME, "mainActivity onCreate");
+        storage = new Storage(getApplicationContext());
+        hp = new HolidayProvider(storage);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -33,6 +47,15 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnActi
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        allHolidays = (AllHolidays) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
+        HolidayLoader loader = new HolidayLoader(allHolidays, storage);
+        loader.execute();
+
     }
 
     @Override
@@ -60,9 +83,6 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnActi
     @Override
     public void onConfirm(String name, String next, int periodicity) {
         Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
-        Storage storage = new Storage(getApplicationContext());
-
-        HolidayProvider hp = new HolidayProvider(storage);
         hp.save(name, next, periodicity);
     }
 

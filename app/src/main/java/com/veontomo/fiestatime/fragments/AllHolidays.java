@@ -3,6 +3,7 @@ package com.veontomo.fiestatime.fragments;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,11 @@ import android.widget.ListView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.HolidayProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,20 +24,22 @@ import com.veontomo.fiestatime.R;
  * {@link onActions} interface
  * to handle interaction events.
  */
-public class AllHolidaysFragment extends ListFragment {
+public class AllHolidays extends ListFragment implements Loadable<List<Holiday>> {
 
 
     private onActions mHostActivity;
 
-    public AllHolidaysFragment() {
+    private ArrayAdapter<String> adapter;
+
+    public AllHolidays() {
         // Required empty public constructor
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String[] values = new String[] { "New Year", "14 February", "8 march"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+        ArrayList<String> values = new ArrayList<>();
+        adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
     }
@@ -50,7 +58,7 @@ public class AllHolidaysFragment extends ListFragment {
         try {
             mHostActivity = (onActions) getActivity();
         } catch (ClassCastException e) {
-            Logger.log("AllHolidaysFragment is embedded to an activity that does not support interaction");
+            Logger.log("AllHolidays is embedded to an activity that does not support interaction");
             mHostActivity = null;
         }
     }
@@ -68,6 +76,18 @@ public class AllHolidaysFragment extends ListFragment {
         mHostActivity = null;
     }
 
+
+    @Override
+    public void load(@NonNull List<Holiday> holidays) {
+        for (Holiday holiday : holidays){
+            adapter.add(holiday.name);
+        }
+        adapter.notifyDataSetChanged();
+
+
+    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -80,7 +100,6 @@ public class AllHolidaysFragment extends ListFragment {
      */
     public interface onActions {
         void onItemClick(int pos);
-
     }
 
 }

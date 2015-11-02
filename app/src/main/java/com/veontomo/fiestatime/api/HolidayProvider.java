@@ -9,6 +9,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.veontomo.fiestatime.Config;
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.fragments.AllHolidays;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,5 +73,6 @@ public class HolidayProvider {
         } while (pageToken != null);
         return list;
     }
+
 
 }
