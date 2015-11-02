@@ -5,9 +5,17 @@
     tools:context="com.veontomo.fiestatime.fragments.AllHolidaysFragment">
 
 
-    <ListView
-        android:id="@+id/frag_all_holiday_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <ListView android:id="@id/android:list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:drawSelectorOnTop="false"/>
+
+    <TextView android:id="@id/android:empty"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#FF0000"
+              android:text="No data"/>
+
 
 </FrameLayout>
