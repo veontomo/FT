@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
+import com.veontomo.fiestatime.presenters.MVPPresenter;
+import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +35,9 @@ import java.util.Date;
  * Use the {@link AddHoliday#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddHoliday extends Fragment {
+public class AddHoliday extends Fragment implements MVPView {
+
+    private MVPPresenter mPresenter = new AddHolidayPresenter(this);
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
