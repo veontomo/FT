@@ -2,9 +2,13 @@ package com.veontomo.fiestatime.api;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Performs operations with saving and retrieving holidays from database.
@@ -65,8 +69,8 @@ public class Storage extends SQLiteOpenHelper {
      * <p/>
      * Returns id of the record that corresponds to the holiday, or -1 in case of failure.
      *
-     * @param name name of the holiday
-     * @param next date of the next nearest occurrence
+     * @param name        name of the holiday
+     * @param next        date of the next nearest occurrence
      * @param periodicity holiday periodicity
      * @return id of the record or -1
      */
@@ -81,6 +85,33 @@ public class Storage extends SQLiteOpenHelper {
         id = db.insert(HolidayEntry.TABLE_NAME, null, values);
         db.close();
         return id;
+    }
+
+    /**
+     * Returns a list of holidays that are present in the storage in chronological order
+     * (the first list elements corresponds to a holiday that occurs first, etc)
+     */
+    public List<Holiday> getHolidays() {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Holiday> items = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC", null);
+        int columnID = cursor.getColumnIndex(HolidayEntry._ID);
+        int columnName = cursor.getColumnIndex(HolidayEntry.COLUMN_NAME);
+        int columnNext = cursor.getColumnIndex(HolidayEntry.COLUMN_NEXT);
+        int columnPeriod = cursor.getColumnIndex(HolidayEntry.COLUMN_PERIODICITY);
+
+        if (cursor.moveToFirst()) {
+            Holiday item;
+            int id;
+            do {
+                id = (int) cursor.getLong(columnID);
+                item = new Holiday(id, cursor.getString(columnName), cursor.getLong(columnNext), cursor.getInt(columnPeriod));
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return items;
     }
 
     /**
