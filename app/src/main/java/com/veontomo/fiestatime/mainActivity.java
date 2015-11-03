@@ -15,7 +15,7 @@ import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
-public class mainActivity extends AppCompatActivity implements AddHoliday.OnActions, AllHolidays.onActions {
+public class mainActivity extends AppCompatActivity implements AllHolidays.onActions {
     /**
      * Fragment that displays holidays
      */
@@ -80,16 +80,6 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnActi
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConfirm(String name, long next, int periodicity) {
-        Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
-        hp.save(name, next, periodicity);
-    }
-
-    @Override
-    public void onCancel() {
-        Logger.log("cancel");
-    }
 
     @Override
     public void onItemClick(int pos) {

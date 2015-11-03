@@ -9,11 +9,9 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.veontomo.fiestatime.Config;
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.fragments.AllHolidays;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Provider of holidays: retrieves the holidays (either from internet or from calendar).
@@ -41,7 +39,7 @@ public class HolidayProvider {
      * @return
      */
     public Holiday next() {
-        return new Holiday("Next holiday", System.currentTimeMillis(), Holiday.WEEK);
+        return new Holiday("Next holiday", System.currentTimeMillis(), Holiday.WEEKLY);
 
     }
 

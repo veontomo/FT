@@ -9,7 +9,7 @@ public class Holiday {
      * How often the holiday occurs
      */
     public final static int ONCE = 0;
-    public final static int WEEK = 1;
+    public final static int WEEKLY = 1;
     public final static int MONTH = 2;
     public final static int YEAR = 3;
 

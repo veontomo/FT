@@ -27,7 +27,7 @@ public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
     protected List<Holiday> doInBackground(Void... params) {
 //        List<Holiday> list = new ArrayList<>();
 //        list.add(new Holiday("New Year", System.currentTimeMillis(), Holiday.YEAR));
-//        list.add(new Holiday("Week-end", System.currentTimeMillis(), Holiday.WEEK));
+//        list.add(new Holiday("Week-end", System.currentTimeMillis(), Holiday.WEEKLY));
         return storage.getHolidays();
     }
 
