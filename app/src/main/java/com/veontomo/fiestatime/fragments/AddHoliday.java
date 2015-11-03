@@ -272,18 +272,21 @@ public class AddHoliday extends Fragment implements AddHolidayView {
                 this.viewId = b.getInt(DATE_VIEW_ID_TOKEN, -1);
             }
             DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
             return datePicker;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-
             TextView tv = (TextView) getActivity().findViewById(viewId);
             if (tv != null) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
-                tv.setText(format.format(calendar.getTime()));
+                // use another copy of calendar since the first copy is used to set date picker
+                // minimal date which must be today's date, not the last date that the user picks
+                // by means of the dialog.
+                final Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, month);
+                cal.set(Calendar.DAY_OF_MONTH, day);
+                tv.setText(format.format(cal.getTime()));
 
             }
         }
