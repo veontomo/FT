@@ -140,7 +140,6 @@ public class AddHoliday extends Fragment {
         }
         if (this.mNextOccurrence == null) {
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
             this.mNextOccurrence = format.format(calendar.getTime());
         }
         this.mNextOccurrenceView.setText(this.mNextOccurrence);
@@ -261,7 +260,7 @@ public class AddHoliday extends Fragment {
                 this.viewId = b.getInt(DATE_VIEW_ID_TOKEN, -1);
             }
             DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
+            datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
             return datePicker;
         }
 
