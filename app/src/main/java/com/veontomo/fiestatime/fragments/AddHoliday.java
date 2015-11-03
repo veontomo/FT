@@ -26,14 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnActions} interface
- * to handle interaction events.
- * Use the {@link AddHoliday#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddHoliday extends Fragment implements AddHolidayView {
 
     private AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
@@ -100,6 +92,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         super.onStart();
         mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
+        mNextOccurrenceView.setText("31 November 2015");
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
         mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
@@ -138,11 +131,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePickerDialog = new DatePickerFragment();
-                Bundle b = new Bundle();
-                b.putInt(DATE_VIEW_ID_TOKEN, v.getId());
-                datePickerDialog.setArguments(b);
-                datePickerDialog.show(getActivity().getFragmentManager(), "datePicker");
+                onDateClick(v);
 
             }
         });
@@ -205,48 +194,14 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        private final static Calendar calendar = Calendar.getInstance();
-
-        /**
-         * Id of a text view that must display the date selected by the user
-         */
-        private int viewId;
-
-
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            Bundle b = getArguments();
-            if (b != null) {
-                this.viewId = b.getInt(DATE_VIEW_ID_TOKEN, -1);
-            }
-            DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
-            return datePicker;
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            TextView tv = (TextView) getActivity().findViewById(viewId);
-            if (tv != null) {
-                // use another copy of calendar since the first copy is used to set date picker
-                // minimal date which must be today's date, not the last date that the user picks
-                // by means of the dialog.
-                final Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, day);
-                // TODO
-//                tv.setText(format.format(cal.getTime()));
-
-            }
-        }
+    @Override
+    public void onDateClick(View v) {
+        mPresenter.onDateClick(getActivity().getFragmentManager());
     }
 
+
+    @Override
+    public void setDate(String date) {
+        this.mNextOccurrenceView.setText(date);
+    }
 }
