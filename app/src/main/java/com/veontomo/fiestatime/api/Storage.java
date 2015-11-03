@@ -70,11 +70,11 @@ public class Storage extends SQLiteOpenHelper {
      * Returns id of the record that corresponds to the holiday, or -1 in case of failure.
      *
      * @param name        name of the holiday
-     * @param next        date of the next nearest occurrence
+     * @param next        date of the next nearest occurrence in milliseconds
      * @param periodicity holiday periodicity
      * @return id of the record or -1
      */
-    public long save(String name, String next, int periodicity) {
+    public long save(String name, long next, int periodicity) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
         long id;
@@ -122,7 +122,7 @@ public class Storage extends SQLiteOpenHelper {
                 HolidayEntry.TABLE_NAME + " (" +
                 HolidayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 HolidayEntry.COLUMN_NAME + " TEXT NOT NULL UNIQUE ON CONFLICT IGNORE, " +
-                HolidayEntry.COLUMN_NEXT + " DATE NOT NULL, " +
+                HolidayEntry.COLUMN_NEXT + " INTEGER NOT NULL, " +
                 HolidayEntry.COLUMN_PERIODICITY + " INT "
                 + ")";
     }

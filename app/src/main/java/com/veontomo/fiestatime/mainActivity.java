@@ -81,7 +81,7 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.OnActi
     }
 
     @Override
-    public void onConfirm(String name, String next, int periodicity) {
+    public void onConfirm(String name, long next, int periodicity) {
         Logger.log("confirm: " + name + ", " + next + ", " + periodicity);
         hp.save(name, next, periodicity);
     }

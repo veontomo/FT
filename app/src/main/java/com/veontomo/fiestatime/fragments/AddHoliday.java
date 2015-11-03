@@ -3,8 +3,8 @@ package com.veontomo.fiestatime.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -38,8 +40,9 @@ public class AddHoliday extends Fragment {
     private static final String HOLIDAY_NAME_TOKEN = "holidayName";
     private static final String NEXT_OCCURRENCE_TOKEN = "nextOccurrence";
     private static final String PERIODICITY_TOKEN = "periodicity";
-    private final static String DATE_VIEW_ID_TOKEN = "textView";
-    private final static String ONSCREEN_DATE_FORMAT = "d MMMM yyyy";
+    private static final String DATE_VIEW_ID_TOKEN = "textView";
+    private static final String ONSCREEN_DATE_FORMAT = "d MMMM yyyy";
+    private static final SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
@@ -166,7 +169,16 @@ public class AddHoliday extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mHostActivity != null) {
-                    mHostActivity.onConfirm(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                    String data = mNextOccurrenceView.getText().toString();
+                    Date date = null;
+                    try {
+                        date = format.parse(data);
+                    } catch (ParseException e) {
+                        Logger.log("failed to parse date " + data);
+                    }
+                    if (date != null) {
+                        mHostActivity.onConfirm(mHolidayNameView.getEditableText().toString(), date.getTime() , mPeriodicityView.getSelectedItemPosition());
+                    }
                 }
             }
         });
@@ -222,7 +234,7 @@ public class AddHoliday extends Fragment {
      * <p/>
      */
     public interface OnActions {
-        void onConfirm(String name, String next, int periodicity);
+        void onConfirm(String name, long next, int periodicity);
 
         void onCancel();
 
@@ -254,12 +266,12 @@ public class AddHoliday extends Fragment {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+
             TextView tv = (TextView) getActivity().findViewById(viewId);
             if (tv != null) {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, day);
-                SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
                 tv.setText(format.format(calendar.getTime()));
 
             }

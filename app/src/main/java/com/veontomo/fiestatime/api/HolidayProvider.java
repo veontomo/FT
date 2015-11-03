@@ -13,6 +13,7 @@ import com.veontomo.fiestatime.fragments.AllHolidays;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Provider of holidays: retrieves the holidays (either from internet or from calendar).
@@ -25,7 +26,7 @@ public class HolidayProvider {
         this.mStorage = storage;
     }
 
-    public void save(final String name, final String next, final int periodicity){
+    public void save(final String name, final long next, final int periodicity){
         Logger.log("saving " + name + ", " + next + ", " + periodicity);
         new Thread(new Runnable() {
             @Override
