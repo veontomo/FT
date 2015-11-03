@@ -19,7 +19,7 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.presenters.MVPPresenter;
-import com.veontomo.fiestatime.views.MVPView;
+import com.veontomo.fiestatime.views.AddHolidayView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ import java.util.Date;
  * Use the {@link AddHoliday#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddHoliday extends Fragment implements MVPView {
+public class AddHoliday extends Fragment implements AddHolidayView {
 
     private MVPPresenter mPresenter = new AddHolidayPresenter(this);
     // TODO: Rename parameter arguments, choose names that match
@@ -51,6 +51,7 @@ public class AddHoliday extends Fragment implements MVPView {
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
+    private ArrayAdapter<CharSequence> mAdapter;
     private Button mConfirmButton;
     private Button mCancelButton;
     private String mHolidayName;
@@ -127,31 +128,21 @@ public class AddHoliday extends Fragment implements MVPView {
     @Override
     public void onStart() {
         super.onStart();
+        mPresenter.onStart();
 
         mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        mAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mPeriodicityView.setAdapter(adapter);
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPeriodicityView.setAdapter(mAdapter);
 
         mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
         mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
 
         attachListeners();
-        if (this.mHolidayName != null) {
-            this.mHolidayNameView.setText(this.mHolidayName);
-        }
-        if (this.mNextOccurrence == null) {
-            Calendar calendar = Calendar.getInstance();
-            this.mNextOccurrence = format.format(calendar.getTime());
-        }
-        this.mNextOccurrenceView.setText(this.mNextOccurrence);
-        if (this.mPeriodicity != -1) {
-            this.mPeriodicityView.setSelection(this.mPeriodicity);
-
-        }
+        fillInViews();
 
     }
 
@@ -228,6 +219,22 @@ public class AddHoliday extends Fragment implements MVPView {
         b.putInt(PERIODICITY_TOKEN, this.mPeriodicityView.getSelectedItemPosition());
         super.onSaveInstanceState(b);
 
+    }
+
+    @Override
+    public void fillInViews() {
+        if (this.mHolidayName != null) {
+            this.mHolidayNameView.setText(this.mHolidayName);
+        }
+        if (this.mNextOccurrence == null) {
+            Calendar calendar = Calendar.getInstance();
+            this.mNextOccurrence = format.format(calendar.getTime());
+        }
+        this.mNextOccurrenceView.setText(this.mNextOccurrence);
+        if (this.mPeriodicity != -1) {
+            this.mPeriodicityView.setSelection(this.mPeriodicity);
+
+        }
     }
 
     /**
