@@ -14,11 +14,11 @@ public interface AddHolidayView extends MVPView {
      */
     void fillInViews();
 
-    void setName();
+    void initializeName();
 
-    void setNextOccurrence();
+    void initializeNextOccurrence();
 
-    void setPeriodicity();
+    void initializePeriodicity();
 
     void onConfirm();
 

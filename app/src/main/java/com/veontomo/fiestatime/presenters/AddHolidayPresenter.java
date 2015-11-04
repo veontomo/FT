@@ -21,8 +21,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     private static final String HOLIDAY_NAME_TOKEN = "holidayName";
     private static final String NEXT_OCCURRENCE_TOKEN = "nextOccurrence";
     private static final String PERIODICITY_TOKEN = "periodicity";
-    private static final String ONSCREEN_DATE_FORMAT = "d MMMM yyyy";
-    private static final SimpleDateFormat format = new SimpleDateFormat(ONSCREEN_DATE_FORMAT);
+    private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     private final AddHolidayView view;
     private String mHolidayName;
     private String mNextOccurrence;

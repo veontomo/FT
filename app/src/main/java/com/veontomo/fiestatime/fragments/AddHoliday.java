@@ -1,29 +1,19 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.views.AddHolidayView;
-
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class AddHoliday extends Fragment implements AddHolidayView {
@@ -35,33 +25,10 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     private Button mConfirmButton;
     private Button mCancelButton;
 
-    private static final String DATE_VIEW_ID_TOKEN = "textView";
-
-
     public AddHoliday() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddHoliday.
-     */
-    public static AddHoliday newInstance(String param1, String param2) {
-        AddHoliday fragment = new AddHoliday();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,22 +37,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         return inflater.inflate(R.layout.fragment_add_holiday, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle bundle) {
-        super.onViewCreated(view, bundle);
-
-
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle b) {
-        super.onViewStateRestored(b);
-//        if (b != null) {
-//            this.mHolidayName = b.getString(HOLIDAY_NAME_TOKEN);
-//            this.mNextOccurrence = b.getString(NEXT_OCCURRENCE_TOKEN);
-//            this.mPeriodicity = b.getInt(PERIODICITY_TOKEN, -1);
-//        }
-    }
 
     @Override
     public void onStart() {
@@ -125,7 +76,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    onCancel();
+                onCancel();
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
@@ -161,20 +112,24 @@ public class AddHoliday extends Fragment implements AddHolidayView {
                 R.array.periodicity, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPeriodicityView.setAdapter(adapter);
+        initializeName();
+        initializeNextOccurrence();
+        initializePeriodicity();
+
     }
 
     @Override
-    public void setName() {
+    public void initializeName() {
         this.mHolidayNameView.setText(mPresenter.getHolidayName());
     }
 
     @Override
-    public void setNextOccurrence() {
+    public void initializeNextOccurrence() {
         this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
     }
 
     @Override
-    public void setPeriodicity() {
+    public void initializePeriodicity() {
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
     }
 
