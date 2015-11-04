@@ -20,8 +20,6 @@ public interface AddHolidayView extends MVPView {
 
     void onCancel();
 
-    void onSetDate();
-
     void onDateClick(View v);
 
     void setDate(String date);

@@ -85,7 +85,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
             }
         });
+    }
 
+    @Override
+    public void onPause(){
+        mPresenter.onPause(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+        super.onPause();
 
     }
 
@@ -143,15 +148,9 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
     @Override
-    public void onSetDate() {
-
-    }
-
-    @Override
     public void onDateClick(View v) {
-        mPresenter.onDateClick(getActivity().getFragmentManager());
+        mPresenter.onDateClick(v, getActivity().getFragmentManager());
     }
-
 
     @Override
     public void setDate(String date) {

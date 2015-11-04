@@ -6,6 +6,7 @@ package com.veontomo.fiestatime.presenters;
 public interface MVPPresenter {
     void onStart();
 
+
     /**
      * This method is called when a user clicks the "confirm" button
      *

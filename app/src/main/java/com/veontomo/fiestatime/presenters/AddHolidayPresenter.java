@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
@@ -18,17 +19,24 @@ import java.util.Calendar;
  * Implementation of {@link MVPPresenter} for adding holidays
  */
 public class AddHolidayPresenter implements MVPPresenter {
-    private static final String HOLIDAY_NAME_TOKEN = "holidayName";
-    private static final String NEXT_OCCURRENCE_TOKEN = "nextOccurrence";
-    private static final String PERIODICITY_TOKEN = "periodicity";
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     private final AddHolidayView view;
-    private String mHolidayName;
-    private String mNextOccurrence;
-    private int mPeriodicity = -1;
 
+    /**
+     * holiday name
+     */
+    private String name;
+    /**
+     * Nearest holiday occurrence
+     */
+    private String date;
+    /**
+     * Holiday periodicity
+     */
+    private int periodicity;
 
     public AddHolidayPresenter(AddHolidayView view) {
+        Logger.log("creating new presenter");
         this.view = view;
 
     }
@@ -39,7 +47,20 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     }
 
+    /**
+     * Save the current values inserted by user.
+     * @param name
+     * @param date
+     * @param pos
+     */
+    public void onPause(String name, String date, int pos) {
+        this.name = name;
+        this.date = date;
+        this.periodicity = pos;
+    }
+
     public void onDateChosen(String date) {
+        this.date = date;
         view.setDate(date);
         Logger.log("setting date " + date);
     }
@@ -81,9 +102,11 @@ public class AddHolidayPresenter implements MVPPresenter {
         return Holiday.WEEKLY;
     }
 
-    public void onDateClick(FragmentManager fm) {
+    public void onDateClick(View v, FragmentManager fm) {
         DialogFragment datePickerDialog = new DatePickerFragment();
-        DatePickerFragment.target = this;
+        DatePickerFragment.presenter = this;
+        DatePickerFragment.boundView = v;
+        Logger.log("previously selected date " + this.date);
         datePickerDialog.show(fm, "datePicker");
 
     }
@@ -91,7 +114,14 @@ public class AddHolidayPresenter implements MVPPresenter {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
-        public static AddHolidayPresenter target;
+        /**
+         * to whom the result of the date picker should be given
+         */
+        public static AddHolidayPresenter presenter;
+        /**
+         * a view to which current date picker is bound
+         */
+        public static View boundView;
         private final Calendar calendar = Calendar.getInstance();
 
         @Override
@@ -114,7 +144,7 @@ public class AddHolidayPresenter implements MVPPresenter {
             cal.set(Calendar.YEAR, year);
             cal.set(Calendar.MONTH, month);
             cal.set(Calendar.DAY_OF_MONTH, day);
-            target.onDateChosen(format.format(cal.getTime()));
+            presenter.onDateChosen(format.format(cal.getTime()));
 
         }
     }
