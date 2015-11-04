@@ -2,6 +2,7 @@ package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,17 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         // Required empty public constructor
     }
 
+//    @Override
+//    public void onViewStateRestored(Bundle b){
+//        super.onViewStateRestored(b);
+//
+//    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mPresenter.onRestoreState(savedInstanceState);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_holiday, container, false);
     }
@@ -97,6 +105,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         });
     }
 
+
     @Override
     public void onPause() {
         mPresenter.onPause(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
@@ -113,6 +122,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
+        mPresenter.onSaveState(b);
 //        b.putString(HOLIDAY_NAME_TOKEN, this.mHolidayNameView.getEditableText().toString());
 //        b.putString(NEXT_OCCURRENCE_TOKEN, this.mNextOccurrenceView.getText().toString());
 //        b.putInt(PERIODICITY_TOKEN, this.mPeriodicityView.getSelectedItemPosition());
@@ -158,10 +168,20 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
     @Override
+    public String restoreName(@NonNull Bundle b) {
+        return b.getString("name");
+    }
+
+    @Override
     public void initializeViews() {
         initializeName();
         initializePeriodicity();
         initializeNextOccurrence();
 
+    }
+
+    @Override
+    public void onSaveState(Bundle b) {
+        b.putString("name", mHolidayNameView.getEditableText().toString());
     }
 }

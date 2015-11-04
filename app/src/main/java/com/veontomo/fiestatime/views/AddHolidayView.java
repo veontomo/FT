@@ -1,5 +1,6 @@
 package com.veontomo.fiestatime.views;
 
+import android.os.Bundle;
 import android.view.View;
 
 /**
@@ -24,4 +25,6 @@ public interface AddHolidayView extends MVPView {
     void onDateClick(View v);
 
     void setDate(String date);
+
+    String restoreName(Bundle b);
 }

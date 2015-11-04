@@ -1,5 +1,7 @@
 package com.veontomo.fiestatime.presenters;
 
+import android.os.Bundle;
+
 import com.veontomo.fiestatime.views.MVPView;
 
 /**
@@ -29,4 +31,8 @@ public interface MVPPresenter {
      */
     void onCancel(String name, String next, int pos);
 
-    }
+
+    void onSaveState(Bundle b);
+
+    void onRestoreState(Bundle b);
+}

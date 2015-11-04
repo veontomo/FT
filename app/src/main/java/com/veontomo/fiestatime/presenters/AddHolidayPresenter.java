@@ -55,6 +55,7 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     /**
      * Save the current values inserted by user.
+     *
      * @param name
      * @param date
      * @param pos
@@ -93,6 +94,19 @@ public class AddHolidayPresenter implements MVPPresenter {
     @Override
     public void onCancel(String name, String next, int pos) {
         /// TODO
+    }
+
+    @Override
+    public void onSaveState(Bundle b) {
+        view.onSaveState(b);
+    }
+
+    @Override
+    public void onRestoreState(Bundle b) {
+        if (b != null) {
+            this.name = view.restoreName(b);
+        }
+        Logger.log("restored name: " + this.name);
     }
 
     public String getHolidayName() {

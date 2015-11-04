@@ -1,5 +1,7 @@
 package com.veontomo.fiestatime.views;
 
+import android.os.Bundle;
+
 /**
  * View of MVP architectural pattern
  */
@@ -11,4 +13,9 @@ public interface MVPView {
      */
     void initializeViews();
 
+    /**
+     * Saves the state of the view in the bundle.
+     * @param b
+     */
+    void onSaveState(Bundle b);
 }
