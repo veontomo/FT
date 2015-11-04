@@ -43,7 +43,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         super.onStart();
         mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
-        mNextOccurrenceView.setText("31 November 2015");
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
         mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
@@ -106,7 +105,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     }
 
-    @Override
     public void fillInViews() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);

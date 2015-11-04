@@ -9,10 +9,6 @@ import android.view.View;
  * @since xx.xx
  */
 public interface AddHolidayView extends MVPView {
-    /**
-     * Fills in text views, edit views etc. that are present on the current activity
-     */
-    void fillInViews();
 
     void initializeName();
 
