@@ -37,6 +37,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         return inflater.inflate(R.layout.fragment_add_holiday, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
 
     @Override
     public void onStart() {
@@ -46,9 +51,14 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
         mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.periodicity, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPeriodicityView.setAdapter(adapter);
+
+        mPresenter.bindView(this);
 
         attachListeners();
-        fillInViews();
 
     }
 
@@ -88,7 +98,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         mPresenter.onPause(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
         super.onPause();
 
@@ -110,16 +120,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     }
 
-    public void fillInViews() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.periodicity, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mPeriodicityView.setAdapter(adapter);
-        initializeName();
-        initializeNextOccurrence();
-        initializePeriodicity();
-
-    }
 
     @Override
     public void initializeName() {
@@ -155,5 +155,13 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void setDate(String date) {
         this.mNextOccurrenceView.setText(date);
+    }
+
+    @Override
+    public void initializeViews() {
+        initializeName();
+        initializePeriodicity();
+        initializeNextOccurrence();
+
     }
 }

@@ -1,10 +1,14 @@
 package com.veontomo.fiestatime.presenters;
 
+import com.veontomo.fiestatime.views.MVPView;
+
 /**
  * Presenter of MVP architectural pattern
  */
 public interface MVPPresenter {
     void onStart();
+
+    void bindView(MVPView v);
 
 
     /**

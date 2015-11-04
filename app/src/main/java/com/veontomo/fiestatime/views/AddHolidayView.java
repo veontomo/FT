@@ -10,6 +10,7 @@ import android.view.View;
  */
 public interface AddHolidayView extends MVPView {
 
+
     void initializeName();
 
     void initializeNextOccurrence();

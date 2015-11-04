@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.views.AddHolidayView;
+import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,6 +46,11 @@ public class AddHolidayPresenter implements MVPPresenter {
     public void onStart() {
 
 
+    }
+
+    @Override
+    public void bindView(MVPView v) {
+        v.initializeViews();
     }
 
     /**
