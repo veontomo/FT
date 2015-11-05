@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.views.AddHolidayView;
@@ -133,6 +134,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void initializeName() {
+        Logger.log("view: initialize name: " + mPresenter.getHolidayName());
         this.mHolidayNameView.setText(mPresenter.getHolidayName());
     }
 

@@ -110,7 +110,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public String getHolidayName() {
-        return "Dumb text";
+        return this.name;
     }
 
     public String getNextOccurrence() {
