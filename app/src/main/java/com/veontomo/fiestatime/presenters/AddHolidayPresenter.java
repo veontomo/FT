@@ -105,8 +105,14 @@ public class AddHolidayPresenter implements MVPPresenter {
     public void onRestoreState(Bundle b) {
         if (b != null) {
             this.name = view.restoreName(b);
+            this.date = view.restoreDate(b);
+            this.periodicity = view.restorePeriodicity(b);
         }
-        Logger.log("restored name: " + this.name);
+        Logger.log("restored: " + this.toString());
+    }
+
+    public String toString(){
+        return this.name + " " + this.date + " " + this.periodicity;
     }
 
     public String getHolidayName() {
@@ -114,12 +120,15 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public String getNextOccurrence() {
-        Calendar calendar = Calendar.getInstance();
-        return format.format(calendar.getTime());
+        if (this.date == null){
+            Calendar calendar = Calendar.getInstance();
+            this.date = format.format(calendar.getTime());
+        }
+        return this.date;
     }
 
     public int getPeriodicity() {
-        return Holiday.WEEKLY;
+        return this.periodicity;
     }
 
     public void onDateClick(View v, FragmentManager fm) {

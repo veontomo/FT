@@ -27,4 +27,8 @@ public interface AddHolidayView extends MVPView {
     void setDate(String date);
 
     String restoreName(Bundle b);
+
+    String restoreDate(Bundle b);
+
+    int restorePeriodicity(Bundle b);
 }

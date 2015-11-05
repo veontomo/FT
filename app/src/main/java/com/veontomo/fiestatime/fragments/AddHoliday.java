@@ -19,6 +19,18 @@ import com.veontomo.fiestatime.views.AddHolidayView;
 
 
 public class AddHoliday extends Fragment implements AddHolidayView {
+    /**
+     * name of the token under which holiday's name is saved into the bundle
+     */
+    private final String NAME_TOKEN = "name";
+    /**
+     * name of the token under which holiday's next occurrence is saved into the bundle
+     */
+    private final String DATE_TOKEN = "date";
+    /**
+     * name of the token under which holiday's periodicity is saved into the bundle
+     */
+    private final String PERIODICITY_TOKEN = "periodicity";
 
     private AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
@@ -171,7 +183,17 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public String restoreName(@NonNull Bundle b) {
-        return b.getString("name");
+        return b.getString(NAME_TOKEN);
+    }
+
+    @Override
+    public String restoreDate(Bundle b) {
+        return b.getString(DATE_TOKEN);
+    }
+
+    @Override
+    public int restorePeriodicity(Bundle b) {
+        return b.getInt(PERIODICITY_TOKEN);
     }
 
     @Override
@@ -184,6 +206,9 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onSaveState(Bundle b) {
-        b.putString("name", mHolidayNameView.getEditableText().toString());
+        b.putString(NAME_TOKEN, mHolidayNameView.getEditableText().toString());
+        b.putString(DATE_TOKEN, mNextOccurrenceView.getText().toString());
+        b.putInt(PERIODICITY_TOKEN, mPeriodicityView.getSelectedItemPosition());
+        Logger.log("saved: " + mHolidayNameView.getEditableText().toString() + ", " + mNextOccurrenceView.getText().toString() + ", " + mPeriodicityView.getSelectedItemPosition());
     }
 }
