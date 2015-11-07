@@ -37,9 +37,11 @@ public class AddHolidayPresenter implements MVPPresenter {
     private int periodicity;
 
     public AddHolidayPresenter(AddHolidayView view) {
-        Logger.log("creating new presenter");
         this.view = view;
-
+        if (this.date == null){
+            Calendar calendar = Calendar.getInstance();
+            this.date = format.format(calendar.getTime());
+        }
     }
 
     @Override
@@ -69,7 +71,6 @@ public class AddHolidayPresenter implements MVPPresenter {
     public void onDateChosen(String date) {
         this.date = date;
         view.setDate(date);
-        Logger.log("setting date " + date);
     }
 
     /**
@@ -120,10 +121,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public String getNextOccurrence() {
-        if (this.date == null){
-            Calendar calendar = Calendar.getInstance();
-            this.date = format.format(calendar.getTime());
-        }
+
         return this.date;
     }
 
