@@ -15,7 +15,7 @@ import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
-public class mainActivity extends AppCompatActivity implements AllHolidays.onActions {
+public class mainActivity extends AppCompatActivity  {
     /**
      * Fragment that displays holidays
      */
@@ -80,9 +80,4 @@ public class mainActivity extends AppCompatActivity implements AllHolidays.onAct
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public void onItemClick(int pos) {
-        Logger.log("click in " + pos);
-    }
 }
