@@ -136,9 +136,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void onSaveInstanceState(Bundle b) {
         mPresenter.onSaveState(b);
-//        b.putString(HOLIDAY_NAME_TOKEN, this.mHolidayNameView.getEditableText().toString());
-//        b.putString(NEXT_OCCURRENCE_TOKEN, this.mNextOccurrenceView.getText().toString());
-//        b.putInt(PERIODICITY_TOKEN, this.mPeriodicityView.getSelectedItemPosition());
         super.onSaveInstanceState(b);
 
     }

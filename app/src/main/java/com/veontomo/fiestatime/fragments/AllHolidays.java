@@ -14,6 +14,9 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayProvider;
+import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
+import com.veontomo.fiestatime.presenters.MVPPresenter;
+import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +27,9 @@ import java.util.List;
  * {@link onActions} interface
  * to handle interaction events.
  */
-public class AllHolidays extends ListFragment implements Loadable<List<Holiday>> {
+public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>, MVPView {
 
-
-    private onActions mHostActivity;
+    private MVPPresenter mPresenter = new MVPPresenter(this);
 
     private ArrayAdapter<String> adapter;
 
@@ -55,12 +57,7 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
     @Override
     public void onStart() {
         super.onStart();
-        try {
-            mHostActivity = (onActions) getActivity();
-        } catch (ClassCastException e) {
-            Logger.log("AllHolidays is embedded to an activity that does not support interaction");
-            mHostActivity = null;
-        }
+        mPresenter.bindView(this);
     }
 
     @Override
@@ -84,6 +81,16 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
         }
         adapter.notifyDataSetChanged();
 
+
+    }
+
+    @Override
+    public void initializeViews() {
+
+    }
+
+    @Override
+    public void onSaveState(Bundle b) {
 
     }
 
