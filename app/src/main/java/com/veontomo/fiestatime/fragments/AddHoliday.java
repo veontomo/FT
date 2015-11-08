@@ -137,7 +137,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     public void onSaveInstanceState(Bundle b) {
         mPresenter.onSaveState(b);
         super.onSaveInstanceState(b);
-
     }
 
 
