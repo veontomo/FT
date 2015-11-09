@@ -2,7 +2,9 @@ package com.veontomo.fiestatime.presenters;
 
 import android.os.Bundle;
 
+import com.veontomo.fiestatime.HolidayLoader;
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.HolidayProvider;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.MVPView;
 
