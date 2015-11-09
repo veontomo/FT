@@ -1,5 +1,6 @@
 package com.veontomo.fiestatime.presenters;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.views.MVPView;
@@ -10,8 +11,7 @@ import com.veontomo.fiestatime.views.MVPView;
 public interface MVPPresenter {
     void onStart();
 
-    void bindView(MVPView v);
-
+    void bindView(final MVPView v);
 
     /**
      * This method is called when a user clicks the "confirm" button

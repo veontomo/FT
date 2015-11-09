@@ -20,9 +20,9 @@ import java.util.List;
 /**
  * Displays all available fragments
  */
-public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>, MVPView {
+public class AllHolidays extends ListFragment implements MVPView {
 
-    private MVPPresenter mPresenter = new AllHolidaysPresenter(this);
+    private AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
     private ArrayAdapter<String> adapter;
 
@@ -64,17 +64,9 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
 
 
     @Override
-    public void load(List<Holiday> holidays) {
-        for (Holiday holiday : holidays) {
-            adapter.add(holiday.name);
-        }
-        adapter.notifyDataSetChanged();
-
-
-    }
-
-    @Override
     public void initializeViews() {
+        adapter.addAll(mPresenter.getHolidayNames());
+        adapter.notifyDataSetChanged();
 
     }
 
