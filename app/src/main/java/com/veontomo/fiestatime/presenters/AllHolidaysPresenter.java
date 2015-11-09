@@ -2,9 +2,11 @@ package com.veontomo.fiestatime.presenters;
 
 import android.os.Bundle;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.fragments.AllHolidays;
-import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -15,9 +17,14 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     private final AllHolidays view;
 
+    private final static String HOLIDAY_NAMES_TOKEN = "names";
+
+    private ArrayList<String> holidayNames;
+
 
     public AllHolidaysPresenter(MVPView view) {
         this.view = (AllHolidays) view;
+        this.holidayNames = new ArrayList<>();
     }
 
     @Override
@@ -42,13 +49,17 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void onSaveState(Bundle b) {
-        // TODO put into the bundle all data that allows to restore the presenter state
-        // later on
-
+        Logger.log("saving the presenter state" + this.holidayNames.size());
+        b.putStringArrayList(HOLIDAY_NAMES_TOKEN, this.holidayNames);
     }
 
     @Override
     public void onRestoreState(Bundle b) {
-        // TODO restore the presenter state from the bundle
+        if (b != null) {
+            Logger.log("restoring the presenter state");
+            this.holidayNames = b.getStringArrayList(HOLIDAY_NAMES_TOKEN);
+        } else {
+            Logger.log("nothing to restore from!");
+        }
     }
 }

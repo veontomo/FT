@@ -43,7 +43,7 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        mPresenter.onRestoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
 
@@ -65,7 +65,7 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
 
     @Override
     public void load(List<Holiday> holidays) {
-        for (Holiday holiday : holidays){
+        for (Holiday holiday : holidays) {
             adapter.add(holiday.name);
         }
         adapter.notifyDataSetChanged();
@@ -89,6 +89,4 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
         mPresenter.onSaveState(b);
         super.onSaveInstanceState(b);
     }
-
-
 }
