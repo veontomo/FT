@@ -6,7 +6,6 @@ import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
-import javax.inject.Inject;
 
 /**
  * Presenter for the all-holidays view.
@@ -16,7 +15,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     private final AllHolidays view;
 
-    @Inject
+
     public AllHolidaysPresenter(MVPView view) {
         this.view = (AllHolidays) view;
     }
