@@ -9,20 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
-import com.veontomo.fiestatime.presenters.MVPPresenter;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Displays all available fragments
  */
 public class AllHolidays extends ListFragment implements MVPView {
 
-    private AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
+    private final AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
     private ArrayAdapter<String> adapter;
 
@@ -37,6 +36,8 @@ public class AllHolidays extends ListFragment implements MVPView {
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
+        Storage storage = new Storage(getActivity().getApplicationContext());
+        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
     }
 
 

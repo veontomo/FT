@@ -1,15 +1,16 @@
 package com.veontomo.fiestatime.presenters;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.api.HolidayProvider;
-import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,7 +25,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     private ArrayList<String> holidayNames;
 
-    private HolidayProvider hp;
+    private IHolidayProvider holidayProvider;
 
 
     public AllHolidaysPresenter(MVPView view) {
@@ -38,12 +39,11 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void bindView(final MVPView v, final Context context) {
+    public void bindView(final MVPView v) {
         if (this.holidayNames != null) {
             v.initializeViews();
-        } else {
-            hp = new HolidayProvider(new Storage(context));
-
+        } else if (holidayProvider != null) {
+            holidayProvider.loadInto(this);
         }
     }
 
@@ -75,5 +75,20 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     public ArrayList<String> getHolidayNames() {
         return this.holidayNames;
+    }
+
+    /**
+     * Set a provider of the holidays
+     */
+    public void setHolidayProvider(IHolidayProvider hp) {
+        this.holidayProvider = hp;
+    }
+
+    /**
+     * Loads holidays into the presenter
+     */
+    public void load(List<Holiday> holidays) {
+
+
     }
 }

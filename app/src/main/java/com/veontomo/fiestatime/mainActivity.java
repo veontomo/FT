@@ -10,9 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.veontomo.fiestatime.api.HolidayProvider;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
 public class mainActivity extends AppCompatActivity  {
@@ -26,7 +25,7 @@ public class mainActivity extends AppCompatActivity  {
      */
     private Storage storage;
 
-    private HolidayProvider hp;
+    private HolidayDBProvider hp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
