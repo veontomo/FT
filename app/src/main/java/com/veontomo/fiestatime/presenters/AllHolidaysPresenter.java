@@ -85,10 +85,15 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     /**
-     * Loads holidays into the presenter
+     * Loads holidays into the presenter AND initializes the view
+     * TODO: split the method in two, since it performs two actions
      */
     public void load(List<Holiday> holidays) {
-
+        this.holidayNames.clear();
+        for (Holiday holiday : holidays){
+            this.holidayNames.add(holiday.name);
+        }
+        view.initializeViews();
 
     }
 }

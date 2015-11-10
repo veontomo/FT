@@ -4,14 +4,11 @@ import android.os.AsyncTask;
 
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.fragments.Loadable;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loads holidays
+ * Asynchronous task for Loading the holidays.
  *
  */
 public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
@@ -26,9 +23,6 @@ public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
 
     @Override
     protected List<Holiday> doInBackground(Void... params) {
-//        List<Holiday> list = new ArrayList<>();
-//        list.add(new Holiday("New Year", System.currentTimeMillis(), Holiday.YEAR));
-//        list.add(new Holiday("Week-end", System.currentTimeMillis(), Holiday.WEEKLY));
         return storage.getHolidays();
     }
 
