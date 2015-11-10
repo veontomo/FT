@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.MVPView;
@@ -30,7 +29,6 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     public AllHolidaysPresenter(MVPView view) {
         this.view = (AllHolidays) view;
-        this.holidayNames = new ArrayList<>();
     }
 
     @Override
@@ -89,8 +87,8 @@ public class AllHolidaysPresenter implements MVPPresenter {
      * TODO: split the method in two, since it performs two actions
      */
     public void load(List<Holiday> holidays) {
-        this.holidayNames.clear();
-        for (Holiday holiday : holidays){
+        this.holidayNames = new ArrayList<>();
+        for (Holiday holiday : holidays) {
             this.holidayNames.add(holiday.name);
         }
         view.initializeViews();
