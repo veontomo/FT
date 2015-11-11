@@ -15,18 +15,6 @@ import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
 public class mainActivity extends AppCompatActivity  {
-    /**
-     * Fragment that displays holidays
-     */
-    private AllHolidays allHolidays;
-
-    /**
-     * Storage by means of which the holidays are saved and retrieved
-     */
-    private Storage storage;
-
-    private HolidayDBProvider hp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

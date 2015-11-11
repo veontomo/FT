@@ -27,8 +27,8 @@ public class AllHolidaysPresenter implements MVPPresenter {
     private IHolidayProvider holidayProvider;
 
 
-    public AllHolidaysPresenter(MVPView view) {
-        this.view = (AllHolidays) view;
+    public AllHolidaysPresenter(AllHolidays view) {
+        this.view = view;
     }
 
     @Override

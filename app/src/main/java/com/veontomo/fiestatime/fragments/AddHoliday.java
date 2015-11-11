@@ -32,7 +32,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
      */
     private final String PERIODICITY_TOKEN = "periodicity";
 
-    private AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
+    private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
