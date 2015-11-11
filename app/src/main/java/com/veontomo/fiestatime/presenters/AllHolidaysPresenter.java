@@ -2,11 +2,15 @@ package com.veontomo.fiestatime.presenters;
 
 import android.os.Bundle;
 
+import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.fragments.AllHolidays;
-import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Presenter for the all-holidays view.
@@ -16,9 +20,15 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     private final AllHolidays view;
 
-    @Inject
-    public AllHolidaysPresenter(MVPView view) {
-        this.view = (AllHolidays) view;
+    private final static String HOLIDAY_NAMES_TOKEN = "names";
+
+    private ArrayList<String> holidayNames;
+
+    private IHolidayProvider holidayProvider;
+
+
+    public AllHolidaysPresenter(AllHolidays view) {
+        this.view = view;
     }
 
     @Override
@@ -27,8 +37,12 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void bindView(MVPView v) {
-
+    public void bindView(final MVPView v) {
+        if (this.holidayNames != null) {
+            v.initializeViews();
+        } else if (holidayProvider != null) {
+            holidayProvider.loadInto(this);
+        }
     }
 
     @Override
@@ -43,13 +57,41 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void onSaveState(Bundle b) {
-        // TODO put into the bundle all data that allows to restore the presenter state
-        // later on
-
+        Logger.log("saving the presenter state" + this.holidayNames.size());
+        b.putStringArrayList(HOLIDAY_NAMES_TOKEN, this.holidayNames);
     }
 
     @Override
     public void onRestoreState(Bundle b) {
-        // TODO restore the presenter state from the bundle
+        if (b != null) {
+            Logger.log("restoring the presenter state");
+            this.holidayNames = b.getStringArrayList(HOLIDAY_NAMES_TOKEN);
+        } else {
+            Logger.log("nothing to restore from!");
+        }
+    }
+
+    public ArrayList<String> getHolidayNames() {
+        return this.holidayNames;
+    }
+
+    /**
+     * Set a provider of the holidays
+     */
+    public void setHolidayProvider(IHolidayProvider hp) {
+        this.holidayProvider = hp;
+    }
+
+    /**
+     * Loads holidays into the presenter AND initializes the view
+     * TODO: split the method in two, since it performs two actions
+     */
+    public void load(List<Holiday> holidays) {
+        this.holidayNames = new ArrayList<>();
+        for (Holiday holiday : holidays) {
+            this.holidayNames.add(holiday.name);
+        }
+        view.initializeViews();
+
     }
 }

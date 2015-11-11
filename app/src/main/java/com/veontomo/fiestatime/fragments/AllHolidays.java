@@ -9,20 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
-import com.veontomo.fiestatime.presenters.MVPPresenter;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Displays all available fragments
  */
-public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>, MVPView {
+public class AllHolidays extends ListFragment implements MVPView {
 
-    private MVPPresenter mPresenter = new AllHolidaysPresenter(this);
+    private final AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
     private ArrayAdapter<String> adapter;
 
@@ -37,13 +36,15 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
+        Storage storage = new Storage(getActivity().getApplicationContext());
+        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        mPresenter.onRestoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
 
@@ -64,17 +65,9 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
 
 
     @Override
-    public void load(List<Holiday> holidays) {
-        for (Holiday holiday : holidays){
-            adapter.add(holiday.name);
-        }
-        adapter.notifyDataSetChanged();
-
-
-    }
-
-    @Override
     public void initializeViews() {
+        adapter.addAll(mPresenter.getHolidayNames());
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -89,6 +82,4 @@ public class AllHolidays extends ListFragment implements Loadable<List<Holiday>>
         mPresenter.onSaveState(b);
         super.onSaveInstanceState(b);
     }
-
-
 }

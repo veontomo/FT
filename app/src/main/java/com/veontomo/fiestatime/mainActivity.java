@@ -10,31 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.veontomo.fiestatime.api.HolidayProvider;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
 public class mainActivity extends AppCompatActivity  {
-    /**
-     * Fragment that displays holidays
-     */
-    private AllHolidays allHolidays;
-
-    /**
-     * Storage by means of which the holidays are saved and retrieved
-     */
-    private Storage storage;
-
-    private HolidayProvider hp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(Config.APP_NAME, "mainActivity onCreate");
-        storage = new Storage(getApplicationContext());
-        hp = new HolidayProvider(storage);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,10 +37,6 @@ public class mainActivity extends AppCompatActivity  {
     @Override
     public void onStart() {
         super.onStart();
-        allHolidays = (AllHolidays) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
-        HolidayLoader loader = new HolidayLoader(allHolidays, storage);
-        loader.execute();
-
     }
 
     @Override

@@ -32,7 +32,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
      */
     private final String PERIODICITY_TOKEN = "periodicity";
 
-    private AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
+    private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
@@ -100,13 +100,14 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onConfirm();
+                mPresenter.onConfirm(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                mHolidayNameView.setText(null);
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel();
+                mPresenter.onCancel(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
@@ -154,17 +155,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void initializePeriodicity() {
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
-    }
-
-
-    @Override
-    public void onConfirm() {
-        mPresenter.onConfirm(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
-    }
-
-    @Override
-    public void onCancel() {
-        mPresenter.onCancel(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
     }
 
     @Override
