@@ -14,8 +14,12 @@ import android.widget.TextView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.views.AddHolidayView;
+
+import java.util.ArrayList;
 
 
 public class AddHoliday extends Fragment implements AddHolidayView {
@@ -81,6 +85,13 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
         attachListeners();
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Storage storage = new Storage(getActivity().getApplicationContext());
+        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
     }
 
     @Override

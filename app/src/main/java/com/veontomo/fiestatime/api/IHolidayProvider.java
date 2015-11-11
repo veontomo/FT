@@ -14,4 +14,10 @@ public interface IHolidayProvider {
      */
     void loadInto(AllHolidaysPresenter presenter);
 
+    /**
+     * Saves the holiday into a storage
+     * @param holiday
+     */
+    void save(Holiday holiday);
+
 }

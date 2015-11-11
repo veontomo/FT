@@ -4,15 +4,19 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.IHolidayProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -35,6 +39,7 @@ public class AddHolidayPresenter implements MVPPresenter {
      * Holiday periodicity
      */
     private int periodicity;
+    private IHolidayProvider holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
@@ -81,9 +86,33 @@ public class AddHolidayPresenter implements MVPPresenter {
      * @param pos  index of the item selected from dropdown list corresponding to the holiday's periodicity
      */
     @Override
-    public void onConfirm(String name, String next, int pos) {
-        /// TODO
+    public void onConfirm(final String name, final String next, final int pos) {
+        (new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                if (holidayProvider != null){
+                    try {
+                        long nextOccurrence = format.parse(next).getTime();
+                        Holiday h = new Holiday(name, nextOccurrence, pos);
+                        holidayProvider.save(h);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        Logger.log("Failed to parse next occurrence: " + next);
+                    }
+
+                }
+            }
+        })).run();
     }
+
+    /**
+     * Set a provider of the holidays
+     */
+    public void setHolidayProvider(IHolidayProvider hp) {
+        this.holidayProvider = hp;
+    }
+
 
     /**
      * This method is called when a user clicks the "cancel" button

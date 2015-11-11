@@ -34,4 +34,9 @@ public class HolidayDBProvider implements IHolidayProvider {
         loader.execute();
 
     }
+
+    @Override
+    public void save(Holiday holiday) {
+        mStorage.save(holiday.name, holiday.nextOccurence, holiday.periodicity);
+    }
 }
