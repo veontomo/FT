@@ -3,8 +3,9 @@ package com.veontomo.fiestatime;
 import android.os.AsyncTask;
 
 import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
+
 import java.util.List;
 
 /**
@@ -13,11 +14,11 @@ import java.util.List;
  */
 public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
 
-    private final AllHolidaysPresenter presenter;
+    private final IHolidayProvider provider;
     private final Storage storage;
 
-    public HolidayLoader(Storage storage, AllHolidaysPresenter presenter) {
-        this.presenter = presenter;
+    public HolidayLoader(Storage storage, IHolidayProvider provider) {
+        this.provider = provider;
         this.storage = storage;
     }
 
@@ -28,6 +29,6 @@ public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
 
     @Override
     public void onPostExecute(List<Holiday> holidays){
-        presenter.load(holidays);
+        provider.onLoad(holidays);
     }
 }

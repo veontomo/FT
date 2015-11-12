@@ -94,4 +94,5 @@ public class AllHolidaysPresenter implements MVPPresenter {
         view.initializeViews();
 
     }
+
 }

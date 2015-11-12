@@ -4,6 +4,8 @@ import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
 import com.veontomo.fiestatime.presenters.MVPPresenter;
 import com.veontomo.fiestatime.views.MVPView;
 
+import java.util.List;
+
 /**
  * Holiday provider interface
  */
@@ -20,4 +22,9 @@ public interface IHolidayProvider {
      */
     long save(Holiday holiday);
 
+    /**
+     * Passes the list of holidays to whom it may concern.
+     * @param holidays
+     */
+    void onLoad(List<Holiday> holidays);
 }

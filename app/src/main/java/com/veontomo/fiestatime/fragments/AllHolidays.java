@@ -37,7 +37,7 @@ public class AllHolidays extends ListFragment implements MVPView {
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
         Storage storage = new Storage(getActivity().getApplicationContext());
-        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
+        mPresenter.setHolidayProvider(new HolidayDBProvider(storage) );
     }
 
 
