@@ -41,7 +41,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
         if (this.holidayNames != null) {
             v.initializeViews();
         } else if (holidayProvider != null) {
-            holidayProvider.loadInto(this);
+            holidayProvider.lazyLoad(this);
         }
     }
 

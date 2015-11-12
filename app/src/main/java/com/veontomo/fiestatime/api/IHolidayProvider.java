@@ -14,7 +14,7 @@ public interface IHolidayProvider {
      * Loads the holidays from its source (db, file or network) into the presenter
      * @param presenter
      */
-    void loadInto(AllHolidaysPresenter presenter);
+    void lazyLoad(AllHolidaysPresenter presenter);
 
     /**
      * Saves the holiday into a storage and returns the id with which the holiday can be retrieved.

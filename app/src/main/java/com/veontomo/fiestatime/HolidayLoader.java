@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
 
 import java.util.List;
 
