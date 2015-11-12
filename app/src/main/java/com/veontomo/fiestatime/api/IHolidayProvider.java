@@ -15,9 +15,9 @@ public interface IHolidayProvider {
     void loadInto(AllHolidaysPresenter presenter);
 
     /**
-     * Saves the holiday into a storage
+     * Saves the holiday into a storage and returns the id with which the holiday can be retrieved.
      * @param holiday
      */
-    void save(Holiday holiday);
+    long save(Holiday holiday);
 
 }

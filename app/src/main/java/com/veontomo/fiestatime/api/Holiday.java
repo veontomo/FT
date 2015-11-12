@@ -14,17 +14,17 @@ public class Holiday {
     public final static int YEAR = 3;
 
     public final String name;
-    public long nextOccurence;
+    public long nextOccurrence;
     public int periodicity;
-    public final int id;
+    public final long id;
 
     public Holiday(String name, long next, int periodicity){
         this(-1, name, next, periodicity);
     }
 
-    public Holiday(int id, String name, long next, int periodicity){
+    public Holiday(long id, String name, long next, int periodicity){
         this.name = name;
-        this.nextOccurence = next;
+        this.nextOccurrence = next;
         this.periodicity = periodicity;
         this.id = -1;
     }

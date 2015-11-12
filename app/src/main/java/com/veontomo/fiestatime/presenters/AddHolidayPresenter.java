@@ -95,7 +95,10 @@ public class AddHolidayPresenter implements MVPPresenter {
                     try {
                         long nextOccurrence = format.parse(next).getTime();
                         Holiday h = new Holiday(name, nextOccurrence, pos);
-                        holidayProvider.save(h);
+                        long id = holidayProvider.save(h);
+                        if (id != -1){
+                            h = new Holiday(id, name, nextOccurrence, pos);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                         Logger.log("Failed to parse next occurrence: " + next);
