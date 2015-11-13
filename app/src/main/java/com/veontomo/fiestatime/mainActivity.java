@@ -15,6 +15,7 @@ import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
+import com.veontomo.fiestatime.views.AllHolidaysView;
 
 public class mainActivity extends AppCompatActivity implements AddHoliday.onActions {
     @Override
@@ -65,6 +66,8 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.onActi
 
     @Override
     public void onHolidayAdded(Holiday h) {
-        Logger.log("main activity " + h.toString());
+        AllHolidaysView allHolidays = (AllHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
+        allHolidays.addHoliday(h);
+
     }
 }

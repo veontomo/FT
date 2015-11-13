@@ -92,7 +92,12 @@ public class AllHolidaysPresenter implements MVPPresenter {
             this.holidayNames.add(holiday.name);
         }
         view.initializeViews();
+    }
 
+
+    public void addHoliday(Holiday h){
+        this.holidayNames.add(h.name);
+        view.initializeViews();
     }
 
 }
