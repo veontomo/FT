@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 
-public class mainActivity extends AppCompatActivity  {
+public class mainActivity extends AppCompatActivity implements AddHoliday.onActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,4 +63,8 @@ public class mainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onHolidayAdded(Holiday h) {
+        Logger.log("main activity " + h.toString());
+    }
 }

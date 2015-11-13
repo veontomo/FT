@@ -43,6 +43,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     private Spinner mPeriodicityView;
     private Button mConfirmButton;
     private Button mCancelButton;
+    private onActions hostingActivity;
 
     public AddHoliday() {
         // Required empty public constructor
@@ -91,6 +92,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        hostingActivity = (onActions) getActivity();
         Storage storage = new Storage(getActivity().getApplicationContext());
         mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
     }
@@ -197,6 +199,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void onHolidayAdded(Holiday h) {
         Logger.log("holiday " + h.name + ", next: " + h.nextOccurrence + ", periodicity: " + h.periodicity +  " is added " );
+        hostingActivity.onHolidayAdded(h);
     }
 
     @Override
@@ -213,5 +216,9 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         b.putString(DATE_TOKEN, mNextOccurrenceView.getText().toString());
         b.putInt(PERIODICITY_TOKEN, mPeriodicityView.getSelectedItemPosition());
         Logger.log("saved: " + mHolidayNameView.getEditableText().toString() + ", " + mNextOccurrenceView.getText().toString() + ", " + mPeriodicityView.getSelectedItemPosition());
+    }
+
+    public interface onActions {
+        void onHolidayAdded(Holiday h);
     }
 }
