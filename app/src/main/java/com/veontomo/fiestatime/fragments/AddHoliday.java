@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
@@ -191,6 +192,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public int restorePeriodicity(Bundle b) {
         return b.getInt(PERIODICITY_TOKEN);
+    }
+
+    @Override
+    public void onHolidayAdded(Holiday h) {
+        Logger.log("holiday " + h.name + ", next: " + h.nextOccurrence + ", periodicity: " + h.periodicity +  " is added " );
     }
 
     @Override

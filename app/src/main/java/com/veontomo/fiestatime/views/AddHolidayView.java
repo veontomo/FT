@@ -3,6 +3,8 @@ package com.veontomo.fiestatime.views;
 import android.os.Bundle;
 import android.view.View;
 
+import com.veontomo.fiestatime.api.Holiday;
+
 /**
  * Created by Mario Rossi on 03/11/2015 at 14:52.
  *
@@ -27,4 +29,6 @@ public interface AddHolidayView extends MVPView {
     String restoreDate(Bundle b);
 
     int restorePeriodicity(Bundle b);
+
+    void onHolidayAdded(Holiday h);
 }

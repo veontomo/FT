@@ -98,6 +98,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                         long id = holidayProvider.save(h);
                         if (id != -1){
                             h = new Holiday(id, name, nextOccurrence, pos);
+                            view.onHolidayAdded(h);
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
