@@ -13,6 +13,8 @@ public class Holiday {
     public final static int MONTH = 2;
     public final static int YEAR = 3;
 
+    private final static String SEPARATOR = "|";
+
     public final String name;
     public long nextOccurrence;
     public int periodicity;
@@ -29,4 +31,19 @@ public class Holiday {
         this.id = -1;
     }
 
+    public String serialize() {
+        return String.valueOf(id) + SEPARATOR + String.valueOf(nextOccurrence) + SEPARATOR + String.valueOf(periodicity) + SEPARATOR + name;
+    }
+
+    public static Holiday deserialize(String holidayStr){
+        String[] arr = holidayStr.split(SEPARATOR);
+        Holiday h = null;
+        if (arr.length == 4){
+            long id = Long.parseLong(arr[0], 10);
+            long next = Long.parseLong(arr[1], 10);
+            int periodicity = Integer.parseInt(arr[2]);
+            h = new Holiday(id, arr[3], next, periodicity);
+        }
+        return h;
+    }
 }

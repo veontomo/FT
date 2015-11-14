@@ -14,7 +14,6 @@ import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
 import com.veontomo.fiestatime.views.AllHolidaysView;
-import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     private final AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<Holiday> adapter;
 
     public AllHolidays() {
         // Required empty public constructor
@@ -34,7 +33,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<String> values = new ArrayList<>();
+        ArrayList<Holiday> values = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
@@ -70,9 +69,8 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void initializeViews() {
         adapter.clear();
-        adapter.addAll(mPresenter.getHolidayNames());
+        adapter.addAll(mPresenter.getHolidays());
         adapter.notifyDataSetChanged();
-
     }
 
     @Override

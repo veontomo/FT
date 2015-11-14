@@ -22,7 +22,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     private final static String HOLIDAY_NAMES_TOKEN = "names";
 
-    private ArrayList<String> holidayNames;
+    private ArrayList<Holiday> holidays;
 
     private IHolidayProvider holidayProvider;
 
@@ -38,7 +38,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void bindView(final MVPView v) {
-        if (this.holidayNames != null) {
+        if (this.holidays != null) {
             v.initializeViews();
         } else if (holidayProvider != null) {
             holidayProvider.lazyLoad(this);
@@ -57,22 +57,54 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void onSaveState(Bundle b) {
-        Logger.log("saving the presenter state" + this.holidayNames.size());
-        b.putStringArrayList(HOLIDAY_NAMES_TOKEN, this.holidayNames);
+        Logger.log("saving the presenter state" + this.holidays.size());
+        String[] holidaysArray = serialize(this.holidays);
+        b.putStringArray(HOLIDAY_NAMES_TOKEN, holidaysArray);
     }
 
     @Override
     public void onRestoreState(Bundle b) {
         if (b != null) {
             Logger.log("restoring the presenter state");
-            this.holidayNames = b.getStringArrayList(HOLIDAY_NAMES_TOKEN);
+
+            this.holidays = deserialize(b.getStringArray(HOLIDAY_NAMES_TOKEN));
         } else {
             Logger.log("nothing to restore from!");
         }
     }
 
-    public ArrayList<String> getHolidayNames() {
-        return this.holidayNames;
+    /**
+     * Converts list of holidays into array of strings.
+     * @param data
+     * @return
+     */
+    private String[] serialize(List<Holiday> data){
+        int s = data.size();
+        String[] result = new String[s];
+        Holiday h;
+        for (int i = 0; i < s; i++){
+            h = data.get(i);
+            result[i] = h.serialize();
+        }
+        return result;
+    }
+
+    /**
+     * Recreates list of holidays from array of strings
+     * @param items
+     * @return
+     */
+    private ArrayList<Holiday> deserialize(String[] items){
+        ArrayList<Holiday> result = new ArrayList<>();
+        for (String item : items){
+            result.add(Holiday.deserialize(item));
+        }
+        return result;
+    }
+
+
+    public ArrayList<Holiday> getHolidays() {
+        return this.holidays;
     }
 
     /**
@@ -87,16 +119,16 @@ public class AllHolidaysPresenter implements MVPPresenter {
      * TODO: split the method in two, since it performs two actions
      */
     public void load(List<Holiday> holidays) {
-        this.holidayNames = new ArrayList<>();
+        this.holidays = new ArrayList<>();
         for (Holiday holiday : holidays) {
-            this.holidayNames.add(holiday.name);
+            this.holidays.add(holiday);
         }
         view.initializeViews();
     }
 
 
     public void addHoliday(Holiday h){
-        this.holidayNames.add(h.name);
+        this.holidays.add(h);
         view.initializeViews();
     }
 
@@ -105,6 +137,6 @@ public class AllHolidaysPresenter implements MVPPresenter {
      * @param index
      */
     public void onItemClick(int index) {
-        Logger.log("click on " + this.holidayNames.get(index));
+        Logger.log("click on " + this.holidays.get(index));
     }
 }
