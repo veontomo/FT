@@ -100,4 +100,11 @@ public class AllHolidaysPresenter implements MVPPresenter {
         view.initializeViews();
     }
 
+    /**
+     * Elaborates a click on item with number index.
+     * @param index
+     */
+    public void onItemClick(int index) {
+        Logger.log("click on " + this.holidayNames.get(index));
+    }
 }

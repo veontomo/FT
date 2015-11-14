@@ -58,6 +58,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        mPresenter.onItemClick(position);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void initializeViews() {
+        adapter.clear();
         adapter.addAll(mPresenter.getHolidayNames());
         adapter.notifyDataSetChanged();
 
