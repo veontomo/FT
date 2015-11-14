@@ -24,6 +24,16 @@ public class Holiday {
         this(-1, name, next, periodicity);
     }
 
+    /**
+     * Naive way to stringify a holiday.
+     * One might change implementation of this method.
+     * It is used for the ArrayAdapter.
+     * @return
+     */
+    public String toString(){
+        return this.name;
+    }
+
     public Holiday(long id, String name, long next, int periodicity){
         this.name = name;
         this.nextOccurrence = next;
