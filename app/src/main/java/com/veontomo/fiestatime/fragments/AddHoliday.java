@@ -122,6 +122,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
             @Override
             public void onClick(View v) {
                 mPresenter.onCancel(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                mHolidayNameView.setText(null);
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
