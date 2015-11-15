@@ -204,6 +204,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
     @Override
+    public void load(Holiday h) {
+        this.mPresenter.load(h);
+        initializeViews();
+    }
+
+    @Override
     public void initializeViews() {
         initializeName();
         initializePeriodicity();

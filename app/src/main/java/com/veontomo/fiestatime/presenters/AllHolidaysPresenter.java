@@ -138,5 +138,6 @@ public class AllHolidaysPresenter implements MVPPresenter {
      */
     public void onItemClick(int index) {
         Logger.log("click on " + this.holidays.get(index));
+        view.onHolidayClick(this.holidays.get(index));
     }
 }

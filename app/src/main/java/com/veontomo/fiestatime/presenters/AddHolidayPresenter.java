@@ -27,18 +27,9 @@ public class AddHolidayPresenter implements MVPPresenter {
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     private final AddHolidayView view;
 
-    /**
-     * holiday name
-     */
-    private String name;
-    /**
-     * Nearest holiday occurrence
-     */
-    private String date;
-    /**
-     * Holiday periodicity
-     */
-    private int periodicity;
+
+
+    private Holiday holiday;
     private IHolidayProvider holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
@@ -150,7 +141,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public String getHolidayName() {
-        return this.name;
+        return this.holiday.name;
     }
 
     public String getNextOccurrence() {
@@ -159,7 +150,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public int getPeriodicity() {
-        return this.periodicity;
+        return this.holiday.periodicity;
     }
 
     public void onDateClick(View v, FragmentManager fm) {
@@ -169,6 +160,10 @@ public class AddHolidayPresenter implements MVPPresenter {
         Logger.log("previously selected date " + this.date);
         datePickerDialog.show(fm, "datePicker");
 
+    }
+
+    public void load(Holiday h) {
+        this.holiday = h;
     }
 
     public static class DatePickerFragment extends DialogFragment

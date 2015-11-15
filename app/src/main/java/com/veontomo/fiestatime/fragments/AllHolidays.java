@@ -26,6 +26,8 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     private ArrayAdapter<Holiday> adapter;
 
+    private onActions hostingActivity;
+
     public AllHolidays() {
         // Required empty public constructor
     }
@@ -39,6 +41,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
         setListAdapter(adapter);
         Storage storage = new Storage(getActivity().getApplicationContext());
         mPresenter.setHolidayProvider(new HolidayDBProvider(storage) );
+        hostingActivity = (onActions) getActivity();
     }
 
 
@@ -88,5 +91,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void addHoliday(Holiday h) {
         mPresenter.addHoliday(h);
+    }
+
+    public void onHolidayClick(Holiday holiday) {
+        if (hostingActivity != null){
+            hostingActivity.onHolidayClicked(holiday);
+        }
+    }
+
+
+    public interface onActions {
+        void onHolidayClicked(Holiday h);
     }
 }
