@@ -55,7 +55,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
     }
 
     @Override
-    public void initializeViews() {
+    public void onLoadFields() {
         mTextView.setText(mPresenter.getHolidayName());
     }
 

@@ -25,7 +25,7 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void bindView(MVPView v) {
-        v.initializeViews();
+        v.onLoadFields();
     }
 
     @Override

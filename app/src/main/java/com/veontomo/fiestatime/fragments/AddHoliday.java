@@ -20,8 +20,6 @@ import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.views.AddHolidayView;
 
-import java.util.ArrayList;
-
 
 public class AddHoliday extends Fragment implements AddHolidayView {
     /**
@@ -106,7 +104,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mPeriodicityView = null;
         mHolidayNameView = null;
         super.onDestroyView();
-
     }
 
 
@@ -156,21 +153,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
 
-    @Override
-    public void initializeName() {
-        Logger.log("view: initialize name: " + mPresenter.getHolidayName());
-        this.mHolidayNameView.setText(mPresenter.getHolidayName());
-    }
-
-    @Override
-    public void initializeNextOccurrence() {
-        this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
-    }
-
-    @Override
-    public void initializePeriodicity() {
-        this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
-    }
 
     @Override
     public void onDateClick(View v) {
@@ -182,20 +164,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         this.mNextOccurrenceView.setText(date);
     }
 
-    @Override
-    public String restoreName(@NonNull Bundle b) {
-        return b.getString(NAME_TOKEN);
-    }
-
-    @Override
-    public String restoreDate(Bundle b) {
-        return b.getString(DATE_TOKEN);
-    }
-
-    @Override
-    public int restorePeriodicity(Bundle b) {
-        return b.getInt(PERIODICITY_TOKEN);
-    }
 
     @Override
     public void onHolidayAdded(Holiday h) {
@@ -206,16 +174,16 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void load(Holiday h) {
         this.mPresenter.load(h);
-        initializeViews();
+        onLoadFields();
     }
 
     @Override
-    public void initializeViews() {
-        initializeName();
-        initializePeriodicity();
-        initializeNextOccurrence();
-
+    public void onLoadFields() {
+        this.mHolidayNameView.setText(mPresenter.getHolidayName());
+        this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
+        this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
     }
+
 
     @Override
     public void onSaveState(Bundle b) {
@@ -223,6 +191,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         b.putString(DATE_TOKEN, mNextOccurrenceView.getText().toString());
         b.putInt(PERIODICITY_TOKEN, mPeriodicityView.getSelectedItemPosition());
         Logger.log("saved: " + mHolidayNameView.getEditableText().toString() + ", " + mNextOccurrenceView.getText().toString() + ", " + mPeriodicityView.getSelectedItemPosition());
+    }
+
+    @Override
+    public void onRestoreState(Bundle b) {
+
     }
 
     public interface onActions {
