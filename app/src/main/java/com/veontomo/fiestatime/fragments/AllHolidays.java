@@ -14,7 +14,6 @@ import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
 import com.veontomo.fiestatime.views.AllHolidaysView;
-import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,9 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     private final AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<Holiday> adapter;
+
+    private onActions hostingActivity;
 
     public AllHolidays() {
         // Required empty public constructor
@@ -34,12 +35,13 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<String> values = new ArrayList<>();
+        ArrayList<Holiday> values = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
         Storage storage = new Storage(getActivity().getApplicationContext());
         mPresenter.setHolidayProvider(new HolidayDBProvider(storage) );
+        hostingActivity = (onActions) getActivity();
     }
 
 
@@ -58,6 +60,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        mPresenter.onItemClick(position);
     }
 
     @Override
@@ -68,9 +71,9 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void initializeViews() {
-        adapter.addAll(mPresenter.getHolidayNames());
+        adapter.clear();
+        adapter.addAll(mPresenter.getHolidays());
         adapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -88,5 +91,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void addHoliday(Holiday h) {
         mPresenter.addHoliday(h);
+    }
+
+    public void onHolidayClick(Holiday holiday) {
+        if (hostingActivity != null){
+            hostingActivity.onHolidayClicked(holiday);
+        }
+    }
+
+
+    public interface onActions {
+        void onHolidayClicked(Holiday h);
     }
 }

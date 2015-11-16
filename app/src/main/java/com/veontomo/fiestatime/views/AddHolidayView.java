@@ -31,4 +31,6 @@ public interface AddHolidayView extends MVPView {
     int restorePeriodicity(Bundle b);
 
     void onHolidayAdded(Holiday h);
+
+    void load(Holiday h);
 }

@@ -122,6 +122,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
             @Override
             public void onClick(View v) {
                 mPresenter.onCancel(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                mHolidayNameView.setText(null);
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +201,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     public void onHolidayAdded(Holiday h) {
         Logger.log("holiday " + h.name + ", next: " + h.nextOccurrence + ", periodicity: " + h.periodicity +  " is added " );
         hostingActivity.onHolidayAdded(h);
+    }
+
+    @Override
+    public void load(Holiday h) {
+        this.mPresenter.load(h);
+        initializeViews();
     }
 
     @Override
