@@ -2,12 +2,12 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.veontomo.fiestatime.ForthcomingHolidays">
+             tools:context="com.veontomo.fiestatime.fragments.ForthcomingHolidays">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/frag_forth_holiday_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        tools:text="Holiday" />
 
 </FrameLayout>
