@@ -6,6 +6,7 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.fragments.AllHolidays;
+import com.veontomo.fiestatime.views.AllHolidaysView;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class AllHolidaysPresenter implements MVPPresenter {
 
 
-    private final AllHolidays view;
+    private final AllHolidaysView view;
 
     private final static String HOLIDAY_NAMES_TOKEN = "names";
 
