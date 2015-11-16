@@ -9,4 +9,5 @@ public interface AllHolidaysView extends MVPView {
     void addHoliday(Holiday h);
 
 
+    void onHolidayClick(Holiday holiday);
 }
