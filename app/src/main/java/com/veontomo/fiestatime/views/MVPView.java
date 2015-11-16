@@ -18,4 +18,5 @@ public interface MVPView {
      * @param b
      */
     void onSaveState(Bundle b);
+
 }

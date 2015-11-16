@@ -6,10 +6,7 @@ import android.view.View;
 import com.veontomo.fiestatime.api.Holiday;
 
 /**
- * Created by Mario Rossi on 03/11/2015 at 14:52.
- *
- * @author veontomo@gmail.com
- * @since xx.xx
+ * View for adding holidays
  */
 public interface AddHolidayView extends MVPView {
 

@@ -11,9 +11,11 @@ import com.veontomo.fiestatime.views.MVPView;
 public class ForthcomingHolidaysPresenter implements MVPPresenter {
 
     private final MVPView view;
+    private String holidayName;
 
     public ForthcomingHolidaysPresenter(MVPView view) {
         this.view = view;
+        this.holidayName = "constructor holiday name";
     }
 
     @Override
@@ -44,5 +46,9 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
     @Override
     public void onRestoreState(Bundle b) {
 
+    }
+
+    public String getHolidayName() {
+        return holidayName;
     }
 }
