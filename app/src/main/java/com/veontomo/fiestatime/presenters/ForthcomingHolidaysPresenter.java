@@ -39,12 +39,12 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
         view.saveState(b);
     }
 
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
 
     }
 

@@ -40,7 +40,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
         Storage storage = new Storage(getActivity().getApplicationContext());
-        mPresenter.setHolidayProvider(new HolidayDBProvider(storage) );
+        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
         hostingActivity = (onActions) getActivity();
     }
 
@@ -48,7 +48,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mPresenter.onRestoreState(savedInstanceState);
+        restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
 
@@ -78,7 +78,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void saveState(Bundle b) {
-
+        mPresenter.saveState(b);
     }
 
     /**
@@ -88,13 +88,13 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
      */
     @Override
     public void restoreState(Bundle b) {
-        // TODO
+        mPresenter.restoreState(b);
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        mPresenter.onSaveState(b);
+        saveState(b);
         super.onSaveInstanceState(b);
     }
 
@@ -104,7 +104,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     }
 
     public void onHolidayClick(Holiday holiday) {
-        if (hostingActivity != null){
+        if (hostingActivity != null) {
             hostingActivity.onHolidayClicked(holiday);
         }
     }

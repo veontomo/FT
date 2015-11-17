@@ -167,12 +167,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void saveState(Bundle b) {
-        mPresenter.onSaveState(b);
+        mPresenter.saveState(b);
     }
 
     @Override
     public void restoreState(Bundle b) {
-        mPresenter.onRestoreState(b);
+        mPresenter.restoreState(b);
     }
 
     public interface onActions {

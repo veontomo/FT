@@ -57,17 +57,16 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
         Logger.log("saving the presenter state" + this.holidays.size());
         String[] holidaysArray = serialize(this.holidays);
         b.putStringArray(HOLIDAY_NAMES_TOKEN, holidaysArray);
     }
 
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
         if (b != null) {
             Logger.log("restoring the presenter state");
-
             this.holidays = deserialize(b.getStringArray(HOLIDAY_NAMES_TOKEN));
         } else {
             Logger.log("nothing to restore from!");

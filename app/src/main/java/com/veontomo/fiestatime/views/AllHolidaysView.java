@@ -8,6 +8,5 @@ import com.veontomo.fiestatime.api.Holiday;
 public interface AllHolidaysView extends MVPView {
     void addHoliday(Holiday h);
 
-
     void onHolidayClick(Holiday holiday);
 }

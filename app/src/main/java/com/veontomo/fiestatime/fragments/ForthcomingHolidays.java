@@ -81,7 +81,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        mPresenter.onSaveState(b);
+        mPresenter.saveState(b);
         super.onSaveInstanceState(b);
     }
 

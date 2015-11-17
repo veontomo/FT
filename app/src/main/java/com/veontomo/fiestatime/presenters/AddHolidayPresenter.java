@@ -150,7 +150,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
         // TODO: save the other fields as well
         b.putString(NAME_TOKEN, this.name);
         b.putString(DATE_TOKEN, this.date);
@@ -158,7 +158,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
         if (b != null) {
             this.name = b.getString(NAME_TOKEN);
             this.date = b.getString(DATE_TOKEN);

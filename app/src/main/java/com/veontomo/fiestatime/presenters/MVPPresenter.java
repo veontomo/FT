@@ -35,9 +35,9 @@ public interface MVPPresenter {
     void onCancel(String name, String next, int pos);
 
 
-    void onSaveState(Bundle b);
+    void saveState(Bundle b);
 
-    void onRestoreState(Bundle b);
+    void restoreState(Bundle b);
 
 
 }
