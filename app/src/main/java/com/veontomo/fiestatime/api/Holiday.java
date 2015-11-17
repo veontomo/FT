@@ -41,7 +41,7 @@ public class Holiday {
         this.name = name;
         this.nextOccurrence = next;
         this.periodicity = periodicity;
-        this.id = -1;
+        this.id = id;
     }
 
     /**

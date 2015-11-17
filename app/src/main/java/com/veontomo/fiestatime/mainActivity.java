@@ -66,15 +66,15 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.onActi
 
     @Override
     public void onHolidayAdded(Holiday h) {
-        AllHolidaysView allHolidays = (AllHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
-        allHolidays.addHoliday(h);
+//        AllHolidaysView allHolidays = (AllHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
+//        allHolidays.addHoliday(h);
 
     }
 
     @Override
     public void onHolidayClicked(Holiday h) {
-        AddHoliday addHoliday = (AddHoliday) getFragmentManager().findFragmentById(R.id.act_main_add_holiday);
+//        AddHoliday addHoliday = (AddHoliday) getFragmentManager().findFragmentById(R.id.act_main_add_holiday);
         Logger.log("main activity: " + h.serialize());
-        addHoliday.load(h);
+//        addHoliday.load(h);
     }
 }

@@ -16,7 +16,6 @@ import com.veontomo.fiestatime.views.MVPView;
  */
 public class ForthcomingHolidays extends Fragment implements MVPView {
 
-    private static final String NAME_TOKEN = "holidayName";
     private OnFragmentInteractionListener mListener;
 
     private final ForthcomingHolidaysPresenter mPresenter = new ForthcomingHolidaysPresenter(this);
@@ -66,7 +65,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
      */
     @Override
     public void saveState(Bundle b) {
-
+        mPresenter.saveState(b);
     }
 
     /**
@@ -76,7 +75,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
      */
     @Override
     public void restoreState(Bundle b) {
-
+        mPresenter.restoreState(b);
     }
 
     @Override
