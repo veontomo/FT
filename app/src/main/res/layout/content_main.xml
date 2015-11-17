@@ -22,8 +22,16 @@
         tools:layout="@layout/fragment_add_holiday" />
 
     <fragment
-        android:id="@+id/act_main_all_holiday"
+        android:id="@+id/act_main_forthcoming"
         android:layout_below="@id/act_main_add_holiday"
+        android:name="com.veontomo.fiestatime.fragments.ForthcomingHolidays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_forthcoming_holidays" />
+
+    <fragment
+        android:id="@+id/act_main_all_holiday"
+        android:layout_below="@id/act_main_forthcoming"
         android:name="com.veontomo.fiestatime.fragments.AllHolidays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

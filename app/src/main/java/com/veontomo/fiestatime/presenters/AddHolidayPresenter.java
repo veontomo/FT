@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -12,7 +11,6 @@ import android.widget.DatePicker;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IHolidayProvider;
-import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -25,6 +23,21 @@ import java.util.Calendar;
  */
 public class AddHolidayPresenter implements MVPPresenter {
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
+    /**
+     * name of the token under which the presenter saves the holiday's name in the bundle
+     */
+    private static final String NAME_TOKEN = "name";
+
+    /**
+     * name of the token under which the presenter saves the holiday's date in the bundle
+     */
+    private static final String DATE_TOKEN = "date";
+    /**
+     * name of the token under which the presenter saves the holiday's periodicity in the bundle
+     */
+    private static final String PERIODICITY_TOKEN = "periodicity";
+
+
     private final AddHolidayView view;
 
     /**
@@ -65,7 +78,7 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     @Override
     public void bindView(MVPView v) {
-        v.initializeViews();
+        v.onLoadFields();
     }
 
     /**
@@ -96,7 +109,6 @@ public class AddHolidayPresenter implements MVPPresenter {
     @Override
     public void onConfirm(final String name, final String next, final int pos) {
         (new Thread(new Runnable(){
-
             @Override
             public void run() {
                 if (holidayProvider != null){
@@ -112,7 +124,6 @@ public class AddHolidayPresenter implements MVPPresenter {
                         e.printStackTrace();
                         Logger.log("Failed to parse next occurrence: " + next);
                     }
-
                 }
             }
         })).run();
@@ -140,17 +151,20 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     @Override
     public void onSaveState(Bundle b) {
-        view.onSaveState(b);
+        // TODO: save the other fields as well
+        b.putString(NAME_TOKEN, this.name);
+        b.putString(DATE_TOKEN, this.date);
+        b.putInt(PERIODICITY_TOKEN, this.periodicity);
     }
 
     @Override
     public void onRestoreState(Bundle b) {
         if (b != null) {
-            this.name = view.restoreName(b);
-            this.date = view.restoreDate(b);
-            this.periodicity = view.restorePeriodicity(b);
+            this.name = b.getString(NAME_TOKEN);
+            this.date = b.getString(DATE_TOKEN);
+            this.periodicity = b.getInt(PERIODICITY_TOKEN);
         }
-        Logger.log("restored: " + this.toString());
+
     }
 
     public String toString(){
@@ -162,7 +176,6 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public String getNextOccurrence() {
-
         return this.date;
     }
 

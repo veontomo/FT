@@ -70,7 +70,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
 
     @Override
-    public void initializeViews() {
+    public void onLoadFields() {
         adapter.clear();
         adapter.addAll(mPresenter.getHolidays());
         adapter.notifyDataSetChanged();
