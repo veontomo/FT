@@ -2,7 +2,6 @@ package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        onRestoreState(savedInstanceState);
+        restoreState(savedInstanceState);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_holiday, container, false);
     }
@@ -129,7 +128,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        onSaveState(b);
+        saveState(b);
         super.onSaveInstanceState(b);
     }
 
@@ -155,11 +154,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void load(Holiday h) {
         this.mPresenter.load(h);
-        onLoadFields();
+        updateViews();
     }
 
     @Override
-    public void onLoadFields() {
+    public void updateViews() {
         this.mHolidayNameView.setText(mPresenter.getHolidayName());
         this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
@@ -167,12 +166,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
 
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
         mPresenter.onSaveState(b);
     }
 
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
         mPresenter.onRestoreState(b);
     }
 

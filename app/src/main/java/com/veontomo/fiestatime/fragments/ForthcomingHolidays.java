@@ -55,7 +55,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
     }
 
     @Override
-    public void onLoadFields() {
+    public void updateViews() {
         mTextView.setText(mPresenter.getHolidayName());
     }
 
@@ -65,7 +65,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
      * @param b
      */
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
 
     }
 
@@ -75,7 +75,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
      * @param b
      */
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
 
     }
 

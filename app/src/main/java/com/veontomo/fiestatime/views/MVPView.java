@@ -9,20 +9,20 @@ public interface MVPView {
 
     /**
      * Fills in views (i.e., text views, image views, etc) present in current MVP-like view (that is
-     * in Android-like Activity, Fragment etc)
+     * in Android-like Activity, Fragment etc) with data stored in corresponding presenter
      */
-    void onLoadFields();
+    void updateViews();
 
     /**
      * Saves the state of the view in the bundle.
      * @param b
      */
-    void onSaveState(Bundle b);
+    void saveState(Bundle b);
 
     /**
      * Restores the state of the view from the bundle
      * @param b
      */
-    void onRestoreState(Bundle b);
+    void restoreState(Bundle b);
 
 }

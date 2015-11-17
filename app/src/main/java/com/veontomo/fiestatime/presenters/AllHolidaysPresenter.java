@@ -40,7 +40,7 @@ public class AllHolidaysPresenter implements MVPPresenter {
     @Override
     public void bindView(final MVPView v) {
         if (this.holidays != null) {
-            v.onLoadFields();
+            v.updateViews();
         } else if (holidayProvider != null) {
             holidayProvider.lazyLoad(this);
         }
@@ -124,13 +124,13 @@ public class AllHolidaysPresenter implements MVPPresenter {
         for (Holiday holiday : holidays) {
             this.holidays.add(holiday);
         }
-        view.onLoadFields();
+        view.updateViews();
     }
 
 
     public void addHoliday(Holiday h){
         this.holidays.add(h);
-        view.onLoadFields();
+        view.updateViews();
     }
 
     /**

@@ -78,7 +78,7 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     @Override
     public void bindView(MVPView v) {
-        v.onLoadFields();
+        v.updateViews();
     }
 
     /**

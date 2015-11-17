@@ -70,14 +70,14 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
 
     @Override
-    public void onLoadFields() {
+    public void updateViews() {
         adapter.clear();
         adapter.addAll(mPresenter.getHolidays());
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onSaveState(Bundle b) {
+    public void saveState(Bundle b) {
 
     }
 
@@ -87,7 +87,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
      * @param b
      */
     @Override
-    public void onRestoreState(Bundle b) {
+    public void restoreState(Bundle b) {
         // TODO
     }
 

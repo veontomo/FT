@@ -25,7 +25,7 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void bindView(MVPView v) {
-        v.onLoadFields();
+        v.updateViews();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void onSaveState(Bundle b) {
-        view.onSaveState(b);
+        view.saveState(b);
     }
 
     @Override
