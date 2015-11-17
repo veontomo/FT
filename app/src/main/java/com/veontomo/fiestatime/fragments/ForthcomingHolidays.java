@@ -59,16 +59,32 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
         mTextView.setText(mPresenter.getHolidayName());
     }
 
+    /**
+     * Saves the state of the view in the bundle.
+     *
+     * @param b
+     */
+    @Override
+    public void onSaveState(Bundle b) {
+
+    }
+
+    /**
+     * Restores the state of the view from the bundle
+     *
+     * @param b
+     */
+    @Override
+    public void onRestoreState(Bundle b) {
+
+    }
+
     @Override
     public void onSaveInstanceState(Bundle b) {
         mPresenter.onSaveState(b);
         super.onSaveInstanceState(b);
     }
-    @Override
-    public void onSaveState(Bundle b) {
-        b.putString(NAME_TOKEN, mTextView.getText().toString());
 
-    }
 
     public interface OnFragmentInteractionListener {
     }

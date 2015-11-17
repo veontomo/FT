@@ -81,6 +81,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     }
 
+    /**
+     * Restores the state of the view from the bundle
+     *
+     * @param b
+     */
+    @Override
+    public void onRestoreState(Bundle b) {
+        // TODO
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle b) {

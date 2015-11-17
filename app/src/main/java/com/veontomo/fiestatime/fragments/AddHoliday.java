@@ -22,18 +22,6 @@ import com.veontomo.fiestatime.views.AddHolidayView;
 
 
 public class AddHoliday extends Fragment implements AddHolidayView {
-    /**
-     * name of the token under which holiday's name is saved into the bundle
-     */
-    private final String NAME_TOKEN = "name";
-    /**
-     * name of the token under which holiday's next occurrence is saved into the bundle
-     */
-    private final String DATE_TOKEN = "date";
-    /**
-     * name of the token under which holiday's periodicity is saved into the bundle
-     */
-    private final String PERIODICITY_TOKEN = "periodicity";
 
     private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
@@ -43,21 +31,14 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     private Button mCancelButton;
     private onActions hostingActivity;
 
-    public AddHoliday() {
-        // Required empty public constructor
-    }
+    public AddHoliday() { }
 
-//    @Override
-//    public void onViewStateRestored(Bundle b){
-//        super.onViewStateRestored(b);
-//
-//    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mPresenter.onRestoreState(savedInstanceState);
+        onRestoreState(savedInstanceState);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_holiday, container, false);
     }
@@ -148,7 +129,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        mPresenter.onSaveState(b);
+        onSaveState(b);
         super.onSaveInstanceState(b);
     }
 
@@ -187,15 +168,12 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onSaveState(Bundle b) {
-        b.putString(NAME_TOKEN, mHolidayNameView.getEditableText().toString());
-        b.putString(DATE_TOKEN, mNextOccurrenceView.getText().toString());
-        b.putInt(PERIODICITY_TOKEN, mPeriodicityView.getSelectedItemPosition());
-        Logger.log("saved: " + mHolidayNameView.getEditableText().toString() + ", " + mNextOccurrenceView.getText().toString() + ", " + mPeriodicityView.getSelectedItemPosition());
+        mPresenter.onSaveState(b);
     }
 
     @Override
     public void onRestoreState(Bundle b) {
-
+        mPresenter.onRestoreState(b);
     }
 
     public interface onActions {
