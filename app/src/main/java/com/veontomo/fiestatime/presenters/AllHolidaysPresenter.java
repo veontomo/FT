@@ -76,14 +76,15 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     /**
      * Converts list of holidays into array of strings.
+     *
      * @param data
      * @return
      */
-    private String[] serialize(List<Holiday> data){
+    private String[] serialize(List<Holiday> data) {
         int s = data.size();
         String[] result = new String[s];
         Holiday h;
-        for (int i = 0; i < s; i++){
+        for (int i = 0; i < s; i++) {
             h = data.get(i);
             result[i] = h.serialize();
         }
@@ -92,13 +93,18 @@ public class AllHolidaysPresenter implements MVPPresenter {
 
     /**
      * Recreates list of holidays from array of strings
+     *
      * @param items
      * @return
      */
-    private ArrayList<Holiday> deserialize(String[] items){
+    private ArrayList<Holiday> deserialize(String[] items) {
         ArrayList<Holiday> result = new ArrayList<>();
-        for (String item : items){
-            result.add(Holiday.deserialize(item));
+        Holiday h;
+        for (String item : items) {
+            h = Holiday.deserialize(item);
+            if (h != null) {
+                result.add(h);
+            }
         }
         return result;
     }
@@ -128,13 +134,14 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
 
-    public void addHoliday(Holiday h){
+    public void addHoliday(Holiday h) {
         this.holidays.add(h);
         view.updateViews();
     }
 
     /**
      * Elaborates a click on item with number index.
+     *
      * @param index
      */
     public void onItemClick(int index) {
