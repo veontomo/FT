@@ -15,7 +15,7 @@ public class HolidayTest extends TestCase {
         h2 = new Holiday("Xmas", 834, 1);
     }
 
-    public void testHolidayWithId() {
+    public void testHolidayExistent() {
         assertEquals("id must be equal to 22", h1.id, 22);
     }
 
@@ -23,7 +23,7 @@ public class HolidayTest extends TestCase {
         assertEquals("id must be equal to -1", h2.id, -1);
     }
 
-    public void testHolidayNameWIthId() {
+    public void testHolidayNameExistent() {
         assertEquals("holiday name must be equal to Saturday night", h1.name, "Saturday night");
     }
 
@@ -31,7 +31,7 @@ public class HolidayTest extends TestCase {
         assertEquals("holiday name must be equal to Saturday night", h2.name, "Xmas");
     }
 
-    public void testHolidayNextWithId() {
+    public void testHolidayNextExistent() {
         assertEquals("holiday next occurrence must be equal to 12345", h1.nextOccurrence, 12345);
     }
 
@@ -39,7 +39,7 @@ public class HolidayTest extends TestCase {
         assertEquals("holiday next occurrence must be equal to 12345", h2.nextOccurrence, 834);
     }
 
-    public void testHolidayPeriodicityWithId() {
+    public void testHolidayPeriodicityExistent() {
         assertEquals("holiday periodicity must be equal to 3", h1.periodicity, 3);
     }
 
@@ -47,22 +47,22 @@ public class HolidayTest extends TestCase {
         assertEquals("holiday periodicity must be equal to 1", h2.periodicity, 1);
     }
 
-    public void testDeserializeIdWithId() {
+    public void testDeserializeIdExistent() {
         Holiday h = Holiday.deserialize(h1.serialize());
         assertEquals("after deserialization, holiday id is wrong!", h.id, 22);
     }
 
-    public void testDeserializeNameWithId() {
+    public void testDeserializeNameExistent() {
         Holiday h = Holiday.deserialize(h1.serialize());
         assertEquals("after deserialization, holiday name is wrong!", h.name, "Saturday night");
     }
 
-    public void testDeserializeOccurrenceWithId() {
+    public void testDeserializeOccurrenceExistent() {
         Holiday h = Holiday.deserialize(h1.serialize());
         assertEquals("after deserialization, holiday next occurrence is wrong!", h.nextOccurrence, 12345);
     }
 
-    public void testDeserializePeriodicityWithId() {
+    public void testDeserializePeriodicityExistent() {
         Holiday h = Holiday.deserialize(h1.serialize());
         assertEquals("after deserialization, holiday periodicity is wrong!!", h.periodicity, 3);
     }

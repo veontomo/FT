@@ -104,6 +104,9 @@ public class AllHolidaysPresenter implements MVPPresenter {
             h = Holiday.deserialize(item);
             if (h != null) {
                 result.add(h);
+            } else {
+                Logger.log("Failed to deserialize " + item);
+
             }
         }
         return result;
