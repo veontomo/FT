@@ -22,7 +22,7 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.onActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(Config.APP_NAME, "mainActivity onCreate");
+        Logger.log("mainActivity onCreate");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,6 +40,7 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.onActi
     @Override
     public void onStart() {
         super.onStart();
+        Logger.log("mainActivity onStart");
     }
 
     @Override

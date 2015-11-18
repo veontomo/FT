@@ -16,7 +16,7 @@ public class Holiday {
     /**
      * A string used to serialize Holiday instance
      */
-    private final static String SEPARATOR = "|";
+    private final static String SEPARATOR = "#";
 
     public final String name;
     public long nextOccurrence;

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
@@ -35,6 +36,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Logger.log("AllHolidays onActivityCreated");
         ArrayList<Holiday> values = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
@@ -48,6 +50,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Logger.log("AllHolidays onCreateView");
         restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
@@ -55,6 +58,7 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     @Override
     public void onStart() {
         super.onStart();
+        Logger.log("AllHolidays onStart");
         mPresenter.bindView(this);
     }
 
@@ -71,13 +75,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
 
     @Override
     public void updateViews() {
+        Logger.log("AllHolidays updateView");
         adapter.clear();
         adapter.addAll(mPresenter.getHolidays());
         adapter.notifyDataSetChanged();
+        Logger.log("AllHolidays updateView is done");
     }
 
     @Override
     public void saveState(Bundle b) {
+        Logger.log("AllHolidays saveState");
         mPresenter.saveState(b);
     }
 
@@ -88,18 +95,21 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
      */
     @Override
     public void restoreState(Bundle b) {
+        Logger.log("AllHolidays restoreState");
         mPresenter.restoreState(b);
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle b) {
+        Logger.log("AllHolidays onSaveInstanceState");
         saveState(b);
         super.onSaveInstanceState(b);
     }
 
     @Override
     public void addHoliday(Holiday h) {
+        Logger.log("AllHolidays addHoliday");
         mPresenter.addHoliday(h);
     }
 
