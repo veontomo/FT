@@ -59,13 +59,18 @@ public class Holiday {
      * @return
      */
     public static Holiday deserialize(String holidayStr){
-        String[] arr = holidayStr.split(SEPARATOR);
+        String[] arr = holidayStr.split(SEPARATOR, -2);
+        System.out.print("array length: " + arr.length);
         Holiday h = null;
         if (arr.length == 4){
             long id = Long.parseLong(arr[0], 10);
             long next = Long.parseLong(arr[1], 10);
             int periodicity = Integer.parseInt(arr[2]);
-            h = new Holiday(id, arr[3], next, periodicity);
+            String name = arr[3];
+            if (name == null){
+                name = "";
+            }
+            h = new Holiday(id, name, next, periodicity);
         }
         return h;
     }

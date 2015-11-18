@@ -91,7 +91,7 @@ public class HolidayTest extends TestCase {
     public void testDeserializeExistentHolidayWithoutName() {
         Holiday noName = new Holiday(4, null, 355, 0);
         Holiday h = Holiday.deserialize(noName.serialize());
-        assertNull("after deserialization, holiday name is wrong!", h.name);
+        assertEquals("after deserialization, holiday name is wrong!", "", h.name);
     }
 
 
