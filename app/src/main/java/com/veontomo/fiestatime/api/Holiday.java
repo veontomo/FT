@@ -1,5 +1,9 @@
 package com.veontomo.fiestatime.api;
 
+import android.support.annotation.NonNull;
+
+import javax.annotation.Nonnull;
+
 /**
  * Holiday
  *
@@ -37,7 +41,7 @@ public class Holiday {
         return this.name;
     }
 
-    public Holiday(long id, String name, long next, int periodicity){
+    public Holiday(long id, @Nonnull String name, long next, int periodicity){
         this.name = name;
         this.nextOccurrence = next;
         this.periodicity = periodicity;
@@ -67,9 +71,6 @@ public class Holiday {
             long next = Long.parseLong(arr[1], 10);
             int periodicity = Integer.parseInt(arr[2]);
             String name = arr[3];
-            if (name == null){
-                name = "";
-            }
             h = new Holiday(id, name, next, periodicity);
         }
         return h;

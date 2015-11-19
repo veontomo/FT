@@ -25,4 +25,10 @@ public interface MVPView {
      */
     void restoreState(Bundle b);
 
+    /**
+     * Displays a short message
+     * @param msg
+     */
+    void showMessage(String msg);
+
 }

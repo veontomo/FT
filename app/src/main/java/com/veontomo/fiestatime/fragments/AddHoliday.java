@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
@@ -173,6 +174,16 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     @Override
     public void restoreState(Bundle b) {
         mPresenter.restoreState(b);
+    }
+
+    /**
+     * Displays a short message
+     *
+     * @param msg
+     */
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public interface onActions {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.presenters.ForthcomingHolidaysPresenter;
@@ -76,6 +77,16 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
     @Override
     public void restoreState(Bundle b) {
         mPresenter.restoreState(b);
+    }
+
+    /**
+     * Displays a short message
+     *
+     * @param msg
+     */
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

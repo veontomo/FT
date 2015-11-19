@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
@@ -97,6 +98,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     public void restoreState(Bundle b) {
         Logger.log("AllHolidays restoreState");
         mPresenter.restoreState(b);
+    }
+
+    /**
+     * Displays a short message
+     *
+     * @param msg
+     */
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
 
