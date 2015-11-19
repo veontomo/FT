@@ -64,7 +64,7 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
-        if (this.date == null){
+        if (this.date == null) {
             Calendar calendar = Calendar.getInstance();
             this.date = format.format(calendar.getTime());
         }
@@ -108,24 +108,37 @@ public class AddHolidayPresenter implements MVPPresenter {
      */
     @Override
     public void onConfirm(final String name, final String next, final int pos) {
-        (new Thread(new Runnable(){
+        (new Thread(new Runnable() {
             @Override
             public void run() {
-                if (name == null || name.isEmpty() || next == null || next.isEmpty() ){
-                    view.showMessage("Both name and date must be set!");
-                } else if (holidayProvider != null){
-                    try {
-                        long nextOccurrence = format.parse(next).getTime();
-                        Holiday h = new Holiday(name, nextOccurrence, pos);
-                        long id = holidayProvider.save(h);
-                        if (id != -1){
-                            h = new Holiday(id, name, nextOccurrence, pos);
-                            view.onHolidayAdded(h);
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Logger.log("Failed to parse next occurrence: " + next);
-                    }
+                view.setEnableButtons();
+                if (name == null || name.isEmpty()) {
+                    view.showMessage("Give a name to the holiday!");
+                    return;
+                }
+                if (next == null || next.isEmpty()) {
+                    view.showMessage("Choose the holiday next occurrence!");
+                    return;
+                }
+                if (holidayProvider == null) {
+                    view.showMessage("Can not save");
+                    return;
+                }
+                long nextOccurrence;
+                try {
+                    nextOccurrence = format.parse(next).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    view.showMessage("Failed to elaborate the holiday date!");
+                    return;
+                }
+                Holiday h = new Holiday(name, nextOccurrence, pos);
+                long id = holidayProvider.save(h);
+                if (id != -1) {
+                    h = new Holiday(id, name, nextOccurrence, pos);
+                    view.onHolidayAdded(h);
+                } else {
+                    view.showMessage("Failed to save the holiday!");
                 }
             }
         })).run();
@@ -169,7 +182,7 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     }
 
-    public String toString(){
+    public String toString() {
         return this.name + " " + this.date + " " + this.periodicity;
     }
 

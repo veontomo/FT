@@ -148,8 +148,8 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     @Override
     public void onHolidayAdded(Holiday h) {
-        Logger.log("holiday " + h.name + ", next: " + h.nextOccurrence + ", periodicity: " + h.periodicity +  " is added " );
         hostingActivity.onHolidayAdded(h);
+        mHolidayNameView.setText(null);
     }
 
     @Override
