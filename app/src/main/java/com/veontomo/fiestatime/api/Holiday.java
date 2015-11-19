@@ -2,6 +2,8 @@ package com.veontomo.fiestatime.api;
 
 import android.support.annotation.NonNull;
 
+import com.veontomo.fiestatime.Logger;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -42,6 +44,7 @@ public class Holiday {
     }
 
     public Holiday(long id, @Nonnull String name, long next, int periodicity){
+        Logger.log("creating a holiday: id = " + id + ", name = " + name + ", next " + next + ", periodicity = " + periodicity);
         this.name = name;
         this.nextOccurrence = next;
         this.periodicity = periodicity;

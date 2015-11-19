@@ -111,7 +111,7 @@ public class AddHolidayPresenter implements MVPPresenter {
         (new Thread(new Runnable(){
             @Override
             public void run() {
-                if (name == null || next == null ){
+                if (name == null || name.isEmpty() || next == null || next.isEmpty() ){
                     view.showMessage("Both name and date must be set!");
                 } else if (holidayProvider != null){
                     try {
