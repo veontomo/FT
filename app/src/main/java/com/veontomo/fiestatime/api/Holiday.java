@@ -44,7 +44,6 @@ public class Holiday {
     }
 
     public Holiday(long id, @Nonnull String name, long next, int periodicity){
-        Logger.log("creating a holiday: id = " + id + ", name = " + name + ", next " + next + ", periodicity = " + periodicity);
         this.name = name;
         this.nextOccurrence = next;
         this.periodicity = periodicity;
@@ -67,7 +66,6 @@ public class Holiday {
      */
     public static Holiday deserialize(String holidayStr){
         String[] arr = holidayStr.split(SEPARATOR, -2);
-        System.out.print("array length: " + arr.length);
         Holiday h = null;
         if (arr.length == 4){
             long id = Long.parseLong(arr[0], 10);

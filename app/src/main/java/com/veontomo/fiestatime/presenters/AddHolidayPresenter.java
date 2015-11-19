@@ -111,25 +111,28 @@ public class AddHolidayPresenter implements MVPPresenter {
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                view.setEnableButtons();
+                view.setEnableButtons(false);
+                String msg = null;
+                // elaborate three similar scenarios
                 if (name == null || name.isEmpty()) {
-                    view.showMessage("Give a name to the holiday!");
-                    return;
+                    msg = "Give a name to the holiday!";
+                } else if (next == null || next.isEmpty()) {
+                    msg = "Choose the holiday next occurrence!";
+                } else if (holidayProvider == null) {
+                    msg = "Can not save";
                 }
-                if (next == null || next.isEmpty()) {
-                    view.showMessage("Choose the holiday next occurrence!");
-                    return;
-                }
-                if (holidayProvider == null) {
-                    view.showMessage("Can not save");
+                if (msg != null) {
+                    // once the message text is present, it is time to show it and exit
+                    view.showMessage(msg);
+                    view.setEnableButtons(true);
                     return;
                 }
                 long nextOccurrence;
                 try {
                     nextOccurrence = format.parse(next).getTime();
                 } catch (ParseException e) {
-                    e.printStackTrace();
                     view.showMessage("Failed to elaborate the holiday date!");
+                    view.setEnableButtons(true);
                     return;
                 }
                 Holiday h = new Holiday(name, nextOccurrence, pos);
@@ -140,6 +143,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                 } else {
                     view.showMessage("Failed to save the holiday!");
                 }
+                view.setEnableButtons(true);
             }
         })).run();
     }

@@ -158,6 +158,17 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         updateViews();
     }
 
+    /**
+     * Disables "confirm" and "cancel" buttons
+     *
+     * @param status true to enable buttons, false to disable them
+     */
+    @Override
+    public void setEnableButtons(boolean status) {
+        mConfirmButton.setClickable(status);
+        mCancelButton.setClickable(status);
+    }
+
     @Override
     public void updateViews() {
         this.mHolidayNameView.setText(mPresenter.getHolidayName());
