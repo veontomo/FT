@@ -57,7 +57,8 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
 
     @Override
     public void updateViews() {
-//        mTextView.setText(mPresenter.getHolidayName());
+        // TODO
+        mTextView.setText("see ForthcomingHolidays class");
     }
 
     /**

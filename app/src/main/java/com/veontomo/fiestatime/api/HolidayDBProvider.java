@@ -47,6 +47,8 @@ public class HolidayDBProvider implements IHolidayProvider {
 
     @Override
     public void lazyLoadForthcoming(MultiHolidaysPresenter presenter) {
-
+        this.presenter = presenter;
+        HolidayLoader loader = new HolidayLoader(this.mStorage, this);
+        loader.execute();
     }
 }

@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Mario Rossi on 19/11/2015 at 15:58.
- *
- * @author veontomo@gmail.com
- * @since xx.xx
  */
 public abstract class MultiHolidaysPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "holidays";
