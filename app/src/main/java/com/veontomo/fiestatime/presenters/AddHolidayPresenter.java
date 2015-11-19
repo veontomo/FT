@@ -101,7 +101,6 @@ public class AddHolidayPresenter implements MVPPresenter {
      * @param next content of the date picker dialog text view corresponding to holiday's date
      * @param pos  index of the item selected from dropdown list corresponding to the holiday's periodicity
      */
-    @Override
     public void onConfirm(final String name, final String next, final int pos) {
         (new Thread(new Runnable() {
             @Override
@@ -158,7 +157,6 @@ public class AddHolidayPresenter implements MVPPresenter {
      * @param next content of the date picker dialog text view corresponding to holiday's date
      * @param pos  index of the item selected from dropdown list corresponding to the holiday's periodicity
      */
-    @Override
     public void onCancel(String name, String next, int pos) {
         /// TODO
     }

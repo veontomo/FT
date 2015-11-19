@@ -42,16 +42,6 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onConfirm(String name, String next, int pos) {
-
-    }
-
-    @Override
-    public void onCancel(String name, String next, int pos) {
-
-    }
-
-    @Override
     public void saveState(Bundle b) {
         Logger.log("saving the presenter state" + this.holidays.size());
         String[] holidaysArray = serialize(this.holidays);

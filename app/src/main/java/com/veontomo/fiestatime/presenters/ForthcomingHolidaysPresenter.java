@@ -18,24 +18,10 @@ public class ForthcomingHolidaysPresenter implements MVPPresenter {
         this.holidayName = "constructor holiday name";
     }
 
-    @Override
-    public void onStart() {
-
-    }
 
     @Override
     public void bindView(MVPView v) {
         v.updateViews();
-    }
-
-    @Override
-    public void onConfirm(String name, String next, int pos) {
-
-    }
-
-    @Override
-    public void onCancel(String name, String next, int pos) {
-
     }
 
     @Override
