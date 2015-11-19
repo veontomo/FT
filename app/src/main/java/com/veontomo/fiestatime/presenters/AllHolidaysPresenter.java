@@ -1,125 +1,38 @@
 package com.veontomo.fiestatime.presenters;
 
-import android.os.Bundle;
-
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.IHolidayProvider;
-import com.veontomo.fiestatime.fragments.AllHolidays;
-import com.veontomo.fiestatime.views.AllHolidaysView;
+import com.veontomo.fiestatime.views.MultiHolidaysView;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Presenter for the all-holidays view.
  */
-public class AllHolidaysPresenter implements MVPPresenter {
+public class AllHolidaysPresenter extends MultiHolidaysPresenter {
 
-
-    private final AllHolidaysView view;
-
-    private final static String HOLIDAY_NAMES_TOKEN = "names";
-
-    private ArrayList<Holiday> holidays;
-
-    private IHolidayProvider holidayProvider;
-
-
-    public AllHolidaysPresenter(AllHolidays view) {
-        this.view = view;
+    public AllHolidaysPresenter(MultiHolidaysView view) {
+        super(view);
     }
+
 
     @Override
     public void bindView(final MVPView v) {
         if (this.holidays != null) {
             v.updateViews();
         } else if (holidayProvider != null) {
-            holidayProvider.lazyLoad(this);
+            holidayProvider.lazyLoadAll(this);
         }
     }
 
-    @Override
-    public void saveState(Bundle b) {
-        Logger.log("saving the presenter state" + this.holidays.size());
-        String[] holidaysArray = serialize(this.holidays);
-        b.putStringArray(HOLIDAY_NAMES_TOKEN, holidaysArray);
-    }
-
-    @Override
-    public void restoreState(Bundle b) {
-        if (b != null) {
-            Logger.log("restoring the presenter state");
-            String[] items = b.getStringArray(HOLIDAY_NAMES_TOKEN);
-            this.holidays = deserialize(items);
-        } else {
-            Logger.log("nothing to restore from!");
-        }
-    }
-
-    /**
-     * Converts list of holidays into array of strings.
-     *
-     * @param data
-     * @return
-     */
-    private String[] serialize(List<Holiday> data) {
-        int s = data.size();
-        String[] result = new String[s];
-        Holiday h;
-        for (int i = 0; i < s; i++) {
-            h = data.get(i);
-            result[i] = h.serialize();
-        }
-        return result;
-    }
-
-    /**
-     * Recreates list of holidays from array of strings
-     *
-     * @param items
-     * @return
-     */
-    private ArrayList<Holiday> deserialize(String[] items) {
-        ArrayList<Holiday> result = new ArrayList<>();
-        Holiday h;
-        for (String item : items) {
-            h = Holiday.deserialize(item);
-            if (h != null) {
-                result.add(h);
-            } else {
-                Logger.log("Failed to deserialize " + item);
-
-            }
-        }
-        return result;
-    }
 
 
     public ArrayList<Holiday> getHolidays() {
         return this.holidays;
     }
 
-    /**
-     * Set a provider of the holidays
-     */
-    public void setHolidayProvider(IHolidayProvider hp) {
-        this.holidayProvider = hp;
-    }
-
-    /**
-     * Loads holidays into the presenter AND initializes the view
-     * TODO: split the method in two, since it performs two actions
-     */
-    public void load(List<Holiday> holidays) {
-        this.holidays = new ArrayList<>();
-        for (Holiday holiday : holidays) {
-            this.holidays.add(holiday);
-        }
-        view.updateViews();
-    }
 
 
     public void addHoliday(Holiday h) {

@@ -9,13 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.presenters.ForthcomingHolidaysPresenter;
 import com.veontomo.fiestatime.views.MVPView;
+import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 
 /**
  */
-public class ForthcomingHolidays extends Fragment implements MVPView {
+public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,7 +58,7 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
 
     @Override
     public void updateViews() {
-        mTextView.setText(mPresenter.getHolidayName());
+//        mTextView.setText(mPresenter.getHolidayName());
     }
 
     /**
@@ -93,6 +95,36 @@ public class ForthcomingHolidays extends Fragment implements MVPView {
     public void onSaveInstanceState(Bundle b) {
         mPresenter.saveState(b);
         super.onSaveInstanceState(b);
+    }
+
+    /**
+     * Adds a holiday
+     *
+     * @param h
+     */
+    @Override
+    public void addHoliday(Holiday h) {
+
+    }
+
+    /**
+     * Eliminates a holiday at given position
+     *
+     * @param pos
+     */
+    @Override
+    public void deleteHoliday(int pos) {
+
+    }
+
+    /**
+     * This method is called when a click on a given holiday occurs
+     *
+     * @param holiday
+     */
+    @Override
+    public void onHolidayClick(Holiday holiday) {
+
     }
 
 

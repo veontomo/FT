@@ -2,6 +2,7 @@ package com.veontomo.fiestatime.api;
 
 import com.veontomo.fiestatime.HolidayLoader;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
+import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class HolidayDBProvider implements IHolidayProvider {
 
     private final Storage mStorage;
-    private AllHolidaysPresenter presenter;
+    private MultiHolidaysPresenter presenter;
 
     public HolidayDBProvider(Storage storage){
         this.mStorage = storage;
@@ -19,7 +20,7 @@ public class HolidayDBProvider implements IHolidayProvider {
 
 
     @Override
-    public void lazyLoad(AllHolidaysPresenter presenter) {
+    public void lazyLoadAll(MultiHolidaysPresenter presenter) {
         this.presenter = presenter;
         HolidayLoader loader = new HolidayLoader(this.mStorage, this);
         loader.execute();

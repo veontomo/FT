@@ -15,14 +15,14 @@ import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
-import com.veontomo.fiestatime.views.AllHolidaysView;
+import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 import java.util.ArrayList;
 
 /**
  * Displays all available fragments
  */
-public class AllHolidays extends ListFragment implements AllHolidaysView {
+public class AllHolidays extends ListFragment implements MultiHolidaysView {
 
     private final AllHolidaysPresenter mPresenter = new AllHolidaysPresenter(this);
 
@@ -122,6 +122,16 @@ public class AllHolidays extends ListFragment implements AllHolidaysView {
     public void addHoliday(Holiday h) {
         Logger.log("AllHolidays addHoliday");
         mPresenter.addHoliday(h);
+    }
+
+    /**
+     * Eliminates a holiday at given position
+     *
+     * @param pos
+     */
+    @Override
+    public void deleteHoliday(int pos) {
+        // TODO
     }
 
     public void onHolidayClick(Holiday holiday) {

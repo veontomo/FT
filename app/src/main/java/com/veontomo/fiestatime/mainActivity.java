@@ -5,17 +5,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.HolidayDBProvider;
-import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.fragments.AddHoliday;
 import com.veontomo.fiestatime.fragments.AllHolidays;
-import com.veontomo.fiestatime.views.AllHolidaysView;
+import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 public class mainActivity extends AppCompatActivity implements AddHoliday.onActions, AllHolidays.onActions {
     @Override
@@ -67,7 +64,7 @@ public class mainActivity extends AppCompatActivity implements AddHoliday.onActi
 
     @Override
     public void onHolidayAdded(Holiday h) {
-        AllHolidaysView allHolidays = (AllHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
+        MultiHolidaysView allHolidays = (MultiHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
         allHolidays.addHoliday(h);
 
     }

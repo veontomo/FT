@@ -1,40 +1,28 @@
 package com.veontomo.fiestatime.presenters;
 
-import android.os.Bundle;
-
 import com.veontomo.fiestatime.views.MVPView;
+import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 /**
  * Presenter for displaying forthcoming holidays
  *
  */
-public class ForthcomingHolidaysPresenter implements MVPPresenter {
+public class ForthcomingHolidaysPresenter extends MultiHolidaysPresenter {
 
-    private final MVPView view;
-    private String holidayName;
 
-    public ForthcomingHolidaysPresenter(MVPView view) {
-        this.view = view;
-        this.holidayName = "constructor holiday name";
+    public ForthcomingHolidaysPresenter(MultiHolidaysView view) {
+        super(view);
     }
 
 
     @Override
     public void bindView(MVPView v) {
-        v.updateViews();
+        if (this.holidays != null) {
+            v.updateViews();
+        } else if (holidayProvider != null) {
+            holidayProvider.lazyLoadAll(this);
+        }
     }
 
-    @Override
-    public void saveState(Bundle b) {
-        view.saveState(b);
-    }
 
-    @Override
-    public void restoreState(Bundle b) {
-
-    }
-
-    public String getHolidayName() {
-        return holidayName;
-    }
 }
