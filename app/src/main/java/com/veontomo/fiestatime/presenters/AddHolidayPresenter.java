@@ -70,11 +70,6 @@ public class AddHolidayPresenter implements MVPPresenter {
         }
     }
 
-    @Override
-    public void onStart() {
-
-
-    }
 
     @Override
     public void bindView(MVPView v) {

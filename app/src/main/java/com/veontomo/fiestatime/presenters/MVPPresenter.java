@@ -12,8 +12,6 @@ import java.util.List;
  * Presenter of MVP architectural pattern
  */
 public interface MVPPresenter {
-    void onStart();
-
     void bindView(final MVPView v);
 
     /**

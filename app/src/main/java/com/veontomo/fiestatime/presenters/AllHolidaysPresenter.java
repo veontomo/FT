@@ -33,11 +33,6 @@ public class AllHolidaysPresenter implements MVPPresenter {
     }
 
     @Override
-    public void onStart() {
-
-    }
-
-    @Override
     public void bindView(final MVPView v) {
         if (this.holidays != null) {
             v.updateViews();
