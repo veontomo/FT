@@ -20,7 +20,7 @@ public class ForthcomingHolidaysPresenter extends MultiHolidaysPresenter {
         if (this.holidays != null) {
             v.updateViews();
         } else if (holidayProvider != null) {
-            holidayProvider.lazyLoadAll(this);
+            holidayProvider.lazyLoadForthcoming(this);
         }
     }
 

@@ -44,4 +44,9 @@ public class HolidayDBProvider implements IHolidayProvider {
         }
 
     }
+
+    @Override
+    public void lazyLoadForthcoming(MultiHolidaysPresenter presenter) {
+
+    }
 }

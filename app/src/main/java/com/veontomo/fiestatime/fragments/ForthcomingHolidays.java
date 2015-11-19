@@ -1,7 +1,7 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.presenters.ForthcomingHolidaysPresenter;
-import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 
@@ -104,7 +103,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
      */
     @Override
     public void addHoliday(Holiday h) {
-
+        // TODO
     }
 
     /**
@@ -114,6 +113,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
      */
     @Override
     public void deleteHoliday(int pos) {
+        // TODO
 
     }
 
