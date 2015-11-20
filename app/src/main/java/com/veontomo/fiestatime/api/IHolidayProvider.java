@@ -31,4 +31,6 @@ public interface IHolidayProvider {
     void onLoad(List<Holiday> holidays);
 
     void lazyLoadForthcoming(MultiHolidaysPresenter presenter);
+
+    void setTask(ITask task);
 }
