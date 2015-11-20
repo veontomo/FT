@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.AllHolidayTask;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
