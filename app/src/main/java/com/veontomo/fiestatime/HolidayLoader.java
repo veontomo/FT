@@ -30,6 +30,6 @@ public class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>>{
 
     @Override
     public void onPostExecute(List<Holiday> holidays){
-        provider.onLoad(holidays);
+//        provider.onLoad(holidays);
     }
 }

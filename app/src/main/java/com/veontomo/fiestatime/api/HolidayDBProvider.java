@@ -12,20 +12,9 @@ import java.util.List;
 public class HolidayDBProvider implements IHolidayProvider {
 
     private final Storage mStorage;
-    private MultiHolidaysPresenter presenter;
-    private ITask task;
 
     public HolidayDBProvider(Storage storage){
         this.mStorage = storage;
-    }
-
-
-    @Override
-    public void lazyLoadAll(MultiHolidaysPresenter presenter) {
-        this.presenter = presenter;
-        HolidayLoader loader = new HolidayLoader(this.mStorage, this);
-        loader.execute();
-
     }
 
     @Override
@@ -33,30 +22,13 @@ public class HolidayDBProvider implements IHolidayProvider {
         return mStorage.save(holiday.name, holiday.nextOccurrence, holiday.periodicity);
     }
 
-    /**
-     * Passes the list of holidays to whom it may concern.
-     *
-     * @param holidays
-     */
-    @Override
-    public void onLoad(List<Holiday> holidays) {
-        if (presenter != null){
-            presenter.load(holidays);
-        }
-
-    }
 
     @Override
     public List<Holiday> getHolidays() {
         return mStorage.getHolidays();
     }
 
-    @Override
-    public void lazyLoadForthcoming(MultiHolidaysPresenter presenter) {
-        this.presenter = presenter;
-        HolidayLoader loader = new HolidayLoader(this.mStorage, this);
-        loader.execute();
-    }
+
 
 
 }

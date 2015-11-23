@@ -43,6 +43,7 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
+
         Storage storage = new Storage(getActivity().getApplicationContext());
         HolidayDBProvider provider = new HolidayDBProvider(storage);
         AllHolidayTask task = new AllHolidayTask(provider);
