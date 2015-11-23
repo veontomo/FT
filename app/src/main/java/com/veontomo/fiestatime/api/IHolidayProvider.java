@@ -30,6 +30,8 @@ public interface IHolidayProvider {
      */
     void onLoad(List<Holiday> holidays);
 
+    List<Holiday> getHolidays();
+
     void lazyLoadForthcoming(MultiHolidaysPresenter presenter);
 
 }

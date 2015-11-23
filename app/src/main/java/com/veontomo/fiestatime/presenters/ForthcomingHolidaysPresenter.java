@@ -19,8 +19,6 @@ public class ForthcomingHolidaysPresenter extends MultiHolidaysPresenter {
     public void bindView(MVPView v) {
         if (this.holidays != null) {
             v.updateViews();
-        } else if (holidayProvider != null) {
-            holidayProvider.lazyLoadForthcoming(this);
         }
     }
 

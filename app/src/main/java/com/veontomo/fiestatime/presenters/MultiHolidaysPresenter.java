@@ -20,7 +20,7 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "holidays";
     protected final MultiHolidaysView view;
     protected ArrayList<Holiday> holidays;
-    private ITask mTask;
+    protected ITask mTask;
 
     public MultiHolidaysPresenter(MultiHolidaysView view) {
         this.view = view;
@@ -101,4 +101,6 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
     public void setTask(ITask task) {
         this.mTask = task;
     }
+
+
 }

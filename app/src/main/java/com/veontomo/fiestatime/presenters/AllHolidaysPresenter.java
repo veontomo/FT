@@ -22,8 +22,9 @@ public class AllHolidaysPresenter extends MultiHolidaysPresenter {
     public void bindView(final MVPView v) {
         if (this.holidays != null) {
             v.updateViews();
-        } else if (holidayProvider != null) {
-            holidayProvider.lazyLoadAll(this);
+        } else if (mTask != null) {
+            mTask.setOnDataLoaded(this);
+            mTask.execute();
         }
     }
 

@@ -18,5 +18,4 @@ public interface MVPPresenter {
 
     void restoreState(Bundle b);
 
-
 }
