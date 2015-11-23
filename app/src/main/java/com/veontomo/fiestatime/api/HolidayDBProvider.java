@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Provider of holidays: retrieves the holidays (either from internet or from calendar).
  */
-public class HolidayDBProvider implements IHolidayProvider {
+public class HolidayDBProvider implements IProvider<Holiday> {
 
     private final Storage mStorage;
 
@@ -21,7 +21,7 @@ public class HolidayDBProvider implements IHolidayProvider {
 
 
     @Override
-    public List<Holiday> getHolidays() {
+    public List<Holiday> getItems() {
         return mStorage.getHolidays();
     }
 

@@ -10,7 +10,7 @@ import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.IHolidayProvider;
+import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -60,7 +60,7 @@ public class AddHolidayPresenter implements MVPPresenter {
      */
     private long id;
 
-    private IHolidayProvider holidayProvider;
+    private IProvider holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
@@ -145,7 +145,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     /**
      * Set a provider of the holidays
      */
-    public void setHolidayProvider(IHolidayProvider hp) {
+    public void setHolidayProvider(IProvider hp) {
         this.holidayProvider = hp;
     }
 

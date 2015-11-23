@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class RetrieveAllHolidaysTask implements ITask {
 
-    private final IHolidayProvider provider;
+    private final IProvider provider;
     private MultiHolidaysPresenter presenter;
 
 
-    public RetrieveAllHolidaysTask(IHolidayProvider provider) {
+    public RetrieveAllHolidaysTask(IProvider provider) {
         this.provider = provider;
     }
 
@@ -37,17 +37,17 @@ public class RetrieveAllHolidaysTask implements ITask {
 
     private class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>> {
 
-        private final IHolidayProvider provider;
+        private final IProvider provider;
         private final MultiHolidaysPresenter presenter;
 
-        public HolidayLoader(IHolidayProvider provider, MultiHolidaysPresenter presenter) {
+        public HolidayLoader(IProvider provider, MultiHolidaysPresenter presenter) {
             this.provider = provider;
             this.presenter = presenter;
         }
 
         @Override
         protected List<Holiday> doInBackground(Void... params) {
-            return provider.getHolidays();
+            return provider.getItems();
         }
 
         @Override

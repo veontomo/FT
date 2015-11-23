@@ -3,7 +3,7 @@ package com.veontomo.fiestatime;
 import android.os.AsyncTask;
 
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.IHolidayProvider;
+import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.api.Storage;
 
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class ForthcomingHolidayLoader extends AsyncTask<Void, Void, List<Holiday>> {
 
-    private final IHolidayProvider provider;
+    private final IProvider provider;
     private final Storage storage;
 
-    public ForthcomingHolidayLoader(Storage storage, IHolidayProvider provider) {
+    public ForthcomingHolidayLoader(Storage storage, IProvider provider) {
         this.provider = provider;
         this.storage = storage;
     }
