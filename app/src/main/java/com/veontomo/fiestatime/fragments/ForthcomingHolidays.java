@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.presenters.ForthcomingHolidaysPresenter;
+import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 
@@ -20,7 +20,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
 
     private OnFragmentInteractionListener mListener;
 
-    private final ForthcomingHolidaysPresenter mPresenter = new ForthcomingHolidaysPresenter(this);
+    private final MultiHolidaysPresenter mPresenter = new MultiHolidaysPresenter(this);
 
     private TextView mTextView;
 
