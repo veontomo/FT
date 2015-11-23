@@ -3,11 +3,8 @@ package com.veontomo.fiestatime.presenters;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.api.AllHolidayTask;
 import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.IHolidayProvider;
 import com.veontomo.fiestatime.api.ITask;
-import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
 
@@ -16,7 +13,7 @@ import java.util.List;
 
 /**
  */
-public abstract class MultiHolidaysPresenter implements MVPPresenter {
+public class MultiHolidaysPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "holidays";
     protected final MultiHolidaysView view;
     protected ArrayList<Holiday> holidays;
@@ -28,8 +25,13 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
 
 
     @Override
-    public void bindView(MVPView v) {
-
+    public void bindView(final MVPView v) {
+        if (this.holidays != null) {
+            v.updateViews();
+        } else if (mTask != null) {
+            mTask.setOnDataLoaded(this);
+            mTask.execute();
+        }
     }
 
 
@@ -100,6 +102,27 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
 
     public void setTask(ITask task) {
         this.mTask = task;
+    }
+
+    public ArrayList<Holiday> getHolidays() {
+        return this.holidays;
+    }
+
+
+
+    public void addHoliday(Holiday h) {
+        this.holidays.add(h);
+        view.updateViews();
+    }
+
+    /**
+     * Elaborates a click on item with number index.
+     *
+     * @param index
+     */
+    public void onItemClick(int index) {
+        Logger.log("click on " + this.holidays.get(index));
+        view.onHolidayClick(this.holidays.get(index));
     }
 
 

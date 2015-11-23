@@ -18,15 +18,7 @@ public class AllHolidaysPresenter extends MultiHolidaysPresenter {
     }
 
 
-    @Override
-    public void bindView(final MVPView v) {
-        if (this.holidays != null) {
-            v.updateViews();
-        } else if (mTask != null) {
-            mTask.setOnDataLoaded(this);
-            mTask.execute();
-        }
-    }
+
 
 
 

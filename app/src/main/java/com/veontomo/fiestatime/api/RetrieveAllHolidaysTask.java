@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Task that retrieves all holidays from the storage
  */
-public class AllHolidayTask implements ITask {
+public class RetrieveAllHolidaysTask implements ITask {
 
     private final IHolidayProvider provider;
     private MultiHolidaysPresenter presenter;
 
 
-    public AllHolidayTask(IHolidayProvider provider) {
+    public RetrieveAllHolidaysTask(IHolidayProvider provider) {
         this.provider = provider;
     }
 
