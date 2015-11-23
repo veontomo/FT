@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.AllHolidayTask;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.HolidayDBProvider;
 import com.veontomo.fiestatime.api.Storage;
@@ -43,7 +44,9 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
         Storage storage = new Storage(getActivity().getApplicationContext());
-        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
+        HolidayDBProvider provider = new HolidayDBProvider(storage);
+        AllHolidayTask task = new AllHolidayTask(provider);
+        mPresenter.setTask(task);
         hostingActivity = (onActions) getActivity();
     }
 

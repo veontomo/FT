@@ -13,6 +13,7 @@ public class HolidayDBProvider implements IHolidayProvider {
 
     private final Storage mStorage;
     private MultiHolidaysPresenter presenter;
+    private ITask task;
 
     public HolidayDBProvider(Storage storage){
         this.mStorage = storage;
@@ -51,4 +52,6 @@ public class HolidayDBProvider implements IHolidayProvider {
         HolidayLoader loader = new HolidayLoader(this.mStorage, this);
         loader.execute();
     }
+
+
 }

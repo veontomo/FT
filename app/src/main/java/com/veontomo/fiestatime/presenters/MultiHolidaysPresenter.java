@@ -3,8 +3,10 @@ package com.veontomo.fiestatime.presenters;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.AllHolidayTask;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IHolidayProvider;
+import com.veontomo.fiestatime.api.ITask;
 import com.veontomo.fiestatime.fragments.AllHolidays;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
@@ -18,7 +20,7 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "holidays";
     protected final MultiHolidaysView view;
     protected ArrayList<Holiday> holidays;
-    protected IHolidayProvider holidayProvider;
+    private ITask mTask;
 
     public MultiHolidaysPresenter(MultiHolidaysView view) {
         this.view = view;
@@ -30,12 +32,6 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
 
     }
 
-    /**
-     * Set a provider of the holidays
-     */
-    public void setHolidayProvider(IHolidayProvider hp) {
-        this.holidayProvider = hp;
-    }
 
     @Override
     public void saveState(Bundle b) {
@@ -102,4 +98,7 @@ public abstract class MultiHolidaysPresenter implements MVPPresenter {
     }
 
 
+    public void setTask(ITask task) {
+        this.mTask = task;
+    }
 }
