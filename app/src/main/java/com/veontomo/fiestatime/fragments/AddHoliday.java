@@ -62,6 +62,9 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPeriodicityView.setAdapter(adapter);
 
+        // TODO: make the presenter use a task in order to load holiday info (if any) into
+        // the edit view. See how it is done in {@link AllHolidays#onActivityCreated}
+
         mPresenter.bindView(this);
 
         attachListeners();
