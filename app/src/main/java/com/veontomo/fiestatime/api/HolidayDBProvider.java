@@ -1,8 +1,5 @@
 package com.veontomo.fiestatime.api;
 
-import com.veontomo.fiestatime.HolidayLoader;
-import com.veontomo.fiestatime.presenters.AllHolidaysPresenter;
-import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 
 import java.util.List;
 
