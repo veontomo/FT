@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape"
     android:orientation="horizontal"
     android:padding="4dip">
 
@@ -13,11 +12,13 @@
         android:id="@+id/widget_logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:src="@mipmap/app_logo"/>
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1">
 
         <TextView
@@ -59,7 +60,7 @@
         android:layout_margin="10dip"
         android:layout_weight="1"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Compleanno"
+        tools:text="Compleanno"
         android:textSize="20sp">
     </TextView>
 

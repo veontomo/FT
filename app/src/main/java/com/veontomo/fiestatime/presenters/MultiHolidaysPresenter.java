@@ -48,7 +48,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
      * @return
      */
     private String[] serialize(List<Holiday> data) {
-        int s = data.size();
+        int s = (data == null) ? 0 : data.size();
         String[] result = new String[s];
         Holiday h;
         for (int i = 0; i < s; i++) {
