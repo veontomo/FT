@@ -1,22 +1,29 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.RetrieveNearestHolidaysTask;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
+
+import java.util.ArrayList;
 
 
 /**
  */
-public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
+public class ForthcomingHolidays extends ListFragment implements MultiHolidaysView {
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,6 +47,22 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forthcoming_holidays, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Logger.log("Forthcoming onActivityCreated");
+        ArrayList<Holiday> values = new ArrayList<>();
+        ArrayAdapter<Holiday> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
+
+        Storage storage = new Storage(getActivity().getApplicationContext());
+        HolidayDBProvider provider = new HolidayDBProvider(storage);
+        RetrieveNearestHolidaysTask task = new RetrieveNearestHolidaysTask(provider);
+        mPresenter.setTask(task);
+        hostingActivity = (onActions) getActivity();
     }
 
     @Override
