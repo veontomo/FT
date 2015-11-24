@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -62,5 +63,44 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         Log.i(Config.APP_NAME, "widget is deleted");
+    }
+
+    /**
+     * Fills in views (i.e., text views, image views, etc) present in current MVP-like view (that is
+     * in Android-like Activity, Fragment etc) with data stored in corresponding presenter
+     */
+    @Override
+    public void updateViews() {
+        // TODO
+    }
+
+    /**
+     * Saves the state of the view in the bundle.
+     *
+     * @param b
+     */
+    @Override
+    public void saveState(Bundle b) {
+        // TODO
+    }
+
+    /**
+     * Restores the state of the view from the bundle
+     *
+     * @param b
+     */
+    @Override
+    public void restoreState(Bundle b) {
+
+    }
+
+    /**
+     * Displays a short message
+     *
+     * @param msg
+     */
+    @Override
+    public void showMessage(String msg) {
+
     }
 }
