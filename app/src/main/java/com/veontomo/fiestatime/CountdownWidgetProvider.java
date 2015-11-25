@@ -33,7 +33,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.widget_layout);
         mPresenter.update();
-        updateView(context, appWidgetManager);
+        updateView();
         updateWidget(context, appWidgetManager, appWidgetIds);
     }
 
@@ -63,15 +63,10 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     /**
      * Updates the views of the widget.
      */
-    private void updateView(final Context context, final AppWidgetManager appWidgetManager) {
+    private void updateView() {
         remoteViews.setTextViewText(R.id.update, String.valueOf(mPresenter.getNearest()));
         remoteViews.setTextViewText(R.id.afternext, String.valueOf(mPresenter.getAfterNearest()));
         remoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
-        ComponentName thisWidget = new ComponentName(context, CountdownWidgetProvider.class);
-        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        for (int widgetId : allWidgetIds) {
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        }
     }
 
     @Override
