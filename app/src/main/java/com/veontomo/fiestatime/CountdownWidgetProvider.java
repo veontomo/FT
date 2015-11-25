@@ -27,22 +27,25 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
                          int[] appWidgetIds) {
 
         // Get all ids
-        ComponentName thisWidget = new ComponentName(context,
-                CountdownWidgetProvider.class);
-        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+
         Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
         remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.widget_layout);
+        mPresenter.update();
+        updateView(context, appWidgetManager);
+        updateWidget(context, appWidgetManager, appWidgetIds);
+    }
 
+    /**
+     * Sets up on click events
+     */
+    private void updateWidget(final Context context, final AppWidgetManager appWidgetManager,
+                              final int[] appWidgetIds) {
+        ComponentName thisWidget = new ComponentName(context, CountdownWidgetProvider.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         for (int widgetId : allWidgetIds) {
             Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
-            // create some random data
-            mPresenter.update();
-            updateView();
-
-
-
-            // Register an onClickListener
             Intent intent = new Intent(context, CountdownWidgetProvider.class);
 
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -53,16 +56,22 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
             remoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
+
+
     }
 
     /**
      * Updates the views of the widget.
      */
-    private void updateView() {
+    private void updateView(final Context context, final AppWidgetManager appWidgetManager) {
         remoteViews.setTextViewText(R.id.update, String.valueOf(mPresenter.getNearest()));
         remoteViews.setTextViewText(R.id.afternext, String.valueOf(mPresenter.getAfterNearest()));
         remoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
-
+        ComponentName thisWidget = new ComponentName(context, CountdownWidgetProvider.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        for (int widgetId : allWidgetIds) {
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+        }
     }
 
     @Override
