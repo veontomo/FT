@@ -17,5 +17,6 @@
     </string-array>
     <string name="title_activity_act_add_holiday">Add Holiday</string>
     <string name="no_data">No data</string>
+    <string name="widget_removed">widget has been removed</string>
 
 </resources>

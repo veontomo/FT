@@ -65,7 +65,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         this.mContext = context;
-        showMessage("widget has been removed");
+        showMessage(context.getString(R.string.widget_removed));
         super.onDeleted(context, appWidgetIds);
     }
 
