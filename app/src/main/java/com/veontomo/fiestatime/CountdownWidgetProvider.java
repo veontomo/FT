@@ -39,7 +39,6 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         this.mContext = context;
         this.mPresenter.update();
-        updateViews();
     }
 
     /**

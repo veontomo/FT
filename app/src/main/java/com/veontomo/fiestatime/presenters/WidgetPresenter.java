@@ -24,7 +24,7 @@ public class WidgetPresenter {
     /**
      * String representation of the forthcoming holiday(s)
      */
-    private String nearestDescr;
+    private String setDescription;
 
     public WidgetPresenter(MVPView view){
         this.view = view;
@@ -39,6 +39,11 @@ public class WidgetPresenter {
         worker.execute();
     }
 
+    /**
+     * Gets called once the presenter state is updated.
+     * <br>
+     * It gets called from {@link  WidgetUpdateTask#onPostExecute(Void)}.
+     */
     public void onUpdated(){
         view.updateViews();
     }
@@ -52,7 +57,7 @@ public class WidgetPresenter {
     }
 
     public String getDescription() {
-        return nearestDescr;
+        return setDescription;
     }
 
     public void setNearest(int nearest) {
@@ -63,7 +68,7 @@ public class WidgetPresenter {
         this.nextNearest = nextNearest;
     }
 
-    public void setText(String text) {
-        nearestDescr = text;
+    public void setDescription(String text) {
+        setDescription = text;
     }
 }
