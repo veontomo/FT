@@ -1,8 +1,7 @@
-package com.veontomo.fiestatime;
+package com.veontomo.fiestatime.presenters;
 
+import com.veontomo.fiestatime.api.WidgetUpdateTask;
 import com.veontomo.fiestatime.views.MVPView;
-
-import java.util.Random;
 
 /**
  * Presenter for the countdown widget.
@@ -10,10 +9,7 @@ import java.util.Random;
 public class WidgetPresenter {
     private final MVPView view;
 
-    /**
-     * a mock for the forthcoming holiday names
-     */
-    private final String[] mockHolidays = new String[]{"New Year", "holiday", "Saturday", "Birthday"};
+
 
     /**
      * number of days to the nearest holiday
@@ -39,10 +35,8 @@ public class WidgetPresenter {
      * Updates the presenter data
      */
     public void update() {
-        Random random = new Random();
-        this.nearest = random.nextInt(30);
-        this.nextNearest = this.nearest + random.nextInt(30);
-        this.nearestDescr = mockHolidays[this.nearest % mockHolidays.length];
+        WidgetUpdateTask worker = new WidgetUpdateTask(this);
+        worker.execute();
     }
 
     public void onUpdated(){
@@ -59,5 +53,17 @@ public class WidgetPresenter {
 
     public String getDescription() {
         return nearestDescr;
+    }
+
+    public void setNearest(int nearest) {
+        this.nearest = nearest;
+    }
+
+    public void setNextNearest(int nextNearest) {
+        this.nextNearest = nextNearest;
+    }
+
+    public void setText(String text) {
+        nearestDescr = text;
     }
 }

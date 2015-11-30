@@ -23,32 +23,36 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/update"
+            android:id="@+id/foreground"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:paddingBottom="0dip"
-            android:paddingStart="0dip"
-            android:paddingLeft="0dip"
             android:gravity="center_horizontal|center_vertical"
+            android:paddingBottom="0dip"
+            android:paddingEnd="0dip"
+            android:paddingLeft="0dip"
+            android:paddingRight="0dip"
+            android:paddingStart="0dip"
             android:textSize="50sp"
             tools:text="15">
         </TextView>
 
         <TextView
-            android:id="@+id/afternext"
+            android:id="@+id/background"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:paddingBottom="20dip"
-            android:paddingStart="20dip"
-            android:paddingLeft="20dip"
             android:gravity="center_horizontal|center_vertical"
-            tools:text="23"
+            android:paddingBottom="20dip"
+            android:paddingEnd="0dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="0dip"
+            android:paddingStart="20dip"
             android:textColor="#10000000"
-            android:textSize="80sp">
+            android:textSize="80sp"
+            tools:text="23">
         </TextView>
     </RelativeLayout>
 
@@ -60,9 +64,13 @@
         android:layout_gravity="center"
         android:layout_margin="10dip"
         android:layout_weight="1"
+        android:paddingEnd="0dip"
+        android:paddingLeft="0dip"
+        android:paddingRight="0dip"
+        android:paddingStart="0dip"
         android:gravity="center_horizontal|center_vertical"
-        tools:text="Compleanno"
-        android:textSize="20sp">
+        android:textSize="20sp"
+        tools:text="Compleanno">
     </TextView>
 
 </LinearLayout>

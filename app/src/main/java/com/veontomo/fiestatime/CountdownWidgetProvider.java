@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.veontomo.fiestatime.presenters.WidgetPresenter;
 import com.veontomo.fiestatime.views.MVPView;
 
 /**
@@ -47,8 +48,8 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
-        mRemoteViews.setTextViewText(R.id.update, String.valueOf(mPresenter.getNearest()));
-        mRemoteViews.setTextViewText(R.id.afternext, String.valueOf(mPresenter.getAfterNearest()));
+        mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
+        mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getAfterNearest()));
         mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
 
         for (int widgetId : mWidgetIds) {
@@ -57,7 +58,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mRemoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
+            mRemoteViews.setOnClickPendingIntent(R.id.foreground, pendingIntent);
             mWidgetManager.updateAppWidget(widgetId, mRemoteViews);
         }
     }
