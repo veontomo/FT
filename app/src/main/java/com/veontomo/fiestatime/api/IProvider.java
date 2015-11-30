@@ -21,5 +21,11 @@ public interface IProvider<T> {
     List<T> getItems();
 
 
+    /**
+     * Returns n groups of forthcoming items (holidays)
+     * @param n
+     * @return
+     */
+    T[][] getForthcomingGroups(int n);
 
 }

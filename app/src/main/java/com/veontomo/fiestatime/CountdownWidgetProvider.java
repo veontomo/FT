@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.WidgetPresenter;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -38,6 +40,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         this.mWidgetIds = appWidgetIds;
         this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         this.mContext = context;
+        this.mPresenter.setItemProvider(new HolidayDBProvider(new Storage(this.mContext)));
         this.mPresenter.update();
     }
 
@@ -48,7 +51,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void updateViews() {
         mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
-        mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getAfterNearest()));
+        mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
         mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
 
         for (int widgetId : mWidgetIds) {

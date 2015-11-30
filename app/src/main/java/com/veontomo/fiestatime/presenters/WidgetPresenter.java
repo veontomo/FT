@@ -1,5 +1,8 @@
 package com.veontomo.fiestatime.presenters;
 
+import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.IProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -8,9 +11,6 @@ import com.veontomo.fiestatime.views.MVPView;
  */
 public class WidgetPresenter {
     private final MVPView view;
-
-
-
     /**
      * number of days to the nearest holiday
      */
@@ -25,6 +25,7 @@ public class WidgetPresenter {
      * String representation of the forthcoming holiday(s)
      */
     private String setDescription;
+    private IProvider<Holiday> mItemProvider;
 
     public WidgetPresenter(MVPView view){
         this.view = view;
@@ -35,7 +36,7 @@ public class WidgetPresenter {
      * Updates the presenter data
      */
     public void update() {
-        WidgetUpdateTask worker = new WidgetUpdateTask(this);
+        WidgetUpdateTask worker = new WidgetUpdateTask(this, mItemProvider);
         worker.execute();
     }
 
@@ -52,7 +53,7 @@ public class WidgetPresenter {
         return nearest;
     }
 
-    public int getAfterNearest() {
+    public int getNextNearest() {
         return nextNearest;
     }
 
@@ -70,5 +71,9 @@ public class WidgetPresenter {
 
     public void setDescription(String text) {
         setDescription = text;
+    }
+
+    public void setItemProvider(IProvider<Holiday> itemProvider) {
+        mItemProvider = itemProvider;
     }
 }
