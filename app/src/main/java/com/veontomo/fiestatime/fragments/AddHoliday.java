@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,7 +198,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
      */
     @Override
     public void showMessage(String msg) {
-        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public interface onActions {
