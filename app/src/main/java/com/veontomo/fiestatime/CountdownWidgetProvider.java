@@ -3,12 +3,12 @@ package com.veontomo.fiestatime;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -20,58 +20,26 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
     private final WidgetPresenter mPresenter = new WidgetPresenter(this);
 
-    private RemoteViews remoteViews;
+    private RemoteViews mRemoteViews;
+
+    private AppWidgetManager mWidgetManager;
+
+    /**
+     * Set of widget ids which views should be updated
+     */
+    private int[] mWidgetIds;
+
+    private Context context;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-
-        // Get all ids
-
-
-        Log.i(Config.APP_NAME, "size of appWidgetIds = " + String.valueOf(appWidgetIds.length));
-        remoteViews = new RemoteViews(context.getPackageName(),
-                R.layout.widget_layout);
-        mPresenter.update();
-        updateView();
-        updateWidget(context, appWidgetManager, appWidgetIds);
-    }
-
-    /**
-     * Sets up on click events
-     */
-    private void updateWidget(final Context context, final AppWidgetManager appWidgetManager,
-                              final int[] appWidgetIds) {
-        ComponentName thisWidget = new ComponentName(context, CountdownWidgetProvider.class);
-        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        for (int widgetId : allWidgetIds) {
-            Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
-            Intent intent = new Intent(context, CountdownWidgetProvider.class);
-
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        }
-
-
-    }
-
-    /**
-     * Updates the views of the widget.
-     */
-    private void updateView() {
-        remoteViews.setTextViewText(R.id.update, String.valueOf(mPresenter.getNearest()));
-        remoteViews.setTextViewText(R.id.afternext, String.valueOf(mPresenter.getAfterNearest()));
-        remoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
-    }
-
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        Log.i(Config.APP_NAME, "widget is deleted");
+        this.mWidgetManager = appWidgetManager;
+        this.mWidgetIds = appWidgetIds;
+        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+        this.context = context;
+        this.mPresenter.update();
+        updateViews();
     }
 
     /**
@@ -80,8 +48,27 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
-        // TODO
+        mRemoteViews.setTextViewText(R.id.update, String.valueOf(mPresenter.getNearest()));
+        mRemoteViews.setTextViewText(R.id.afternext, String.valueOf(mPresenter.getAfterNearest()));
+        mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
+
+        for (int widgetId : mWidgetIds) {
+            Intent intent = new Intent(context, CountdownWidgetProvider.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mRemoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
+            mWidgetManager.updateAppWidget(widgetId, mRemoteViews);
+        }
     }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        showMessage("widget has been removed");
+        super.onDeleted(context, appWidgetIds);
+    }
+
 
     /**
      * Saves the state of the view in the bundle.
@@ -110,6 +97,6 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void showMessage(String msg) {
-
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 }

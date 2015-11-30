@@ -45,6 +45,10 @@ public class WidgetPresenter {
         this.nearestDescr = mockHolidays[this.nearest % mockHolidays.length];
     }
 
+    public void onUpdated(){
+        view.updateViews();
+    }
+
     public int getNearest() {
         return nearest;
     }
