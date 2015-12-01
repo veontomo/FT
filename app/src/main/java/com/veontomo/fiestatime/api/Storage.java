@@ -24,10 +24,6 @@ public class Storage extends SQLiteOpenHelper {
      */
     private static final String DATABASE_NAME = "Holidays";
 
-    /**
-     * Application context
-     */
-    private final Context mContext;
 
 
     /**
@@ -38,7 +34,6 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Storage(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.mContext = context;
     }
 
     /**
@@ -92,9 +87,17 @@ public class Storage extends SQLiteOpenHelper {
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
     public List<Holiday> getHolidays() {
+        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC";
+        return getHolidaysByQuery(query, null);
+    }
+
+    /**
+     * Execute given query against the database
+     */
+    private List<Holiday> getHolidaysByQuery(String query, String[] args) {
         SQLiteDatabase db = getReadableDatabase();
         List<Holiday> items = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC", null);
+        Cursor cursor = db.rawQuery(query, args);
         int columnID = cursor.getColumnIndex(HolidayEntry._ID);
         int columnName = cursor.getColumnIndex(HolidayEntry.COLUMN_NAME);
         int columnNext = cursor.getColumnIndex(HolidayEntry.COLUMN_NEXT);
@@ -113,6 +116,20 @@ public class Storage extends SQLiteOpenHelper {
         db.close();
         return items;
     }
+
+    /**
+     * Returns the nearest holiday
+     * @return
+     */
+    public Holiday getNearest() {
+        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC LIMIT 1";
+        List<Holiday> first = getHolidaysByQuery(query, null);
+        if (first != null && first.size() > 0){
+            return first.get(0);
+        }
+        return null;
+    }
+
 
     /**
      * Various Proverbs-table related queries

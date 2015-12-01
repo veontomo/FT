@@ -25,7 +25,16 @@ public class HolidayDBProvider implements IProvider<Holiday> {
         return mStorage.getHolidays();
     }
 
+    /**
+     * Returns forthcoming holiday
+     *
+     * @return
+     */
+    @Override
+    public Holiday getNearest() {
+        return mStorage.getNearest();
 
+    }
 
 
 }

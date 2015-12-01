@@ -1,9 +1,11 @@
 package com.veontomo.fiestatime.api;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import com.veontomo.fiestatime.presenters.WidgetPresenter;
 
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -11,6 +13,10 @@ import java.util.Random;
  */
 public class WidgetUpdateTask extends AsyncTask<Void, Void, Void>{
 
+    /**
+     * The number of milliseconds in a day
+     */
+    private static final int MILLISEC_IN_DAY = 1000 * 60 * 60 * 24;
     /**
      * a mock for the forthcoming holiday names
      */
@@ -26,21 +32,21 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... params) {
-        Holiday[][] groups = itemProvider.getForthcomingGroups(2);
-        updateProvider(groups);
+        Holiday holiday = itemProvider.getNearest();
+        if (holiday != null) {
+            updateProvider(holiday);
+        }
         return null;
     }
 
     /**
-     * Updates provider data based on what holidays are coming.
+     * Updates provider data based on what holidays is coming.
      */
-    private void updateProvider(Holiday[][] groups) {
-        // TODO: this is just a stub. Make a realistic implementation
-        Random random = new Random();
-        int nearest = random.nextInt(30);
-        provider.setNearest(nearest);
-        provider.setNextNearest(nearest + random.nextInt(30));
-        provider.setDescription(mockHolidays[nearest % mockHolidays.length]);
+    private void updateProvider(@NonNull Holiday holiday) {
+        int days = (int) (holiday.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY;
+        provider.setNearest(days);
+        provider.setNextNearest(days + 8);
+        provider.setDescription(holiday.name);
     }
 
     @Override

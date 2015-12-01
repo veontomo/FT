@@ -22,10 +22,9 @@ public interface IProvider<T> {
 
 
     /**
-     * Returns n groups of forthcoming items (holidays)
-     * @param n
+     * Returns nearest holidaysю
      * @return
      */
-    T[][] getForthcomingGroups(int n);
+    T getNearest();
 
 }
