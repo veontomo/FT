@@ -60,23 +60,21 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Saves the holiday defined by the arguments.
+     * Saves the holiday.
      * <p/>
      * Returns id of the record that corresponds to the holiday, or -1 in case of failure.
      *
-     * @param name        name of the holiday
-     * @param next        date of the next nearest occurrence in milliseconds
-     * @param periodicity holiday periodicity
+     * @param holiday
      * @return id of the record or -1
      */
-    public long save(String name, long next, int periodicity) {
+    public long save(Holiday holiday) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
         long id;
         values = new ContentValues();
-        values.put(HolidayEntry.COLUMN_NAME, name);
-        values.put(HolidayEntry.COLUMN_NEXT, next);
-        values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
+        values.put(HolidayEntry.COLUMN_NAME, holiday.name);
+        values.put(HolidayEntry.COLUMN_NEXT, holiday.nextOccurrence);
+        values.put(HolidayEntry.COLUMN_PERIODICITY, holiday.periodicity);
         id = db.insert(HolidayEntry.TABLE_NAME, null, values);
         db.close();
         return id;

@@ -109,7 +109,6 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     }
 
 
-
     public void addHoliday(Holiday h) {
         this.holidays.add(h);
         view.updateViews();
@@ -126,4 +125,15 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     }
 
 
+    public void updateHoliday(Holiday h) {
+        for (Holiday holiday : this.holidays) {
+            if (holiday.id == h.id) {
+                int pos = this.holidays.indexOf(holiday);
+                this.holidays.set(pos, h);
+                view.updateViews();
+
+            }
+        }
+
+    }
 }

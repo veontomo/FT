@@ -157,6 +157,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     }
 
     @Override
+    public void onHolidayUpdated(Holiday h) {
+        hostingActivity.onHolidayUpdated(h);
+    }
+
+    @Override
     public void load(Holiday h) {
         this.mPresenter.load(h);
         updateViews();
@@ -203,5 +208,6 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
     public interface onActions {
         void onHolidayAdded(Holiday h);
+        void onHolidayUpdated(Holiday h);
     }
 }

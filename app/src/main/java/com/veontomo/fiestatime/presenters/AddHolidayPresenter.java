@@ -60,7 +60,7 @@ public class AddHolidayPresenter implements MVPPresenter {
      */
     private long id;
 
-    private IProvider holidayProvider;
+    private IProvider<Holiday> holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
@@ -129,13 +129,21 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                Holiday h = new Holiday(name, nextOccurrence, pos);
-                long id = holidayProvider.save(h);
+                Holiday h;
                 if (id != -1) {
                     h = new Holiday(id, name, nextOccurrence, pos);
-                    view.onHolidayAdded(h);
+                    if (holidayProvider.update(h)) {
+                        view.onHolidayUpdated(h);
+                    }
                 } else {
-                    view.showMessage("Failed to save the holiday!");
+                    h = new Holiday(name, nextOccurrence, pos);
+                    id = holidayProvider.save(h);
+                    if (id != -1) {
+                        h = new Holiday(id, name, nextOccurrence, pos);
+                        view.onHolidayAdded(h);
+                    } else {
+                        view.showMessage("Failed to save the holiday!");
+                    }
                 }
                 view.setEnableButtons(true);
             }

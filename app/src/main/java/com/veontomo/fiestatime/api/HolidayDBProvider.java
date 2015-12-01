@@ -17,7 +17,7 @@ public class HolidayDBProvider implements IProvider<Holiday> {
 
     @Override
     public long save(Holiday holiday) {
-        return mStorage.save(holiday.name, holiday.nextOccurrence, holiday.periodicity);
+        return mStorage.save(holiday);
     }
 
 

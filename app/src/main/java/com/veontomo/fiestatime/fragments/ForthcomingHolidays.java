@@ -128,6 +128,16 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
 
     }
 
+    /**
+     * Updates a holiday
+     *
+     * @param h
+     */
+    @Override
+    public void updateHoliday(Holiday h) {
+        mPresenter.updateHoliday(h);
+    }
+
 
     public interface OnFragmentInteractionListener {
     }

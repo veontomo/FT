@@ -144,6 +144,16 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
         }
     }
 
+    /**
+     * Updates a holiday
+     *
+     * @param h
+     */
+    @Override
+    public void updateHoliday(Holiday h) {
+        mPresenter.updateHoliday(h);
+    }
+
 
     public interface onActions {
         void onHolidayClicked(Holiday h);

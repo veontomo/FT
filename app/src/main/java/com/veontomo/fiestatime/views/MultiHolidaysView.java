@@ -23,4 +23,10 @@ public interface MultiHolidaysView extends MVPView {
      * @param holiday
      */
     void onHolidayClick(Holiday holiday);
+
+    /**
+     * Updates a holiday
+     * @param h
+     */
+    void updateHoliday(Holiday h);
 }

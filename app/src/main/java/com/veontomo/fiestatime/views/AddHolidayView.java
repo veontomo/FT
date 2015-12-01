@@ -16,6 +16,8 @@ public interface AddHolidayView extends MVPView {
 
     void onHolidayAdded(Holiday h);
 
+    void onHolidayUpdated(Holiday h);
+
     void load(Holiday h);
 
     /**
@@ -23,4 +25,5 @@ public interface AddHolidayView extends MVPView {
      * @param status true to enable buttons, false to disable them
      */
     void setEnableButtons(boolean status);
+
 }
