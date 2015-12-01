@@ -27,13 +27,14 @@ public class HolidayDBProvider implements IProvider<Holiday> {
     }
 
     /**
-     * Returns forthcoming holiday
+     * Returns a holiday that comes first after given time
+     * @param time time in milliseconds
      *
      * @return
      */
     @Override
-    public Holiday getNearest() {
-        return mStorage.getNearest();
+    public Holiday getNearest(long time) {
+        return mStorage.getNearest(time);
 
     }
 

@@ -118,12 +118,13 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns the nearest holiday
+     * Returns the nearest holiday that occurs after given time
+     * @param time time in milliseconds
      * @return
      */
-    public Holiday getNearest() {
-        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC LIMIT 1";
-        List<Holiday> first = getHolidaysByQuery(query, null);
+    public Holiday getNearest(long time) {
+        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE "  + HolidayEntry.COLUMN_NEXT + " > ? ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC LIMIT 1";
+        List<Holiday> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
         if (first != null && first.size() > 0){
             return first.get(0);
         }

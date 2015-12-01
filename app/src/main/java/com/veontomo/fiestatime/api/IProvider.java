@@ -25,7 +25,7 @@ public interface IProvider<T> {
      * Returns nearest holidays
      * @return
      */
-    T getNearest();
+    T getNearest(long time);
 
     /**
      * Returns a list of holidays whose date should be adjusted

@@ -33,7 +33,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
             h.synchronize(time);
             itemProvider.update(h);
         }
-        Holiday holiday = itemProvider.getNearest();
+        Holiday holiday = itemProvider.getNearest(time);
         if (holiday != null) {
             updateProvider(holiday);
         }
@@ -44,7 +44,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      * Updates provider data based on what holidays is coming.
      */
     private void updateProvider(@NonNull Holiday holiday) {
-        int days = (int) (holiday.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY;
+        int days = (int) ((holiday.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY);
         provider.setNearest(days);
         provider.setNextNearest(days + 8);
         provider.setDescription(holiday.name);
