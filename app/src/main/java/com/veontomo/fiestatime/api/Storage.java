@@ -130,6 +130,33 @@ public class Storage extends SQLiteOpenHelper {
         return null;
     }
 
+    /**
+     * Returns holidays that turn out to be before the given time
+     * @param time time in milliseconds
+     */
+    public List<Holiday> getHolidaysBefore(long time) {
+        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE " + HolidayEntry.COLUMN_NEXT + " < ?";
+        return getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+    }
+
+    /**
+     * Updates a record that is already present in the storage
+     * @param item
+     */
+    public boolean update(Holiday item) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values;
+        int rows;
+        values = new ContentValues();
+        values.put(HolidayEntry.COLUMN_NAME, item.name);
+        values.put(HolidayEntry.COLUMN_NEXT, item.nextOccurrence);
+        values.put(HolidayEntry.COLUMN_PERIODICITY, item.periodicity);
+        rows = db.update(HolidayEntry.TABLE_NAME, values, HolidayEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
+        db.close();
+        return rows == 1;
+
+    }
+
 
     /**
      * Various Proverbs-table related queries

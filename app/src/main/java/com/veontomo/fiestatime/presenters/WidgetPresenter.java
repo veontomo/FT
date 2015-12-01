@@ -2,7 +2,6 @@ package com.veontomo.fiestatime.presenters;
 
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IProvider;
-import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
 import com.veontomo.fiestatime.views.MVPView;
 

@@ -22,9 +22,22 @@ public interface IProvider<T> {
 
 
     /**
-     * Returns nearest holidaysю
+     * Returns nearest holidays
      * @return
      */
     T getNearest();
 
+    /**
+     * Returns a list of holidays whose date should be adjusted
+     * @param
+     */
+    List<T> toAdjustDate(long time);
+
+    /**
+     * Updates record that is  already present in the storage.
+     *
+     * Return true if the update is successful, false - otherwise
+     * @param item
+     */
+    boolean update(T item);
 }

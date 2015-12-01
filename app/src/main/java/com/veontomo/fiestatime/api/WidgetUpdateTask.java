@@ -5,33 +5,34 @@ import android.support.annotation.NonNull;
 
 import com.veontomo.fiestatime.presenters.WidgetPresenter;
 
-import java.util.Calendar;
-import java.util.Random;
+import java.util.List;
 
 /**
  * Updates the state of the widget in the asynchronous manner.
  */
-public class WidgetUpdateTask extends AsyncTask<Void, Void, Void>{
+public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
 
     /**
      * The number of milliseconds in a day
      */
     private static final int MILLISEC_IN_DAY = 1000 * 60 * 60 * 24;
-    /**
-     * a mock for the forthcoming holiday names
-     */
-    private final String[] mockHolidays = new String[]{"New Year", "holiday", "Saturday", "Birthday"};
 
     private final WidgetPresenter provider;
     private final IProvider<Holiday> itemProvider;
 
-    public WidgetUpdateTask(WidgetPresenter caller, IProvider<Holiday> itemProvider){
+    public WidgetUpdateTask(WidgetPresenter caller, IProvider<Holiday> itemProvider) {
         this.provider = caller;
         this.itemProvider = itemProvider;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
+        long time = System.currentTimeMillis();
+        List<Holiday> holidays = itemProvider.toAdjustDate(System.currentTimeMillis());
+        for (Holiday h : holidays){
+            h.synchronize(time);
+            itemProvider.update(h);
+        }
         Holiday holiday = itemProvider.getNearest();
         if (holiday != null) {
             updateProvider(holiday);
@@ -50,7 +51,9 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void>{
     }
 
     @Override
-    public void onPostExecute(Void v){
+    public void onPostExecute(Void v) {
         this.provider.onUpdated();
-    };
+    }
+
+    ;
 }
