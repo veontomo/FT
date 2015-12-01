@@ -118,6 +118,7 @@ public class Holiday {
      *     it is nextOccurrence time turns out to be less than given time.
      */
     public boolean shouldAdjustDate(long time) {
-        return (periodicity != ONCE) && (nextOccurrence < time);
+        boolean b = (periodicity != ONCE) && (nextOccurrence < time);
+        return b;
     }
 }
