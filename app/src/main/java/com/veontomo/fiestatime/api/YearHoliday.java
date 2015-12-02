@@ -2,24 +2,10 @@ package com.veontomo.fiestatime.api;
 
 import java.util.Calendar;
 
-import javax.annotation.Nonnull;
-
 /**
- * Represents a holiday with week periodicity
- *
+ *  Represents a holiday with year periodicity
  */
-public class WeekHoliday extends Holiday{
-
-    public WeekHoliday(String name, long next) {
-        this(-1, name, next);
-    }
-
-    public WeekHoliday(long id, @Nonnull String name, long next) {
-        this.id = id;
-        this.name = name;
-        this.nextOccurrence = next;
-    }
-
+public class YearHoliday extends Holiday {
     /**
      * Set the holiday date such that its next occurrence is after given time based in its periodicity.
      *
@@ -30,7 +16,7 @@ public class WeekHoliday extends Holiday{
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(this.nextOccurrence);
         while (nextOccurrence < time) {
-            c.add(Calendar.WEEK_OF_YEAR, 1);
+            c.add(Calendar.YEAR, 1);
             nextOccurrence = c.getTimeInMillis();
         }
     }
@@ -42,6 +28,6 @@ public class WeekHoliday extends Holiday{
      */
     @Override
     public boolean shouldAdjustDate(long time) {
-        return nextOccurrence < time;
+        return false;
     }
 }

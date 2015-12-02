@@ -3,7 +3,7 @@ package com.veontomo.fiestatime.api;
 import java.util.Calendar;
 
 /**
- * Represents a holiday with monthly periodicity
+ * Represents a holiday with month periodicity
  *
  */
 public class MonthHoliday extends Holiday {
