@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 /**
  *
  */
-public class HolidayTest extends TestCase {
+public class SingleHolidayTest extends TestCase {
 
     SingleHoliday h1, h2;
 
@@ -37,6 +37,14 @@ public class HolidayTest extends TestCase {
 
     public void testSingleHolidayNextWithoutId() {
         assertEquals("SingleHoliday next occurrence must be equal to 12345", h2.nextOccurrence, 834);
+    }
+
+    public void testSerializeWithId() {
+        assertEquals("SingleHoliday#22#12345#Saturday night", h1.serialize());
+    }
+
+    public void testSerializeWithoutId() {
+        assertEquals("SingleHoliday#-1#834#Xmas", h2.serialize());
     }
 
 
