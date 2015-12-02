@@ -2,11 +2,34 @@ package com.veontomo.fiestatime.api;
 
 import java.util.Calendar;
 
+import javax.annotation.Nonnull;
+
 /**
  * Represents a holiday with month periodicity
- *
  */
 public class MonthHoliday extends Holiday {
+
+    public MonthHoliday(String name, long next) {
+        this(-1, name, next);
+    }
+
+    public MonthHoliday(long id, @Nonnull String name, long next) {
+        this.id = id;
+        this.name = name;
+        this.nextOccurrence = next;
+    }
+
+    /**
+     * Returns the serialized version of the instance.
+     *
+     * @return
+     */
+    @Override
+    public String serialize() {
+        String separator = "#";
+        return "MonthHoliday" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+    }
+
     /**
      * Set the holiday date such that its next occurrence is after given time based in its periodicity.
      *

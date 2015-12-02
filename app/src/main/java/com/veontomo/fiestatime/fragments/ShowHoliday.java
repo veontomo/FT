@@ -20,7 +20,7 @@ import java.util.Date;
  * {@link ShowHolidayActions} interface
  * to handle interaction events.
  * Use the {@link ShowHoliday#newInstance} factory method to
- * create an instance of this fragment.
+ * produce an instance of this fragment.
  */
 public class ShowHoliday extends Fragment {
     private static final String NAME_TOKEN = "name";

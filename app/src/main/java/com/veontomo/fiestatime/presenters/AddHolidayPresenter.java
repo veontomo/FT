@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.FactoryHoliday;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.views.AddHolidayView;
@@ -130,8 +131,10 @@ public class AddHolidayPresenter implements MVPPresenter {
                     return;
                 }
                 Holiday h;
+                FactoryHoliday factory = new FactoryHoliday();
                 if (id != -1) {
-                    h = new Holiday(id, name, nextOccurrence, pos);
+                    h = factory.produce();
+//                    h = new Holiday(id, name, nextOccurrence, pos);
                     if (holidayProvider.update(h)) {
                         view.onHolidayUpdated(h);
                     }
@@ -213,10 +216,10 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public void load(Holiday h) {
-        this.name = h.name;
-        this.date = format.format(h.nextOccurrence);
-        this.periodicity = h.periodicity;
-        this.id = h.id;
+        this.name = h.getName();
+        this.date = format.format(h.getNextOccurrence());
+        this.periodicity = h.getPeriodicity();
+        this.id = h.getId();
     }
 
     public static class DatePickerFragment extends DialogFragment

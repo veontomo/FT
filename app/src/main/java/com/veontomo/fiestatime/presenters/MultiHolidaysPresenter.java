@@ -3,6 +3,7 @@ package com.veontomo.fiestatime.presenters;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.FactoryHoliday;
 import com.veontomo.fiestatime.api.Holiday;
 import com.veontomo.fiestatime.api.ITask;
 import com.veontomo.fiestatime.views.MVPView;
@@ -67,8 +68,9 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     private ArrayList<Holiday> deserialize(String[] items) {
         ArrayList<Holiday> result = new ArrayList<>();
         Holiday h;
+        FactoryHoliday factory = new FactoryHoliday();
         for (String item : items) {
-            h = Holiday.deserialize(item);
+            h = factory.produce(item);
             if (h != null) {
                 result.add(h);
             } else {
@@ -127,7 +129,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
 
     public void updateHoliday(Holiday h) {
         for (Holiday holiday : this.holidays) {
-            if (holiday.id == h.id) {
+            if (holiday.getId() == h.getId()) {
                 int pos = this.holidays.indexOf(holiday);
                 this.holidays.set(pos, h);
                 view.updateViews();

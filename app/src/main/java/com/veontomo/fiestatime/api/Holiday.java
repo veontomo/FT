@@ -13,13 +13,21 @@ import javax.annotation.Nonnull;
  *
  */
 public abstract class Holiday {
-    /**
-     * A string used to serialize Holiday instance
-     */
-    private final static String SEPARATOR = "#";
-
     protected String name;
     protected long nextOccurrence;
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getNextOccurrence() {
+        return nextOccurrence;
+    }
+
     protected long id;
 
     /**
@@ -33,31 +41,11 @@ public abstract class Holiday {
     }
 
     /**
-     * Naive version of the serialization of a Holiday instance
+     * Returns the serialized version of the instance.
      * @return
      */
-    public String serialize() {
-        return String.valueOf(id) + SEPARATOR + String.valueOf(nextOccurrence) + SEPARATOR + String.valueOf(periodicity) + SEPARATOR + name;
-    }
+    public abstract String serialize();
 
-    /**
-     * Creates a holiday instance from a string.
-     * It is inverse procedure to {@link #serialize()}.
-     * @param holidayStr
-     * @return
-     */
-    public static Holiday deserialize(String holidayStr){
-        String[] arr = holidayStr.split(SEPARATOR, -2);
-        Holiday h = null;
-        if (arr.length == 4){
-            long id = Long.parseLong(arr[0], 10);
-            long next = Long.parseLong(arr[1], 10);
-            int periodicity = Integer.parseInt(arr[2]);
-            String name = arr[3];
-            h = new Holiday(id, name, next, periodicity);
-        }
-        return h;
-    }
 
     /**
      * Set the holiday date such that its next occurrence is after given time based in its periodicity.
