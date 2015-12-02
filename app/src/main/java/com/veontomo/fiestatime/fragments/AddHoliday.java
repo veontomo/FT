@@ -23,7 +23,6 @@ import com.veontomo.fiestatime.views.AddHolidayView;
 
 
 public class AddHoliday extends Fragment implements AddHolidayView {
-
     private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;

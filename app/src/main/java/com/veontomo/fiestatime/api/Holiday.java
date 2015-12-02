@@ -57,4 +57,6 @@ public abstract class Holiday {
      * Returns true if the holiday date should be adjusted and false otherwise.
      */
     public abstract boolean shouldAdjustDate(long time);
+
+
 }

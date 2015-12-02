@@ -69,12 +69,14 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Holiday holiday) {
         SQLiteDatabase db = getWritableDatabase();
+        FactoryHoliday factory = new FactoryHoliday();
+        int periodicity = factory.indexOf(holiday.getClass().getCanonicalName());
         ContentValues values;
         long id;
         values = new ContentValues();
         values.put(HolidayEntry.COLUMN_NAME, holiday.name);
         values.put(HolidayEntry.COLUMN_NEXT, holiday.nextOccurrence);
-        values.put(HolidayEntry.COLUMN_PERIODICITY, holiday.periodicity);
+        values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
         id = db.insert(HolidayEntry.TABLE_NAME, null, values);
         db.close();
         return id;
@@ -93,6 +95,7 @@ public class Storage extends SQLiteOpenHelper {
      * Execute given query against the database
      */
     private List<Holiday> getHolidaysByQuery(String query, String[] args) {
+        FactoryHoliday factory = new FactoryHoliday();
         SQLiteDatabase db = getReadableDatabase();
         List<Holiday> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -106,7 +109,7 @@ public class Storage extends SQLiteOpenHelper {
             int id;
             do {
                 id = (int) cursor.getLong(columnID);
-                item = new Holiday(id, cursor.getString(columnName), cursor.getLong(columnNext), cursor.getInt(columnPeriod));
+                item = factory.produce(cursor.getInt(columnPeriod), id, cursor.getString(columnName), cursor.getLong(columnNext));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -143,13 +146,15 @@ public class Storage extends SQLiteOpenHelper {
      * @param item
      */
     public boolean update(Holiday item) {
+        FactoryHoliday factory = new FactoryHoliday();
+        int periodicity = factory.indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
         int rows;
         values = new ContentValues();
         values.put(HolidayEntry.COLUMN_NAME, item.name);
         values.put(HolidayEntry.COLUMN_NEXT, item.nextOccurrence);
-        values.put(HolidayEntry.COLUMN_PERIODICITY, item.periodicity);
+        values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
         rows = db.update(HolidayEntry.TABLE_NAME, values, HolidayEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
         db.close();
         return rows == 1;

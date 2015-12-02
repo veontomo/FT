@@ -17,12 +17,16 @@ import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Implementation of {@link MVPPresenter} for adding holidays
  */
 public class AddHolidayPresenter implements MVPPresenter {
+
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
      * name of the token under which the presenter saves the holiday's name in the bundle
@@ -130,19 +134,16 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                Holiday h;
                 FactoryHoliday factory = new FactoryHoliday();
+                Holiday h = factory.produce(pos, id, name, nextOccurrence);
                 if (id != -1) {
-                    h = factory.produce();
-//                    h = new Holiday(id, name, nextOccurrence, pos);
                     if (holidayProvider.update(h)) {
                         view.onHolidayUpdated(h);
                     }
                 } else {
-                    h = new Holiday(name, nextOccurrence, pos);
                     id = holidayProvider.save(h);
                     if (id != -1) {
-                        h = new Holiday(id, name, nextOccurrence, pos);
+                        h = factory.produce(pos, id, name, nextOccurrence);
                         view.onHolidayAdded(h);
                     } else {
                         view.showMessage("Failed to save the holiday!");
@@ -216,11 +217,13 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public void load(Holiday h) {
+        FactoryHoliday factory = new FactoryHoliday();
         this.name = h.getName();
         this.date = format.format(h.getNextOccurrence());
-        this.periodicity = h.getPeriodicity();
+        this.periodicity = factory.indexOf(h.getClass().getCanonicalName());
         this.id = h.getId();
     }
+
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

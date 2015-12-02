@@ -30,6 +30,17 @@ public class SingleHoliday extends Holiday {
     }
 
     /**
+     * Returns the serialized version of the instance.
+     *
+     * @return
+     */
+    @Override
+    public String serialize() {
+        String separator = "#";
+        return "SingleHoliday" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+    }
+
+    /**
      * For single-occurring holidays no date adjustment is needed.
      *
      * @param time time in milliseconds
