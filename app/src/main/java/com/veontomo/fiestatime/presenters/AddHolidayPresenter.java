@@ -9,21 +9,18 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.api.FactoryHoliday;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.EventFactory;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 
 /**
- * Implementation of {@link MVPPresenter} for adding holidays
+ * Implementation of {@link MVPPresenter} for adding mEvents
  */
 public class AddHolidayPresenter implements MVPPresenter {
 
@@ -51,21 +48,21 @@ public class AddHolidayPresenter implements MVPPresenter {
     private String date;
 
     /**
-     * Holiday name
+     * Event name
      */
     private String name;
 
     /**
-     * Holiday periodicity
+     * Event periodicity
      */
     private int periodicity;
 
     /**
-     * Holiday id.
+     * Event id.
      */
     private long id;
 
-    private IProvider<Holiday> holidayProvider;
+    private IProvider<Event> holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
@@ -134,8 +131,8 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                FactoryHoliday factory = new FactoryHoliday();
-                Holiday h = factory.produce(pos, id, name, nextOccurrence);
+                EventFactory factory = new EventFactory();
+                Event h = factory.produce(pos, id, name, nextOccurrence);
                 if (id != -1) {
                     if (holidayProvider.update(h)) {
                         view.onHolidayUpdated(h);
@@ -155,7 +152,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     /**
-     * Set a provider of the holidays
+     * Set a provider of the mEvents
      */
     public void setHolidayProvider(IProvider hp) {
         this.holidayProvider = hp;
@@ -216,8 +213,8 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     }
 
-    public void load(Holiday h) {
-        FactoryHoliday factory = new FactoryHoliday();
+    public void load(Event h) {
+        EventFactory factory = new EventFactory();
         this.name = h.getName();
         this.date = format.format(h.getNextOccurrence());
         this.periodicity = factory.indexOf(h.getClass().getCanonicalName());

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  * @author veontomo@gmail.com
  * @since xx.xx
  */
-public class HolidayDBProviderTest extends TestCase {
+public class EventDBProviderTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();

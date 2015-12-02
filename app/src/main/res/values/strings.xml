@@ -4,8 +4,8 @@
     <string name="explanation">Static Text</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="holiday_logo">logo of the holiday</string>
-    <string name="holiday_name">name of the holiday</string>
+    <string name="holiday_logo">logo of the event</string>
+    <string name="holiday_name">name of the event</string>
     <string name="holiday_time_left">Time left</string>
     <string name="widget_name">Fiesta Time Widget</string>
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Performs operations with saving and retrieving holidays from database.
+ * Performs operations with saving and retrieving mEvents from database.
  */
 public class Storage extends SQLiteOpenHelper {
     /**
@@ -60,22 +60,22 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Saves the holiday.
+     * Saves the event.
      * <p/>
-     * Returns id of the record that corresponds to the holiday, or -1 in case of failure.
+     * Returns id of the record that corresponds to the event, or -1 in case of failure.
      *
-     * @param holiday
+     * @param event
      * @return id of the record or -1
      */
-    public long save(Holiday holiday) {
+    public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        FactoryHoliday factory = new FactoryHoliday();
-        int periodicity = factory.indexOf(holiday.getClass().getCanonicalName());
+        EventFactory factory = new EventFactory();
+        int periodicity = factory.indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
         values = new ContentValues();
-        values.put(HolidayEntry.COLUMN_NAME, holiday.name);
-        values.put(HolidayEntry.COLUMN_NEXT, holiday.nextOccurrence);
+        values.put(HolidayEntry.COLUMN_NAME, event.name);
+        values.put(HolidayEntry.COLUMN_NEXT, event.nextOccurrence);
         values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
         id = db.insert(HolidayEntry.TABLE_NAME, null, values);
         db.close();
@@ -83,10 +83,10 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns a list of holidays that are present in the storage in chronological order
+     * Returns a list of mEvents that are present in the storage in chronological order
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
-    public List<Holiday> getHolidays() {
+    public List<Event> getHolidays() {
         String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC";
         return getHolidaysByQuery(query, null);
     }
@@ -94,10 +94,10 @@ public class Storage extends SQLiteOpenHelper {
     /**
      * Execute given query against the database
      */
-    private List<Holiday> getHolidaysByQuery(String query, String[] args) {
-        FactoryHoliday factory = new FactoryHoliday();
+    private List<Event> getHolidaysByQuery(String query, String[] args) {
+        EventFactory factory = new EventFactory();
         SQLiteDatabase db = getReadableDatabase();
-        List<Holiday> items = new ArrayList<>();
+        List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
         int columnID = cursor.getColumnIndex(HolidayEntry._ID);
         int columnName = cursor.getColumnIndex(HolidayEntry.COLUMN_NAME);
@@ -105,7 +105,7 @@ public class Storage extends SQLiteOpenHelper {
         int columnPeriod = cursor.getColumnIndex(HolidayEntry.COLUMN_PERIODICITY);
 
         if (cursor.moveToFirst()) {
-            Holiday item;
+            Event item;
             int id;
             do {
                 id = (int) cursor.getLong(columnID);
@@ -123,9 +123,9 @@ public class Storage extends SQLiteOpenHelper {
      * @param time time in milliseconds
      * @return
      */
-    public Holiday getNearest(long time) {
+    public Event getNearest(long time) {
         String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE "  + HolidayEntry.COLUMN_NEXT + " > ? ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC LIMIT 1";
-        List<Holiday> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+        List<Event> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
         if (first != null && first.size() > 0){
             return first.get(0);
         }
@@ -133,10 +133,10 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns holidays that turn out to be before the given time
+     * Returns mEvents that turn out to be before the given time
      * @param time time in milliseconds
      */
-    public List<Holiday> getHolidaysBefore(long time) {
+    public List<Event> getHolidaysBefore(long time) {
         String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE " + HolidayEntry.COLUMN_NEXT + " < ?";
         return getHolidaysByQuery(query, new String[]{String.valueOf(time)});
     }
@@ -145,8 +145,8 @@ public class Storage extends SQLiteOpenHelper {
      * Updates a record that is already present in the storage
      * @param item
      */
-    public boolean update(Holiday item) {
-        FactoryHoliday factory = new FactoryHoliday();
+    public boolean update(Event item) {
+        EventFactory factory = new EventFactory();
         int periodicity = factory.indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;

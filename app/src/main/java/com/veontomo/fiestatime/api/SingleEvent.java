@@ -5,12 +5,12 @@ import javax.annotation.Nonnull;
 /**
  * Represents a holiday that occurs just once
  */
-public class SingleHoliday extends Holiday {
-    public SingleHoliday(String name, long next) {
+public class SingleEvent extends Event {
+    public SingleEvent(String name, long next) {
         this(-1, name, next);
     }
 
-    public SingleHoliday(long id, @Nonnull String name, long next) {
+    public SingleEvent(long id, @Nonnull String name, long next) {
         this.id = id;
         this.name = name;
         this.nextOccurrence = next;
@@ -20,7 +20,7 @@ public class SingleHoliday extends Holiday {
     /**
      * Returns true if the holiday date should be adjusted and false otherwise.
      * <p/>
-     * For single-occurring holidays no date adjustment is needed.
+     * For single-occurring mEvents no date adjustment is needed.
      *
      * @param time
      */
@@ -37,11 +37,11 @@ public class SingleHoliday extends Holiday {
     @Override
     public String serialize() {
         String separator = "#";
-        return "SingleHoliday" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+        return "SingleEvent" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
     }
 
     /**
-     * For single-occurring holidays no date adjustment is needed.
+     * For single-occurring mEvents no date adjustment is needed.
      *
      * @param time time in milliseconds
      */

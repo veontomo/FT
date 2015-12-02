@@ -5,24 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provider of holidays: retrieves the holidays (either from internet or from calendar).
+ * Provider of mEvents: retrieves the mEvents (either from internet or from calendar).
  */
-public class HolidayDBProvider implements IProvider<Holiday> {
+public class EventDBProvider implements IProvider<Event> {
 
     private final Storage mStorage;
 
-    public HolidayDBProvider(Storage storage){
+    public EventDBProvider(Storage storage){
         this.mStorage = storage;
     }
 
     @Override
-    public long save(Holiday holiday) {
-        return mStorage.save(holiday);
+    public long save(Event event) {
+        return mStorage.save(event);
     }
 
 
     @Override
-    public List<Holiday> getItems() {
+    public List<Event> getItems() {
         return mStorage.getHolidays();
     }
 
@@ -33,23 +33,23 @@ public class HolidayDBProvider implements IProvider<Holiday> {
      * @return
      */
     @Override
-    public Holiday getNearest(long time) {
+    public Event getNearest(long time) {
         return mStorage.getNearest(time);
 
     }
 
     /**
-     * Returns a list of holidays whose dates should be adjusted.
+     * Returns a list of mEvents whose dates should be adjusted.
      * @param time time in milliseconds
      */
     @Override
-    public List<Holiday> toAdjustDate(long time) {
-        List<Holiday> passed = mStorage.getHolidaysBefore(time);
+    public List<Event> toAdjustDate(long time) {
+        List<Event> passed = mStorage.getHolidaysBefore(time);
         if (passed == null || passed.size() == 0){
             return null;
         }
-        List<Holiday> result = new ArrayList<>();
-        for (Holiday h : passed){
+        List<Event> result = new ArrayList<>();
+        for (Event h : passed){
             if (h.shouldAdjustDate(time)){
                 result.add(h);
             }
@@ -64,7 +64,7 @@ public class HolidayDBProvider implements IProvider<Holiday> {
      * @param item
      */
     @Override
-    public boolean update(Holiday item) {
+    public boolean update(Event item) {
         return mStorage.update(item);
     }
 

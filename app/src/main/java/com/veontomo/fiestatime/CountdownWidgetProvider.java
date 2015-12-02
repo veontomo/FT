@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.WidgetPresenter;
 import com.veontomo.fiestatime.views.MVPView;
@@ -40,7 +40,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         this.mWidgetIds = appWidgetIds;
         this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         this.mContext = context;
-        this.mPresenter.setItemProvider(new HolidayDBProvider(new Storage(this.mContext)));
+        this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
         this.mPresenter.update();
     }
 

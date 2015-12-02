@@ -9,14 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
 
 
 /**
  */
-public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
+public class ForthcomingEvents extends Fragment implements MultiHolidaysView {
 
     private OnFragmentInteractionListener mListener;
 
@@ -24,7 +24,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
 
     private TextView mTextView;
 
-    public ForthcomingHolidays() {
+    public ForthcomingEvents() {
         // Required empty public constructor
     }
 
@@ -58,7 +58,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
     @Override
     public void updateViews() {
         // TODO
-        mTextView.setText("see ForthcomingHolidays class");
+        mTextView.setText("see ForthcomingEvents class");
     }
 
     /**
@@ -103,7 +103,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
      * @param h
      */
     @Override
-    public void addHoliday(Holiday h) {
+    public void addHoliday(Event h) {
         // TODO
     }
 
@@ -119,12 +119,12 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
     }
 
     /**
-     * This method is called when a click on a given holiday occurs
+     * This method is called when a click on a given event occurs
      *
-     * @param holiday
+     * @param event
      */
     @Override
-    public void onHolidayClick(Holiday holiday) {
+    public void onHolidayClick(Event event) {
 
     }
 
@@ -134,7 +134,7 @@ public class ForthcomingHolidays extends Fragment implements MultiHolidaysView {
      * @param h
      */
     @Override
-    public void updateHoliday(Holiday h) {
+    public void updateHoliday(Event h) {
         mPresenter.updateHoliday(h);
     }
 

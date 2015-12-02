@@ -9,10 +9,10 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 /**
- * Holiday
+ * Event
  *
  */
-public abstract class Holiday {
+public abstract class Event {
     protected String name;
     protected long nextOccurrence;
 

@@ -7,13 +7,13 @@ import javax.annotation.Nonnull;
 /**
  * Represents a holiday with week periodicity
  */
-public class WeekHoliday extends Holiday {
+public class WeekEvent extends Event {
 
-    public WeekHoliday(String name, long next) {
+    public WeekEvent(String name, long next) {
         this(-1, name, next);
     }
 
-    public WeekHoliday(long id, @Nonnull String name, long next) {
+    public WeekEvent(long id, @Nonnull String name, long next) {
         this.id = id;
         this.name = name;
         this.nextOccurrence = next;
@@ -27,7 +27,7 @@ public class WeekHoliday extends Holiday {
     @Override
     public String serialize() {
         String separator = "#";
-        return "WeekHoliday" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+        return "WeekEvent" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
     }
 
 

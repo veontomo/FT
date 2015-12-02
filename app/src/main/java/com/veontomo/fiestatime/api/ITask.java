@@ -5,7 +5,7 @@ import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 /**
  * Task interface.
  *
- * Retrieves holidays from storage.
+ * Retrieves mEvents from storage.
  */
 public interface ITask {
     void execute();

@@ -7,7 +7,7 @@ import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import java.util.List;
 
 /**
- * Task that retrieves all holidays from the storage
+ * Task that retrieves all mEvents from the storage
  */
 public class RetrieveAllHolidaysTask implements ITask {
 
@@ -35,7 +35,7 @@ public class RetrieveAllHolidaysTask implements ITask {
     }
 
 
-    private class HolidayLoader extends AsyncTask<Void, Void, List<Holiday>> {
+    private class HolidayLoader extends AsyncTask<Void, Void, List<Event>> {
 
         private final IProvider provider;
         private final MultiHolidaysPresenter presenter;
@@ -46,13 +46,13 @@ public class RetrieveAllHolidaysTask implements ITask {
         }
 
         @Override
-        protected List<Holiday> doInBackground(Void... params) {
+        protected List<Event> doInBackground(Void... params) {
             return provider.getItems();
         }
 
         @Override
-        public void onPostExecute(List<Holiday> holidays) {
-            presenter.load(holidays);
+        public void onPostExecute(List<Event> events) {
+            presenter.load(events);
         }
     }
 

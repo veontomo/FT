@@ -6,23 +6,23 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Holiday Factory
+ * Event Factory
  */
-public class FactoryHoliday {
+public class EventFactory {
     /**
      * list of available holiday types (
      */
-    private static String[] mapper = new String[]{"SingleHoliday", "WeekHoliday", "MonthHoliday", "YearHoliday"};
+    private static String[] mapper = new String[]{"SingleEvent", "WeekEvent", "MonthEvent", "YearEvent"};
 
     /**
-     * Returns an instance of one of the subclasses of {@link Holiday} based on given string
+     * Returns an instance of one of the subclasses of {@link Event} based on given string
      *
      * @param data
      * @return
      */
-    public Holiday produce(String data) {
+    public Event produce(String data) {
         String[] arr = data.split("#", -2);
-        Holiday h = null;
+        Event h = null;
         if (arr.length == 4) {
             String className = arr[0];
             long id = Long.parseLong(arr[1], 10);
@@ -30,7 +30,7 @@ public class FactoryHoliday {
             String name = arr[3];
             try {
                 Class cl = Class.forName(className);
-                Constructor<Holiday> c = cl.getConstructor(new Class[]{Long.TYPE, String.class, Long.TYPE});
+                Constructor<Event> c = cl.getConstructor(new Class[]{Long.TYPE, String.class, Long.TYPE});
                 h = c.newInstance(id, name, next);
             } catch (ClassNotFoundException e) {
                 Logger.log("Failed to find class for " + className);
@@ -57,14 +57,14 @@ public class FactoryHoliday {
      * @param next
      * @return
      */
-    public Holiday produce(int type, long id, String name, long next) {
+    public Event produce(int type, long id, String name, long next) {
         // TODO
-        Holiday h = null;
+        Event h = null;
         return h;
     }
 
     /**
-     * Returns index at which {@link Holiday} subclasses are present in {@link #mapper}.
+     * Returns index at which {@link Event} subclasses are present in {@link #mapper}.
      * <br>
      * If nothing is found, -1 is returned.
      *

@@ -1,6 +1,6 @@
 package com.veontomo.fiestatime.presenters;
 
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
 import com.veontomo.fiestatime.views.MVPView;
@@ -24,7 +24,7 @@ public class WidgetPresenter {
      * String representation of the forthcoming holiday(s)
      */
     private String setDescription;
-    private IProvider<Holiday> mItemProvider;
+    private IProvider<Event> mItemProvider;
 
     public WidgetPresenter(MVPView view){
         this.view = view;
@@ -72,7 +72,7 @@ public class WidgetPresenter {
         setDescription = text;
     }
 
-    public void setItemProvider(IProvider<Holiday> itemProvider) {
+    public void setItemProvider(IProvider<Event> itemProvider) {
         mItemProvider = itemProvider;
     }
 }

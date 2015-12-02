@@ -5,19 +5,19 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 /**
- *  Represents a holiday with year periodicity
+ * Represents a holiday with month periodicity
  */
-public class YearHoliday extends Holiday {
-    public YearHoliday(String name, long next) {
+public class MonthEvent extends Event {
+
+    public MonthEvent(String name, long next) {
         this(-1, name, next);
     }
 
-    public YearHoliday(long id, @Nonnull String name, long next) {
+    public MonthEvent(long id, @Nonnull String name, long next) {
         this.id = id;
         this.name = name;
         this.nextOccurrence = next;
     }
-
 
     /**
      * Returns the serialized version of the instance.
@@ -27,7 +27,7 @@ public class YearHoliday extends Holiday {
     @Override
     public String serialize() {
         String separator = "#";
-        return "YearHoliday" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+        return "MonthEvent" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
     }
 
     /**
@@ -40,7 +40,7 @@ public class YearHoliday extends Holiday {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(this.nextOccurrence);
         while (nextOccurrence < time) {
-            c.add(Calendar.YEAR, 1);
+            c.add(Calendar.MONTH, 1);
             nextOccurrence = c.getTimeInMillis();
         }
     }
@@ -52,6 +52,8 @@ public class YearHoliday extends Holiday {
      */
     @Override
     public boolean shouldAdjustDate(long time) {
-        return false;
+        return nextOccurrence < time;
     }
+
+
 }

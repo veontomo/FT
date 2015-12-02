@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.RetrieveAllHolidaysTask;
-import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
@@ -23,29 +23,29 @@ import java.util.ArrayList;
 /**
  * Displays all available fragments
  */
-public class AllHolidays extends ListFragment implements MultiHolidaysView {
+public class AllEvents extends ListFragment implements MultiHolidaysView {
 
     private final MultiHolidaysPresenter mPresenter = new MultiHolidaysPresenter(this);
 
-    private ArrayAdapter<Holiday> adapter;
+    private ArrayAdapter<Event> adapter;
 
     private onActions hostingActivity;
 
-    public AllHolidays() {
+    public AllEvents() {
         // Required empty public constructor
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Logger.log("AllHolidays onActivityCreated");
-        ArrayList<Holiday> values = new ArrayList<>();
+        Logger.log("AllEvents onActivityCreated");
+        ArrayList<Event> values = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 
         Storage storage = new Storage(getActivity().getApplicationContext());
-        HolidayDBProvider provider = new HolidayDBProvider(storage);
+        EventDBProvider provider = new EventDBProvider(storage);
         RetrieveAllHolidaysTask task = new RetrieveAllHolidaysTask(provider);
         mPresenter.setTask(task);
         hostingActivity = (onActions) getActivity();
@@ -55,7 +55,7 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Logger.log("AllHolidays onCreateView");
+        Logger.log("AllEvents onCreateView");
         restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_holidays, container, false);
     }
@@ -63,7 +63,7 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
     @Override
     public void onStart() {
         super.onStart();
-        Logger.log("AllHolidays onStart");
+        Logger.log("AllEvents onStart");
         mPresenter.bindView(this);
     }
 
@@ -80,16 +80,16 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
 
     @Override
     public void updateViews() {
-        Logger.log("AllHolidays updateView");
+        Logger.log("AllEvents updateView");
         adapter.clear();
-        adapter.addAll(mPresenter.getHolidays());
+        adapter.addAll(mPresenter.getEvents());
         adapter.notifyDataSetChanged();
-        Logger.log("AllHolidays updateView is done");
+        Logger.log("AllEvents updateView is done");
     }
 
     @Override
     public void saveState(Bundle b) {
-        Logger.log("AllHolidays saveState");
+        Logger.log("AllEvents saveState");
         mPresenter.saveState(b);
     }
 
@@ -100,7 +100,7 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
      */
     @Override
     public void restoreState(Bundle b) {
-        Logger.log("AllHolidays restoreState");
+        Logger.log("AllEvents restoreState");
         mPresenter.restoreState(b);
     }
 
@@ -117,14 +117,14 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        Logger.log("AllHolidays onSaveInstanceState");
+        Logger.log("AllEvents onSaveInstanceState");
         saveState(b);
         super.onSaveInstanceState(b);
     }
 
     @Override
-    public void addHoliday(Holiday h) {
-        Logger.log("AllHolidays addHoliday");
+    public void addHoliday(Event h) {
+        Logger.log("AllEvents addHoliday");
         mPresenter.addHoliday(h);
     }
 
@@ -138,9 +138,9 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
         // TODO
     }
 
-    public void onHolidayClick(Holiday holiday) {
+    public void onHolidayClick(Event event) {
         if (hostingActivity != null) {
-            hostingActivity.onHolidayClicked(holiday);
+            hostingActivity.onHolidayClicked(event);
         }
     }
 
@@ -150,12 +150,12 @@ public class AllHolidays extends ListFragment implements MultiHolidaysView {
      * @param h
      */
     @Override
-    public void updateHoliday(Holiday h) {
+    public void updateHoliday(Event h) {
         mPresenter.updateHoliday(h);
     }
 
 
     public interface onActions {
-        void onHolidayClicked(Holiday h);
+        void onHolidayClicked(Event h);
     }
 }

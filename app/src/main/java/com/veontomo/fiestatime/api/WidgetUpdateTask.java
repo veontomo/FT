@@ -18,9 +18,9 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
     private static final int MILLISEC_IN_DAY = 1000 * 60 * 60 * 24;
 
     private final WidgetPresenter provider;
-    private final IProvider<Holiday> itemProvider;
+    private final IProvider<Event> itemProvider;
 
-    public WidgetUpdateTask(WidgetPresenter caller, IProvider<Holiday> itemProvider) {
+    public WidgetUpdateTask(WidgetPresenter caller, IProvider<Event> itemProvider) {
         this.provider = caller;
         this.itemProvider = itemProvider;
     }
@@ -28,26 +28,26 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         long time = System.currentTimeMillis();
-        List<Holiday> holidays = itemProvider.toAdjustDate(System.currentTimeMillis());
-        for (Holiday h : holidays){
+        List<Event> events = itemProvider.toAdjustDate(System.currentTimeMillis());
+        for (Event h : events){
             h.adjustDate(time);
             itemProvider.update(h);
         }
-        Holiday holiday = itemProvider.getNearest(time);
-        if (holiday != null) {
-            updateProvider(holiday);
+        Event event = itemProvider.getNearest(time);
+        if (event != null) {
+            updateProvider(event);
         }
         return null;
     }
 
     /**
-     * Updates provider data based on what holidays is coming.
+     * Updates provider data based on what mEvents is coming.
      */
-    private void updateProvider(@NonNull Holiday holiday) {
-        int days = (int) ((holiday.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY);
+    private void updateProvider(@NonNull Event event) {
+        int days = (int) ((event.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY);
         provider.setNearest(days);
         provider.setNextNearest(days + 8);
-        provider.setDescription(holiday.name);
+        provider.setDescription(event.name);
     }
 
     @Override
