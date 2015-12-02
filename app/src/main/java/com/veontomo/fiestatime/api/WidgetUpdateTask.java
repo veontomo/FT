@@ -30,7 +30,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         long time = System.currentTimeMillis();
         List<Holiday> holidays = itemProvider.toAdjustDate(System.currentTimeMillis());
         for (Holiday h : holidays){
-            h.synchronize(time);
+            h.adjustDate(time);
             itemProvider.update(h);
         }
         Holiday holiday = itemProvider.getNearest(time);
