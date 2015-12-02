@@ -42,9 +42,13 @@ public abstract class Event {
 
     /**
      * Returns the serialized version of the instance.
+     *
      * @return
      */
-    public abstract String serialize();
+    public String serialize() {
+        final String separator = "#";
+        return getClass().getCanonicalName() + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+    }
 
 
     /**

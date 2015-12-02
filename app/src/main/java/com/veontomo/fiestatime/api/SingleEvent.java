@@ -29,16 +29,7 @@ public class SingleEvent extends Event {
         return false;
     }
 
-    /**
-     * Returns the serialized version of the instance.
-     *
-     * @return
-     */
-    @Override
-    public String serialize() {
-        String separator = "#";
-        return "SingleEvent" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
-    }
+
 
     /**
      * For single-occurring mEvents no date adjustment is needed.

@@ -18,18 +18,6 @@ public class YearEvent extends Event {
         this.nextOccurrence = next;
     }
 
-
-    /**
-     * Returns the serialized version of the instance.
-     *
-     * @return
-     */
-    @Override
-    public String serialize() {
-        String separator = "#";
-        return "YearEvent" + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
-    }
-
     /**
      * Set the holiday date such that its next occurrence is after given time based in its periodicity.
      *
