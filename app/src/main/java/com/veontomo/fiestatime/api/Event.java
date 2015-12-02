@@ -47,7 +47,7 @@ public abstract class Event {
      */
     public String serialize() {
         final String separator = "#";
-        return getClass().getCanonicalName() + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
+        return getClass().getSimpleName() + separator + String.valueOf(id) + separator + String.valueOf(nextOccurrence) + separator + name;
     }
 
 
