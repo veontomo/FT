@@ -7,15 +7,15 @@ import junit.framework.TestCase;
  */
 public class EventFactoryTest extends TestCase {
 
-    public void testProduce() throws Exception {
+    public void testProduce() {
 
     }
 
-    public void testProduce1() throws Exception {
+    public void testProduce1() {
 
     }
 
-    public void testIndexOf() throws Exception {
+    public void testIndexOf()  {
 
     }
 }

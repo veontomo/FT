@@ -3,7 +3,7 @@ package com.veontomo.fiestatime.api;
 import javax.annotation.Nonnull;
 
 /**
- * Represents a holiday that occurs just once
+ * Represents an event that occurs just once
  */
 public class SingleEvent extends Event {
     public SingleEvent(String name, long next) {
@@ -18,9 +18,9 @@ public class SingleEvent extends Event {
 
 
     /**
-     * Returns true if the holiday date should be adjusted and false otherwise.
+     * Returns true if the event date should be adjusted and false otherwise.
      * <p/>
-     * For single-occurring mEvents no date adjustment is needed.
+     * For single-occurring events no date adjustment is needed.
      *
      * @param time
      */
@@ -32,7 +32,7 @@ public class SingleEvent extends Event {
 
 
     /**
-     * For single-occurring mEvents no date adjustment is needed.
+     * For single-occurring events no date adjustment is needed.
      *
      * @param time time in milliseconds
      */
