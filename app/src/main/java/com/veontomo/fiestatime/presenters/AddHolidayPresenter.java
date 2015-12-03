@@ -10,7 +10,7 @@ import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.api.EventFactory;
+import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
@@ -23,6 +23,10 @@ import java.util.Calendar;
  * Implementation of {@link MVPPresenter} for adding mEvents
  */
 public class AddHolidayPresenter implements MVPPresenter {
+    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
+            "com.veontomo.fiestatime.api.WeekEvent",
+            "com.veontomo.fiestatime.api.MonthEvent",
+            "com.veontomo.fiestatime.api.YearEvent"};
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
@@ -131,7 +135,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                EventFactory factory = new EventFactory();
+                Factory<Event> factory = new Factory<>(classes);
                 Event h = factory.produce(pos, id, name, nextOccurrence);
                 if (id != -1) {
                     if (holidayProvider.update(h)) {
@@ -214,7 +218,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public void load(Event h) {
-        EventFactory factory = new EventFactory();
+        Factory factory = new Factory(classes);
         this.name = h.getName();
         this.date = format.format(h.getNextOccurrence());
         this.periodicity = factory.indexOf(h.getClass().getCanonicalName());

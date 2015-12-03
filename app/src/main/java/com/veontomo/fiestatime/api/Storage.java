@@ -14,6 +14,10 @@ import java.util.List;
  * Performs operations with saving and retrieving mEvents from database.
  */
 public class Storage extends SQLiteOpenHelper {
+    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
+            "com.veontomo.fiestatime.api.WeekEvent",
+            "com.veontomo.fiestatime.api.MonthEvent",
+            "com.veontomo.fiestatime.api.YearEvent"};
     /**
      * current version of the database
      */
@@ -69,7 +73,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        EventFactory factory = new EventFactory();
+        Factory factory = new Factory(classes);
         int periodicity = factory.indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
@@ -95,7 +99,7 @@ public class Storage extends SQLiteOpenHelper {
      * Execute given query against the database
      */
     private List<Event> getHolidaysByQuery(String query, String[] args) {
-        EventFactory factory = new EventFactory();
+        Factory<Event> factory = new Factory<>(classes);
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -146,7 +150,7 @@ public class Storage extends SQLiteOpenHelper {
      * @param item
      */
     public boolean update(Event item) {
-        EventFactory factory = new EventFactory();
+        Factory factory = new Factory(classes);
         int periodicity = factory.indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;

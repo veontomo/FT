@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.api.EventFactory;
+import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.ITask;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
@@ -15,6 +15,10 @@ import java.util.List;
 /**
  */
 public class MultiHolidaysPresenter implements MVPPresenter {
+    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
+            "com.veontomo.fiestatime.api.WeekEvent",
+            "com.veontomo.fiestatime.api.MonthEvent",
+            "com.veontomo.fiestatime.api.YearEvent"};
     private final static String HOLIDAYS_TOKEN = "mEvents";
     protected final MultiHolidaysView view;
     protected ArrayList<Event> mEvents;
@@ -68,7 +72,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     private ArrayList<Event> deserialize(String[] items) {
         ArrayList<Event> result = new ArrayList<>();
         Event h;
-        EventFactory factory = new EventFactory();
+        Factory<Event> factory = new Factory<>(classes);
         for (String item : items) {
             h = factory.produce(item);
             if (h != null) {
