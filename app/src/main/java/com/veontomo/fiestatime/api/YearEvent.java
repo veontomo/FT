@@ -34,12 +34,12 @@ public class YearEvent extends Event {
     }
 
     /**
-     * Returns true if the holiday date should be adjusted and false otherwise.
+     * Returns true if the event date should be adjusted and false otherwise.
      *
      * @param time
      */
     @Override
     public boolean shouldAdjustDate(long time) {
-        return false;
+        return this.nextOccurrence < time;
     }
 }
