@@ -20,6 +20,11 @@ public class MonthEventTest extends TestCase {
         event = new MonthEvent(34, "Tuesday", c.getTimeInMillis());
     }
 
+    public void testAssignDefaultIdIfNotSpecified(){
+        event = new MonthEvent("event without id", 2222222);
+        assertEquals(-1, event.getId());
+    }
+
     public void testShouldAdjustDateIfEventIsBeforeGivenTime() throws Exception {
         c.set(2015, 3, 10);
         assertTrue(event.shouldAdjustDate(c.getTimeInMillis()));
