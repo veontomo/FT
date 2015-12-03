@@ -135,8 +135,8 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                Factory<Event> factory = new Factory<>(classes);
-                Event h = factory.produce(pos, id, name, nextOccurrence);
+                Factory<Event> factory = new Factory<>();
+                Event h = factory.produce(classes[pos], id, name, nextOccurrence);
                 if (id != -1) {
                     if (holidayProvider.update(h)) {
                         view.onHolidayUpdated(h);
@@ -144,7 +144,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                 } else {
                     id = holidayProvider.save(h);
                     if (id != -1) {
-                        h = factory.produce(pos, id, name, nextOccurrence);
+                        h = factory.produce(classes[pos], id, name, nextOccurrence);
                         view.onHolidayAdded(h);
                     } else {
                         view.showMessage("Failed to save the holiday!");
@@ -218,11 +218,28 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     public void load(Event h) {
-        Factory factory = new Factory(classes);
         this.name = h.getName();
         this.date = format.format(h.getNextOccurrence());
-        this.periodicity = factory.indexOf(h.getClass().getCanonicalName());
+        this.periodicity = indexOf(h.getClass().getCanonicalName());
         this.id = h.getId();
+    }
+
+    /**
+     * Returns index at which given class is  present in {@link #classes}.
+     * <br>
+     * If nothing is found, -1 is returned.
+     *
+     * @param name
+     * @return
+     */
+    private int indexOf(String name) {
+        int len = classes.length;
+        for (int i = 0; i < len; i++) {
+            if (name.equals(classes[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 

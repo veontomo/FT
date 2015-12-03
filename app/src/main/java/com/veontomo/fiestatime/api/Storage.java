@@ -28,6 +28,24 @@ public class Storage extends SQLiteOpenHelper {
      */
     private static final String DATABASE_NAME = "Holidays";
 
+    /**
+     * Returns index at which given class is  present in {@link #classes}.
+     * <br>
+     * If nothing is found, -1 is returned.
+     *
+     * @param name
+     * @return
+     */
+    private int indexOf(String name) {
+        int len = classes.length;
+        for (int i = 0; i < len; i++) {
+            if (name.equals(classes[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
     /**
@@ -73,8 +91,8 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        Factory factory = new Factory(classes);
-        int periodicity = factory.indexOf(event.getClass().getCanonicalName());
+        Factory factory = new Factory();
+        int periodicity = indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
         values = new ContentValues();
@@ -99,7 +117,7 @@ public class Storage extends SQLiteOpenHelper {
      * Execute given query against the database
      */
     private List<Event> getHolidaysByQuery(String query, String[] args) {
-        Factory<Event> factory = new Factory<>(classes);
+        Factory<Event> factory = new Factory<>();
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -111,9 +129,11 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             Event item;
             int id;
+            String className;
             do {
                 id = (int) cursor.getLong(columnID);
-                item = factory.produce(cursor.getInt(columnPeriod), id, cursor.getString(columnName), cursor.getLong(columnNext));
+                className = classes[cursor.getInt(columnPeriod)];
+                item = factory.produce(className, id, cursor.getString(columnName), cursor.getLong(columnNext));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -150,8 +170,7 @@ public class Storage extends SQLiteOpenHelper {
      * @param item
      */
     public boolean update(Event item) {
-        Factory factory = new Factory(classes);
-        int periodicity = factory.indexOf(item.getClass().getCanonicalName());
+        int periodicity = indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
         int rows;

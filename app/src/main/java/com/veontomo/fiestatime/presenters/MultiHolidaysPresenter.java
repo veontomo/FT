@@ -72,7 +72,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     private ArrayList<Event> deserialize(String[] items) {
         ArrayList<Event> result = new ArrayList<>();
         Event h;
-        Factory<Event> factory = new Factory<>(classes);
+        Factory<Event> factory = new Factory<>();
         for (String item : items) {
             h = factory.produce(item);
             if (h != null) {
