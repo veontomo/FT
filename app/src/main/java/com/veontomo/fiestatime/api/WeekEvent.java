@@ -29,10 +29,10 @@ public class WeekEvent extends Event {
     public void adjustDate(long time) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(this.nextOccurrence);
-        while (nextOccurrence < time) {
+        while (c.getTimeInMillis() < time) {
             c.add(Calendar.WEEK_OF_YEAR, 1);
-            nextOccurrence = c.getTimeInMillis();
         }
+        nextOccurrence = c.getTimeInMillis();
     }
 
     /**

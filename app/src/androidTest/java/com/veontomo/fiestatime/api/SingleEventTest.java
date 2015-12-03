@@ -3,7 +3,7 @@ package com.veontomo.fiestatime.api;
 import junit.framework.TestCase;
 
 /**
- *
+ * Test suite for events that occur just once
  */
 public class SingleEventTest extends TestCase {
 
