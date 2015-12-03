@@ -10,12 +10,18 @@ import java.util.Calendar;
 public class YearEventTest extends TestCase {
 
     YearEvent event;
-    Calendar c = Calendar.getInstance();
+    Calendar c;
 
     public void setUp() throws Exception {
         super.setUp();
+        c = Calendar.getInstance();
         c.set(1980, 4, 20);
         event = new YearEvent(3, "some event", c.getTimeInMillis());
+    }
+
+    public void testAssignDefaultIdIfNotSpecified(){
+        event = new YearEvent("event without id", 2222222);
+        assertEquals(-1, event.getId());
     }
 
     public void testAdjustDateIfEventIsOneDayBeforeGivenDate() throws Exception {
