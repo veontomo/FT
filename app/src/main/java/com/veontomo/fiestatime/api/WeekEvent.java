@@ -5,7 +5,7 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 /**
- * Represents a holiday with week periodicity
+ * Represents an event that occurs once a week
  */
 public class WeekEvent extends Event {
 

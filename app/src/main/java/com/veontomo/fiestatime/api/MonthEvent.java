@@ -5,7 +5,7 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 /**
- * Represents a holiday with month periodicity
+ * Represents an event that occurs once a month
  */
 public class MonthEvent extends Event {
 

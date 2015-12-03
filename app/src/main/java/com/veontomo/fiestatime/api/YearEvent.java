@@ -5,7 +5,7 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 /**
- *  Represents a holiday with year periodicity
+ *  Represents an event that occurs once a year
  */
 public class YearEvent extends Event {
     public YearEvent(String name, long next) {
