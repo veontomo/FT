@@ -12,7 +12,17 @@ public class EventFactory {
     /**
      * list of available holiday types (
      */
-    private static String[] mapper = new String[]{"SingleEvent", "WeekEvent", "MonthEvent", "YearEvent"};
+    private final String[] mapper;
+//            = new String[]{"com.veontomo.fiestatime.api.SingleEvent", "WeekEvent", "MonthEvent", "YearEvent"};
+
+    /**
+     * Constructor.
+     *
+     * @param classes array of fully qualified available classes each of which extends {@link Event}.
+     */
+    public EventFactory(String[] classes){
+        this.mapper = classes;
+    }
 
     /**
      * Returns an instance of one of the subclasses of {@link Event} based on given string
@@ -51,15 +61,33 @@ public class EventFactory {
     /**
      * Returns an instance of a given class
      *
-     * @param type
+     * @param index
      * @param id
      * @param name
      * @param next
      * @return
      */
-    public Event produce(int type, long id, String name, long next) {
-        // TODO
+    public Event produce(int index, long id, String name, long next) {
         Event h = null;
+        if (index >= mapper.length){
+            return null;
+        }
+        String className = mapper[index];
+        try {
+            Class cl = Class.forName(className);
+            Constructor<? extends Event> c = cl.getConstructor(Long.TYPE, String.class, Long.TYPE);
+            h = c.newInstance(id, name, next);
+        } catch (ClassNotFoundException e) {
+            Logger.log("Failed to find class for " + className);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            Logger.log("Class " + className + " has no requested constructor");
+        } catch (InstantiationException e) {
+            Logger.log("Requested constructor for class " + className + " is not accessible");
+        } catch (IllegalAccessException e) {
+            Logger.log("Requested method for class " + className + " is not accessible");
+        }
         return h;
     }
 

@@ -62,5 +62,4 @@ public abstract class Event {
      */
     public abstract boolean shouldAdjustDate(long time);
 
-
 }
