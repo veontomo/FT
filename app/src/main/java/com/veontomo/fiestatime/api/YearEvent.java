@@ -27,10 +27,10 @@ public class YearEvent extends Event {
     public void adjustDate(long time) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(this.nextOccurrence);
-        while (nextOccurrence < time) {
+        while (c.getTimeInMillis() < time) {
             c.add(Calendar.YEAR, 1);
-            nextOccurrence = c.getTimeInMillis();
         }
+        nextOccurrence = c.getTimeInMillis();
     }
 
     /**
