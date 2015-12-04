@@ -26,26 +26,7 @@ public class Storage extends SQLiteOpenHelper {
     /**
      * Name of database that contains tables of the application
      */
-    private static final String DATABASE_NAME = "Holidays";
-
-    /**
-     * Returns index at which given class is  present in {@link #classes}.
-     * <br>
-     * If nothing is found, -1 is returned.
-     *
-     * @param name
-     * @return
-     */
-    private int indexOf(String name) {
-        int len = classes.length;
-        for (int i = 0; i < len; i++) {
-            if (name.equals(classes[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
+    private static final String DATABASE_NAME = "Events";
 
 
     /**
@@ -70,7 +51,21 @@ public class Storage extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // version number 1
-        db.execSQL(HolidayQueries.CREATE_TABLE);
+        String createEventTypes = "CREATE TABLE " +
+                EventTypeEntry.TABLE_NAME + " (" +
+                EventTypeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                EventTypeEntry.COLUMN_NAME + " TEXT NOT NULL UNIQUE ON CONFLICT IGNORE)";
+        String createEventTable = "CREATE TABLE " +
+                EventEntry.TABLE_NAME + " (" +
+                EventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                EventEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                EventEntry.COLUMN_NEXT + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_TYPE + " INT, " +
+                " FOREIGN KEY(" + EventEntry.COLUMN_TYPE + ") REFERENCES " +
+                EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + ")" +
+                ")";
+        db.execSQL(createEventTypes);
+        db.execSQL(createEventTable);
     }
 
     @Override
@@ -79,6 +74,24 @@ public class Storage extends SQLiteOpenHelper {
             // empty task: nothing to do
         }
 
+    }
+
+    /**
+     * Returns index at which given class is  present in {@link #classes}.
+     * <br>
+     * If nothing is found, -1 is returned.
+     *
+     * @param name
+     * @return
+     */
+    public int indexOf(String name) {
+        int len = classes.length;
+        for (int i = 0; i < len; i++) {
+            if (name.equals(classes[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -91,15 +104,14 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        Factory factory = new Factory();
         int periodicity = indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
         values = new ContentValues();
-        values.put(HolidayEntry.COLUMN_NAME, event.name);
-        values.put(HolidayEntry.COLUMN_NEXT, event.nextOccurrence);
-        values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
-        id = db.insert(HolidayEntry.TABLE_NAME, null, values);
+        values.put(EventEntry.COLUMN_NAME, event.name);
+        values.put(EventEntry.COLUMN_NEXT, event.nextOccurrence);
+        values.put(EventEntry.COLUMN_TYPE, periodicity);
+        id = db.insert(EventEntry.TABLE_NAME, null, values);
         db.close();
         return id;
     }
@@ -109,7 +121,7 @@ public class Storage extends SQLiteOpenHelper {
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
     public List<Event> getHolidays() {
-        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC";
+        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
         return getHolidaysByQuery(query, null);
     }
 
@@ -121,10 +133,10 @@ public class Storage extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
-        int columnID = cursor.getColumnIndex(HolidayEntry._ID);
-        int columnName = cursor.getColumnIndex(HolidayEntry.COLUMN_NAME);
-        int columnNext = cursor.getColumnIndex(HolidayEntry.COLUMN_NEXT);
-        int columnPeriod = cursor.getColumnIndex(HolidayEntry.COLUMN_PERIODICITY);
+        int columnID = cursor.getColumnIndex(EventEntry._ID);
+        int columnName = cursor.getColumnIndex(EventEntry.COLUMN_NAME);
+        int columnNext = cursor.getColumnIndex(EventEntry.COLUMN_NEXT);
+        int columnPeriod = cursor.getColumnIndex(EventEntry.COLUMN_TYPE);
 
         if (cursor.moveToFirst()) {
             Event item;
@@ -144,13 +156,14 @@ public class Storage extends SQLiteOpenHelper {
 
     /**
      * Returns the nearest holiday that occurs after given time
+     *
      * @param time time in milliseconds
      * @return
      */
     public Event getNearest(long time) {
-        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE "  + HolidayEntry.COLUMN_NEXT + " > ? ORDER BY " + HolidayEntry.COLUMN_NEXT + " ASC LIMIT 1";
+        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC LIMIT 1";
         List<Event> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
-        if (first != null && first.size() > 0){
+        if (first != null && first.size() > 0) {
             return first.get(0);
         }
         return null;
@@ -158,15 +171,17 @@ public class Storage extends SQLiteOpenHelper {
 
     /**
      * Returns mEvents that turn out to be before the given time
+     *
      * @param time time in milliseconds
      */
     public List<Event> getHolidaysBefore(long time) {
-        String query = "SELECT * FROM " + HolidayEntry.TABLE_NAME + " WHERE " + HolidayEntry.COLUMN_NEXT + " < ?";
+        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " < ?";
         return getHolidaysByQuery(query, new String[]{String.valueOf(time)});
     }
 
     /**
      * Updates a record that is already present in the storage
+     *
      * @param item
      */
     public boolean update(Event item) {
@@ -175,34 +190,24 @@ public class Storage extends SQLiteOpenHelper {
         ContentValues values;
         int rows;
         values = new ContentValues();
-        values.put(HolidayEntry.COLUMN_NAME, item.name);
-        values.put(HolidayEntry.COLUMN_NEXT, item.nextOccurrence);
-        values.put(HolidayEntry.COLUMN_PERIODICITY, periodicity);
-        rows = db.update(HolidayEntry.TABLE_NAME, values, HolidayEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
+        values.put(EventEntry.COLUMN_NAME, item.name);
+        values.put(EventEntry.COLUMN_NEXT, item.nextOccurrence);
+        values.put(EventEntry.COLUMN_TYPE, periodicity);
+        rows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
         db.close();
         return rows == 1;
 
     }
 
-
-    /**
-     * Various Proverbs-table related queries
-     */
-    public static abstract class HolidayQueries {
-        public static final String CREATE_TABLE = "CREATE TABLE " +
-                HolidayEntry.TABLE_NAME + " (" +
-                HolidayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                HolidayEntry.COLUMN_NAME + " TEXT NOT NULL UNIQUE ON CONFLICT IGNORE, " +
-                HolidayEntry.COLUMN_NEXT + " INTEGER NOT NULL, " +
-                HolidayEntry.COLUMN_PERIODICITY + " INT "
-                + ")";
+    public static abstract class EventEntry implements BaseColumns {
+        public static final String TABLE_NAME = "Events";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_NEXT = "next";
+        public static final String COLUMN_TYPE = "typeId";
     }
 
-    public static abstract class HolidayEntry implements BaseColumns {
-        public static final String TABLE_NAME = "Holidays";
-
+    public static abstract class EventTypeEntry implements BaseColumns {
+        public static final String TABLE_NAME = "Types";
         public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_NEXT = "nextOccurrence";
-        public static final String COLUMN_PERIODICITY = "periodicity";
     }
 }
