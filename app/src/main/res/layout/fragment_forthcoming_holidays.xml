@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.veontomo.fiestatime.fragments.ForthcomingHolidays">
+             tools:context=".fragments.ForthcomingEvents">
 
     <TextView
         android:id="@+id/frag_forth_holiday_name"

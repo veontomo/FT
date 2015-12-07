@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.views.AddHolidayView;
 import com.veontomo.fiestatime.views.MVPView;
@@ -19,9 +20,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Implementation of {@link MVPPresenter} for adding holidays
+ * Implementation of {@link MVPPresenter} for adding mEvents
  */
 public class AddHolidayPresenter implements MVPPresenter {
+    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
+            "com.veontomo.fiestatime.api.WeekEvent",
+            "com.veontomo.fiestatime.api.MonthEvent",
+            "com.veontomo.fiestatime.api.YearEvent"};
+
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
      * name of the token under which the presenter saves the holiday's name in the bundle
@@ -46,21 +52,21 @@ public class AddHolidayPresenter implements MVPPresenter {
     private String date;
 
     /**
-     * Holiday name
+     * Event name
      */
     private String name;
 
     /**
-     * Holiday periodicity
+     * Event periodicity
      */
     private int periodicity;
 
     /**
-     * Holiday id.
+     * Event id.
      */
     private long id;
 
-    private IProvider holidayProvider;
+    private IProvider<Event> holidayProvider;
 
     public AddHolidayPresenter(AddHolidayView view) {
         this.view = view;
@@ -129,13 +135,20 @@ public class AddHolidayPresenter implements MVPPresenter {
                     view.setEnableButtons(true);
                     return;
                 }
-                Holiday h = new Holiday(name, nextOccurrence, pos);
-                long id = holidayProvider.save(h);
+                Factory<Event> factory = new Factory<>();
+                Event h = factory.produce(classes[pos], id, name, nextOccurrence);
                 if (id != -1) {
-                    h = new Holiday(id, name, nextOccurrence, pos);
-                    view.onHolidayAdded(h);
+                    if (holidayProvider.update(h)) {
+                        view.onHolidayUpdated(h);
+                    }
                 } else {
-                    view.showMessage("Failed to save the holiday!");
+                    id = holidayProvider.save(h);
+                    if (id != -1) {
+                        h = factory.produce(classes[pos], id, name, nextOccurrence);
+                        view.onHolidayAdded(h);
+                    } else {
+                        view.showMessage("Failed to save the holiday!");
+                    }
                 }
                 view.setEnableButtons(true);
             }
@@ -143,7 +156,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     /**
-     * Set a provider of the holidays
+     * Set a provider of the mEvents
      */
     public void setHolidayProvider(IProvider hp) {
         this.holidayProvider = hp;
@@ -204,12 +217,31 @@ public class AddHolidayPresenter implements MVPPresenter {
 
     }
 
-    public void load(Holiday h) {
-        this.name = h.name;
-        this.date = format.format(h.nextOccurrence);
-        this.periodicity = h.periodicity;
-        this.id = h.id;
+    public void load(Event h) {
+        this.name = h.getName();
+        this.date = format.format(h.getNextOccurrence());
+        this.periodicity = indexOf(h.getClass().getCanonicalName());
+        this.id = h.getId();
     }
+
+    /**
+     * Returns index at which given class is  present in {@link #classes}.
+     * <br>
+     * If nothing is found, -1 is returned.
+     *
+     * @param name
+     * @return
+     */
+    private int indexOf(String name) {
+        int len = classes.length;
+        for (int i = 0; i < len; i++) {
+            if (name.equals(classes[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

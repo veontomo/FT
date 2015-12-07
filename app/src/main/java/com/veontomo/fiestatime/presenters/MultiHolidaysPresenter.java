@@ -3,7 +3,8 @@ package com.veontomo.fiestatime.presenters;
 import android.os.Bundle;
 
 import com.veontomo.fiestatime.Logger;
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.ITask;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
@@ -14,9 +15,13 @@ import java.util.List;
 /**
  */
 public class MultiHolidaysPresenter implements MVPPresenter {
-    private final static String HOLIDAYS_TOKEN = "holidays";
+    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
+            "com.veontomo.fiestatime.api.WeekEvent",
+            "com.veontomo.fiestatime.api.MonthEvent",
+            "com.veontomo.fiestatime.api.YearEvent"};
+    private final static String HOLIDAYS_TOKEN = "mEvents";
     protected final MultiHolidaysView view;
-    protected ArrayList<Holiday> holidays;
+    protected ArrayList<Event> mEvents;
     protected ITask mTask;
 
     public MultiHolidaysPresenter(MultiHolidaysView view) {
@@ -26,7 +31,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void bindView(final MVPView v) {
-        if (this.holidays != null) {
+        if (this.mEvents != null) {
             v.updateViews();
         } else if (mTask != null) {
             mTask.setOnDataLoaded(this);
@@ -37,20 +42,20 @@ public class MultiHolidaysPresenter implements MVPPresenter {
 
     @Override
     public void saveState(Bundle b) {
-        String[] holidaysArray = serialize(this.holidays);
+        String[] holidaysArray = serialize(this.mEvents);
         b.putStringArray(HOLIDAYS_TOKEN, holidaysArray);
     }
 
     /**
-     * Converts list of holidays into array of strings.
+     * Converts list of mEvents into array of strings.
      *
      * @param data
      * @return
      */
-    private String[] serialize(List<Holiday> data) {
+    private String[] serialize(List<Event> data) {
         int s = (data == null) ? 0 : data.size();
         String[] result = new String[s];
-        Holiday h;
+        Event h;
         for (int i = 0; i < s; i++) {
             h = data.get(i);
             result[i] = h.serialize();
@@ -59,16 +64,17 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     }
 
     /**
-     * Recreates list of holidays from array of strings
+     * Recreates list of mEvents from array of strings
      *
      * @param items
      * @return
      */
-    private ArrayList<Holiday> deserialize(String[] items) {
-        ArrayList<Holiday> result = new ArrayList<>();
-        Holiday h;
+    private ArrayList<Event> deserialize(String[] items) {
+        ArrayList<Event> result = new ArrayList<>();
+        Event h;
+        Factory<Event> factory = new Factory<>();
         for (String item : items) {
-            h = Holiday.deserialize(item);
+            h = factory.produce(item);
             if (h != null) {
                 result.add(h);
             } else {
@@ -83,18 +89,18 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     public void restoreState(Bundle b) {
         if (b != null) {
             String[] items = b.getStringArray(HOLIDAYS_TOKEN);
-            this.holidays = deserialize(items);
+            this.mEvents = deserialize(items);
         }
     }
 
     /**
-     * Loads holidays into the presenter AND initializes the view
+     * Loads mEvents into the presenter AND initializes the view
      * TODO: split the method in two, since it performs two actions
      */
-    public void load(List<Holiday> holidays) {
-        this.holidays = new ArrayList<>();
-        for (Holiday holiday : holidays) {
-            this.holidays.add(holiday);
+    public void load(List<Event> events) {
+        this.mEvents = new ArrayList<>();
+        for (Event event : events) {
+            this.mEvents.add(event);
         }
         view.updateViews();
     }
@@ -104,14 +110,13 @@ public class MultiHolidaysPresenter implements MVPPresenter {
         this.mTask = task;
     }
 
-    public ArrayList<Holiday> getHolidays() {
-        return this.holidays;
+    public ArrayList<Event> getEvents() {
+        return this.mEvents;
     }
 
 
-
-    public void addHoliday(Holiday h) {
-        this.holidays.add(h);
+    public void addHoliday(Event h) {
+        this.mEvents.add(h);
         view.updateViews();
     }
 
@@ -121,9 +126,20 @@ public class MultiHolidaysPresenter implements MVPPresenter {
      * @param index
      */
     public void onItemClick(int index) {
-        Logger.log("click on " + this.holidays.get(index));
-        view.onHolidayClick(this.holidays.get(index));
+        Logger.log("click on " + this.mEvents.get(index));
+        view.onHolidayClick(this.mEvents.get(index));
     }
 
 
+    public void updateHoliday(Event h) {
+        for (Event event : this.mEvents) {
+            if (event.getId() == h.getId()) {
+                int pos = this.mEvents.indexOf(event);
+                this.mEvents.set(pos, h);
+                view.updateViews();
+
+            }
+        }
+
+    }
 }

@@ -1,12 +1,11 @@
 package com.veontomo.fiestatime.views;
 
-import android.os.Bundle;
 import android.view.View;
 
-import com.veontomo.fiestatime.api.Holiday;
+import com.veontomo.fiestatime.api.Event;
 
 /**
- * View for adding holidays
+ * View for adding mEvents
  */
 public interface AddHolidayView extends MVPView {
 
@@ -14,13 +13,16 @@ public interface AddHolidayView extends MVPView {
 
     void setDate(String date);
 
-    void onHolidayAdded(Holiday h);
+    void onHolidayAdded(Event h);
 
-    void load(Holiday h);
+    void onHolidayUpdated(Event h);
+
+    void load(Event h);
 
     /**
      * Disables "confirm" and "cancel" buttons
      * @param status true to enable buttons, false to disable them
      */
     void setEnableButtons(boolean status);
+
 }

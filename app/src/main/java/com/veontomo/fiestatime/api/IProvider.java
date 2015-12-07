@@ -4,7 +4,7 @@ package com.veontomo.fiestatime.api;
 import java.util.List;
 
 /**
- * Holiday provider interface
+ * Event provider interface
  */
 public interface IProvider<T> {
     /**
@@ -21,5 +21,23 @@ public interface IProvider<T> {
     List<T> getItems();
 
 
+    /**
+     * Returns nearest mEvents
+     * @return
+     */
+    T getNearest(long time);
 
+    /**
+     * Returns a list of mEvents whose date should be adjusted
+     * @param
+     */
+    List<T> toAdjustDate(long time);
+
+    /**
+     * Updates record that is  already present in the storage.
+     *
+     * Return true if the update is successful, false - otherwise
+     * @param item
+     */
+    boolean update(T item);
 }

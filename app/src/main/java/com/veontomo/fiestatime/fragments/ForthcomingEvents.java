@@ -1,29 +1,22 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.HolidayDBProvider;
-import com.veontomo.fiestatime.api.RetrieveNearestHolidaysTask;
-import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
 import com.veontomo.fiestatime.views.MultiHolidaysView;
-
-import java.util.ArrayList;
 
 
 /**
  */
-public class ForthcomingHolidays extends ListFragment implements MultiHolidaysView {
+public class ForthcomingEvents extends Fragment implements MultiHolidaysView {
 
     private OnFragmentInteractionListener mListener;
 
@@ -31,7 +24,7 @@ public class ForthcomingHolidays extends ListFragment implements MultiHolidaysVi
 
     private TextView mTextView;
 
-    public ForthcomingHolidays() {
+    public ForthcomingEvents() {
         // Required empty public constructor
     }
 
@@ -50,22 +43,6 @@ public class ForthcomingHolidays extends ListFragment implements MultiHolidaysVi
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Logger.log("Forthcoming onActivityCreated");
-        ArrayList<Holiday> values = new ArrayList<>();
-        ArrayAdapter<Holiday> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-
-        Storage storage = new Storage(getActivity().getApplicationContext());
-        HolidayDBProvider provider = new HolidayDBProvider(storage);
-        RetrieveNearestHolidaysTask task = new RetrieveNearestHolidaysTask(provider);
-        mPresenter.setTask(task);
-        hostingActivity = (onActions) getActivity();
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         mTextView = (TextView) getActivity().findViewById(R.id.frag_forth_holiday_name);
@@ -81,7 +58,7 @@ public class ForthcomingHolidays extends ListFragment implements MultiHolidaysVi
     @Override
     public void updateViews() {
         // TODO
-        mTextView.setText("see ForthcomingHolidays class");
+        mTextView.setText("see ForthcomingEvents class");
     }
 
     /**
@@ -126,7 +103,7 @@ public class ForthcomingHolidays extends ListFragment implements MultiHolidaysVi
      * @param h
      */
     @Override
-    public void addHoliday(Holiday h) {
+    public void addHoliday(Event h) {
         // TODO
     }
 
@@ -142,13 +119,23 @@ public class ForthcomingHolidays extends ListFragment implements MultiHolidaysVi
     }
 
     /**
-     * This method is called when a click on a given holiday occurs
+     * This method is called when a click on a given event occurs
      *
-     * @param holiday
+     * @param event
      */
     @Override
-    public void onHolidayClick(Holiday holiday) {
+    public void onHolidayClick(Event event) {
 
+    }
+
+    /**
+     * Updates a holiday
+     *
+     * @param h
+     */
+    @Override
+    public void updateHoliday(Event h) {
+        mPresenter.updateHoliday(h);
     }
 
 

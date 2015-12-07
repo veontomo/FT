@@ -12,17 +12,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.Holiday;
-import com.veontomo.fiestatime.api.HolidayDBProvider;
+import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
 import com.veontomo.fiestatime.views.AddHolidayView;
 
 
-public class AddHoliday extends Fragment implements AddHolidayView {
-
+public class AddEvent extends Fragment implements AddHolidayView {
     private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
     private EditText mHolidayNameView;
     private TextView mNextOccurrenceView;
@@ -31,7 +29,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
     private Button mCancelButton;
     private onActions hostingActivity;
 
-    public AddHoliday() { }
+    public AddEvent() { }
 
 
 
@@ -63,7 +61,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         mPeriodicityView.setAdapter(adapter);
 
         // TODO: make the presenter use a task in order to load holiday info (if any) into
-        // the edit view. See how it is done in {@link AllHolidays#onActivityCreated}
+        // the edit view. See how it is done in {@link AllEvents#onActivityCreated}
 
         mPresenter.bindView(this);
 
@@ -76,7 +74,7 @@ public class AddHoliday extends Fragment implements AddHolidayView {
         super.onActivityCreated(savedInstanceState);
         hostingActivity = (onActions) getActivity();
         Storage storage = new Storage(getActivity().getApplicationContext());
-        mPresenter.setHolidayProvider(new HolidayDBProvider(storage));
+        mPresenter.setHolidayProvider(new EventDBProvider(storage));
     }
 
     @Override
@@ -150,13 +148,18 @@ public class AddHoliday extends Fragment implements AddHolidayView {
 
 
     @Override
-    public void onHolidayAdded(Holiday h) {
+    public void onHolidayAdded(Event h) {
         hostingActivity.onHolidayAdded(h);
         mHolidayNameView.setText(null);
     }
 
     @Override
-    public void load(Holiday h) {
+    public void onHolidayUpdated(Event h) {
+        hostingActivity.onHolidayUpdated(h);
+    }
+
+    @Override
+    public void load(Event h) {
         this.mPresenter.load(h);
         updateViews();
     }
@@ -197,10 +200,11 @@ public class AddHoliday extends Fragment implements AddHolidayView {
      */
     @Override
     public void showMessage(String msg) {
-        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public interface onActions {
-        void onHolidayAdded(Holiday h);
+        void onHolidayAdded(Event h);
+        void onHolidayUpdated(Event h);
     }
 }

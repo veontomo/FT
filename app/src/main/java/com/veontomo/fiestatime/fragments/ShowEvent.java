@@ -1,7 +1,6 @@
 package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,22 +18,22 @@ import java.util.Date;
  * Activities that contain this fragment must implement the
  * {@link ShowHolidayActions} interface
  * to handle interaction events.
- * Use the {@link ShowHoliday#newInstance} factory method to
- * create an instance of this fragment.
+ * Use the {@link ShowEvent#newInstance} factory method to
+ * produce an instance of this fragment.
  */
-public class ShowHoliday extends Fragment {
+public class ShowEvent extends Fragment {
     private static final String NAME_TOKEN = "name";
     private static final String DESCR_TOKEN = "descr";
 
 
     /**
-     * Holiday's name
+     * Event's name
      */
     @NonNull
     private String mName;
 
     /**
-     * Holiday description
+     * Event description
      */
     private String mDescription;
 
@@ -50,7 +49,7 @@ public class ShowHoliday extends Fragment {
     @Nullable
     private ShowHolidayActions mHostActivity;
 
-    public ShowHoliday() {
+    public ShowEvent() {
         // Required empty public constructor
     }
 
@@ -60,10 +59,10 @@ public class ShowHoliday extends Fragment {
      *
      * @param name  holiday name
      * @param descr holiday description.
-     * @return A new instance of fragment ShowHoliday.
+     * @return A new instance of fragment ShowEvent.
      */
-    public static ShowHoliday newInstance(String name, String descr) {
-        ShowHoliday fragment = new ShowHoliday();
+    public static ShowEvent newInstance(String name, String descr) {
+        ShowEvent fragment = new ShowEvent();
         Bundle args = new Bundle();
         args.putString(NAME_TOKEN, name);
         args.putString(DESCR_TOKEN, descr);
