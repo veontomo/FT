@@ -6,17 +6,23 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.veontomo.fiestatime.views.MVPView;
+
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Example of widget from
  * http://www.vogella.com/tutorials/AndroidWidgets/article.html
  */
-public class CountdownWidgetProvider extends AppWidgetProvider {
+public class CountdownWidgetProvider extends AppWidgetProvider implements MVPView {
     private static final String ACTION_CLICK = "ACTION_CLICK";
+
+    private final WidgetPresenter mPresenter = new WidgetPresenter(this);
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -30,13 +36,16 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         for (int widgetId : allWidgetIds) {
             Log.i(Config.APP_NAME, "widgetId = " + String.valueOf(widgetId));
             // create some random data
-            String date = (new Date()).toString();
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget_layout);
-            Log.i(Config.APP_NAME, String.valueOf(date));
             // Set the text
-            remoteViews.setTextViewText(R.id.update, String.valueOf(date));
+            Random random = new Random();
+            int r1 = random.nextInt(30);
+            int r2 = r1 + random.nextInt(30);
+            remoteViews.setTextViewText(R.id.update, String.valueOf(r1));
+            remoteViews.setTextViewText(R.id.afternext, String.valueOf(r2));
+            remoteViews.setTextViewText(R.id.widget_text, "static text");
 
             // Register an onClickListener
             Intent intent = new Intent(context, CountdownWidgetProvider.class);
@@ -54,5 +63,44 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         Log.i(Config.APP_NAME, "widget is deleted");
+    }
+
+    /**
+     * Fills in views (i.e., text views, image views, etc) present in current MVP-like view (that is
+     * in Android-like Activity, Fragment etc) with data stored in corresponding presenter
+     */
+    @Override
+    public void updateViews() {
+        // TODO
+    }
+
+    /**
+     * Saves the state of the view in the bundle.
+     *
+     * @param b
+     */
+    @Override
+    public void saveState(Bundle b) {
+        // TODO
+    }
+
+    /**
+     * Restores the state of the view from the bundle
+     *
+     * @param b
+     */
+    @Override
+    public void restoreState(Bundle b) {
+
+    }
+
+    /**
+     * Displays a short message
+     *
+     * @param msg
+     */
+    @Override
+    public void showMessage(String msg) {
+
     }
 }
