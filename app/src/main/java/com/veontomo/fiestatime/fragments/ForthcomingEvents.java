@@ -39,7 +39,7 @@ public class ForthcomingEvents extends Fragment implements MultiHolidaysView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forthcoming_holidays, container, false);
+        return inflater.inflate(R.layout.fragment_forthcoming_events, container, false);
     }
 
     @Override

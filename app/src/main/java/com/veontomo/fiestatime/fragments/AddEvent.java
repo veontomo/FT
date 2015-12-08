@@ -38,7 +38,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
                              Bundle savedInstanceState) {
         restoreState(savedInstanceState);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_holiday, container, false);
+        return inflater.inflate(R.layout.fragment_add_event, container, false);
     }
 
     @Override

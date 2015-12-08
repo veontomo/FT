@@ -57,7 +57,7 @@ public class AllEvents extends ListFragment implements MultiHolidaysView {
                              Bundle savedInstanceState) {
         Logger.log("AllEvents onCreateView");
         restoreState(savedInstanceState);
-        return inflater.inflate(R.layout.fragment_all_holidays, container, false);
+        return inflater.inflate(R.layout.fragment_all_events, container, false);
     }
 
     @Override
