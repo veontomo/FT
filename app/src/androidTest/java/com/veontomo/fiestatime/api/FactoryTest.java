@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.api;
 
 import junit.framework.TestCase;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Test for the event factory
@@ -17,7 +18,7 @@ public class FactoryTest extends TestCase {
 
     public void testProduceSingleEventByClassName() {
         Event e = factory.produce("com.veontomo.fiestatime.api.SingleEvent", 2L, "single event", 1234567);
-        assertNotNull(e);
+        assertThat(e).isNotNull();
     }
 
 

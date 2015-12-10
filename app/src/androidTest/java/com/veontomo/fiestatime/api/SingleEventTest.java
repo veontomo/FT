@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.api;
 
 import junit.framework.TestCase;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Test suite for events that occur just once
@@ -16,39 +17,39 @@ public class SingleEventTest extends TestCase {
     }
 
     public void testIdIfSet() {
-        assertEquals("id must be equal to 22", e1.getId(), 22);
+        assertThat(e1.getId()).isEqualTo(22);
     }
 
     public void testIdIfNotSet() {
-        assertEquals("id must be equal to -1", e2.getId(), -1);
+        assertThat(e2.getId()).isEqualTo(-1);
     }
 
     public void testNameWithId() {
-        assertEquals("SingleEvent name must be equal to Saturday night", e1.getName(), "Saturday night");
+        assertThat(e1.getName()).isEqualTo("Saturday night");
     }
 
     public void testNameNoId() {
-        assertEquals("SingleEvent name must be equal to Saturday night", e2.getName(), "Xmas");
+        assertThat(e2.getName()).isEqualTo("Xmas");
     }
 
     public void testNextOccurrenceWithId() {
-        assertEquals("SingleEvent next occurrence must be equal to 12345", e1.getNextOccurrence(), 12345);
+        assertThat(e1.getNextOccurrence()).isEqualTo(12345);
     }
 
     public void testNextOccurrenceNoId() {
-        assertEquals("SingleEvent next occurrence must be equal to 12345", e2.getNextOccurrence(), 834);
+        assertThat(e2.getNextOccurrence()).isEqualTo(834);
     }
 
     public void testSerializeWithId() {
-        assertEquals("SingleEvent#22#12345#Saturday night", e1.serialize());
+        assertThat(e1.serialize()).isEqualTo("SingleEvent#22#12345#Saturday night");
     }
 
     public void testSerializeWithoutId() {
-        assertEquals("SingleEvent#-1#834#Xmas", e2.serialize());
+        assertThat(e2.serialize()).isEqualTo("SingleEvent#-1#834#Xmas");
     }
 
     public void testShouldAdjustDateWithId(){
-        assertFalse(e1.shouldAdjustDate(1));
+        assertThat(e1.shouldAdjustDate(1)).isFalse();
     }
 
     public void testShouldAdjustDateWithoutId(){
@@ -57,18 +58,18 @@ public class SingleEventTest extends TestCase {
 
     public void testAdjustDateNoChangeIfEventIsBeforeGivenTime(){
         e1.adjustDate(55555);
-        assertEquals(12345, e1.getNextOccurrence());
+        assertThat(e1.getNextOccurrence()).isEqualTo(12345);
     }
 
 
     public void testAdjustDateNoChangeIfEventIsAfterGivenTime(){
         e1.adjustDate(1);
-        assertEquals(12345, e1.getNextOccurrence());
+        assertThat(12345).isEqualTo(e1.getNextOccurrence());
     }
 
     public void testGetNameWithId(){
         e1.adjustDate(1);
-        assertEquals(12345, e1.getNextOccurrence());
+        assertThat(12345).isEqualTo(e1.getNextOccurrence());
     }
 
 
