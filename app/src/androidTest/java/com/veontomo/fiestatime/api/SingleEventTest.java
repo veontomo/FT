@@ -64,16 +64,8 @@ public class SingleEventTest extends TestCase {
 
     public void testAdjustDateNoChangeIfEventIsAfterGivenTime(){
         e1.adjustDate(1);
-        assertThat(12345).isEqualTo(e1.getNextOccurrence());
+        assertThat(e1.getNextOccurrence()).isEqualTo(12345);
     }
-
-    public void testGetNameWithId(){
-        e1.adjustDate(1);
-        assertThat(12345).isEqualTo(e1.getNextOccurrence());
-    }
-
-
-
 
 
 }
