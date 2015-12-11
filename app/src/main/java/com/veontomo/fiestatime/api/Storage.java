@@ -160,7 +160,7 @@ public class Storage extends SQLiteOpenHelper {
         short typeId = -1;
         if (cursor.getCount() == 1) {
             if (cursor.moveToFirst()) {
-                typeId  = cursor.getShort(cursor.getColumnIndex(EventTypeEntry._ID));
+                typeId = cursor.getShort(cursor.getColumnIndex(EventTypeEntry._ID));
             }
         }
         cursor.close();
@@ -257,9 +257,34 @@ public class Storage extends SQLiteOpenHelper {
      * @param id event id
      */
     public Event getEventById(long id) {
-        // TODO: implement
+        String query = "SELECT " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NAME + " AS name," +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NEXT + " AS next, " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry.COLUMN_NAME + " AS type " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + " = ? AND " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        if (cursor.getCount() != 1) {
+            cursor.close();
+            return null;
+        }
+        cursor.moveToFirst();
+        int nameIndex = cursor.getColumnIndex("name");
+        int nextIndex = cursor.getColumnIndex("next");
+        int typeIndex = cursor.getColumnIndex("type");
 
-        return null;
+        Long next = cursor.getLong(nextIndex);
+
+        String type = cursor.getString(typeIndex);
+        String name = cursor.getString(nameIndex);
+        cursor.close();
+        db.close();
+
+        Factory<Event> factory = new Factory<>();
+        return factory.produce(type, id, name, next);
     }
 
     public static abstract class EventEntry implements BaseColumns {

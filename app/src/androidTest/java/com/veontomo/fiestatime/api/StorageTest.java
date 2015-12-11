@@ -59,6 +59,7 @@ public class StorageTest extends AndroidTestCase {
         assertThat(e2).isNotNull();
         assertThat(e2.getName()).isEqualTo("seminar");
         assertThat(e2.getNextOccurrence()).isEqualTo(3489547858L);
+        assertThat(e2.getId()).isEqualTo(id);
     }
 
 }
