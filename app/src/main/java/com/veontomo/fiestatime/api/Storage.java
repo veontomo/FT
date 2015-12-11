@@ -65,16 +65,26 @@ public class Storage extends SQLiteOpenHelper {
                 EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + "), " +
                 "UNIQUE(" + EventEntry.COLUMN_NAME + ", " + EventEntry.COLUMN_NEXT + ", " + EventEntry.COLUMN_TYPE + ")" +
                 ")";
+        db.execSQL("PRAGMA foreign_keys=ON;");
         db.execSQL(createEventTypes);
         db.execSQL(createEventTable);
+
+//        db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onOpen(db);
         if (oldVersion < 1) {
             // empty task: nothing to do
         }
 
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db){
+        db.execSQL("PRAGMA foreign_keys=ON;");
+        super.onOpen(db);
     }
 
     /**
@@ -206,6 +216,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Event getEventById(long id) {
         // TODO: implement
+
         return null;
     }
 
