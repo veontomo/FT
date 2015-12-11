@@ -271,12 +271,12 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Event getEventById(long id) {
         String query = "SELECT " +
-                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NAME + " AS name," +
-                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NEXT + " AS next, " +
-                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry.COLUMN_NAME + " AS type " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
                 "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
                 EventEntry.TABLE_NAME + "." + EventEntry._ID + " = ? AND " +
-                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventEntry.COLUMN_TYPE + " = " +
                 EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
@@ -285,9 +285,9 @@ public class Storage extends SQLiteOpenHelper {
             event = null;
         } else {
             cursor.moveToFirst();
-            int nameIndex = cursor.getColumnIndex("name");
-            int nextIndex = cursor.getColumnIndex("next");
-            int typeIndex = cursor.getColumnIndex("type");
+            int nameIndex = cursor.getColumnIndex(EventEntry.COLUMN_NAME);
+            int nextIndex = cursor.getColumnIndex(EventEntry.COLUMN_NEXT);
+            int typeIndex = cursor.getColumnIndex(EventTypeEntry.COLUMN_NAME);
 
             long next = cursor.getLong(nextIndex);
             String type = cursor.getString(typeIndex);
