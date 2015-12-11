@@ -179,15 +179,15 @@ public class Storage extends SQLiteOpenHelper {
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
     public List<Event> getEvents() {
+        // TODO: finish the implementation
         String query = "SELECT " +
-                EventEntry.TABLE_NAME + "." + EventEntry._ID + " AS id," +
-                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NAME + " AS name," +
-                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NEXT + " AS next, " +
-                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry.COLUMN_NAME + " AS type " +
+                EventEntry._ID + ", " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
                 "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
                 EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
                 EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " ORDER BY next ASC";
-//        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
         return getEventsByQuery(query, null);
     }
 
