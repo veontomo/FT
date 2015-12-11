@@ -28,6 +28,11 @@ public class Storage extends SQLiteOpenHelper {
      */
     private static final String DATABASE_NAME = "Events";
 
+    /**
+     * Factory that is able to create instances of requested classes
+     */
+    private final Factory<Event> factory;
+
 
     /**
      * Constructor
@@ -37,6 +42,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Storage(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        factory = new Factory<>();
     }
 
     /**
@@ -181,7 +187,6 @@ public class Storage extends SQLiteOpenHelper {
      * Execute given query against the database
      */
     private List<Event> getHolidaysByQuery(String query, String[] args) {
-        Factory<Event> factory = new Factory<>();
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -267,24 +272,24 @@ public class Storage extends SQLiteOpenHelper {
                 EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Event event;
         if (cursor.getCount() != 1) {
-            cursor.close();
-            return null;
+            event = null;
+        } else {
+            cursor.moveToFirst();
+            int nameIndex = cursor.getColumnIndex("name");
+            int nextIndex = cursor.getColumnIndex("next");
+            int typeIndex = cursor.getColumnIndex("type");
+
+            long next = cursor.getLong(nextIndex);
+            String type = cursor.getString(typeIndex);
+            String name = cursor.getString(nameIndex);
+            event = factory.produce(type, id, name, next);
         }
-        cursor.moveToFirst();
-        int nameIndex = cursor.getColumnIndex("name");
-        int nextIndex = cursor.getColumnIndex("next");
-        int typeIndex = cursor.getColumnIndex("type");
-
-        Long next = cursor.getLong(nextIndex);
-
-        String type = cursor.getString(typeIndex);
-        String name = cursor.getString(nameIndex);
         cursor.close();
         db.close();
 
-        Factory<Event> factory = new Factory<>();
-        return factory.produce(type, id, name, next);
+        return event;
     }
 
     public static abstract class EventEntry implements BaseColumns {
