@@ -82,7 +82,7 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onOpen(SQLiteDatabase db){
+    public void onOpen(SQLiteDatabase db) {
         db.execSQL("PRAGMA foreign_keys=ON;");
         super.onOpen(db);
     }
@@ -115,17 +115,58 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        int periodicity = indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
+        String className = event.getClass().getCanonicalName();
+        short typeId = getType(db, event.getClass().getCanonicalName());
+        if (typeId == -1) {
+            typeId = saveType(db, className);
+        }
         values = new ContentValues();
         values.put(EventEntry.COLUMN_NAME, event.name);
         values.put(EventEntry.COLUMN_NEXT, event.nextOccurrence);
-        values.put(EventEntry.COLUMN_TYPE, periodicity);
+        values.put(EventEntry.COLUMN_TYPE, typeId);
         id = db.insert(EventEntry.TABLE_NAME, null, values);
         db.close();
         return id;
     }
+
+    /**
+     * Saves given class name in the table that stores the event types and
+     * returns id of the corresponding record.
+     * <br>
+     * The number of types is supposed to be quite limited so that the
+     * underlying table is supposed to have Java "short" type
+     * should be enough to parametrize
+     *
+     * @param db
+     * @param className
+     * @return
+     */
+    private short saveType(final SQLiteDatabase db, String className) {
+        ContentValues values = new ContentValues();
+        values.put(EventTypeEntry.COLUMN_NAME, className);
+        return (short) db.insert(EventTypeEntry.TABLE_NAME, null, values);
+    }
+
+    /**
+     * Returns id under which an event of given name is stored
+     *
+     * @param name canonical name of the class
+     */
+    private short getType(final SQLiteDatabase db, String name) {
+        String query = "SELECT " + EventTypeEntry._ID + " FROM " + EventTypeEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NAME + " = ? LIMIT 1;";
+        Cursor cursor = db.rawQuery(query, new String[]{name});
+        short typeId = -1;
+        if (cursor.getCount() == 1) {
+            if (cursor.moveToFirst()) {
+                typeId  = cursor.getShort(cursor.getColumnIndex(EventTypeEntry._ID));
+            }
+        }
+        cursor.close();
+        return typeId;
+    }
+
 
     /**
      * Returns a list of mEvents that are present in the storage in chronological order
@@ -212,6 +253,7 @@ public class Storage extends SQLiteOpenHelper {
 
     /**
      * Returns an event that is stored under the given id.
+     *
      * @param id event id
      */
     public Event getEventById(long id) {
