@@ -60,9 +60,10 @@ public class Storage extends SQLiteOpenHelper {
                 EventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 EventEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 EventEntry.COLUMN_NEXT + " INTEGER NOT NULL, " +
-                EventEntry.COLUMN_TYPE + " INT, " +
+                EventEntry.COLUMN_TYPE + " INT NOT NULL, " +
                 " FOREIGN KEY(" + EventEntry.COLUMN_TYPE + ") REFERENCES " +
-                EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + ")" +
+                EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + "), " +
+                "UNIQUE(" + EventEntry.COLUMN_NAME + ", " + EventEntry.COLUMN_NEXT + ", " + EventEntry.COLUMN_TYPE + ")" +
                 ")";
         db.execSQL(createEventTypes);
         db.execSQL(createEventTable);
@@ -197,6 +198,15 @@ public class Storage extends SQLiteOpenHelper {
         db.close();
         return rows == 1;
 
+    }
+
+    /**
+     * Returns an event that is stored under the given id.
+     * @param id event id
+     */
+    public Event getEventById(long id) {
+        // TODO: implement
+        return null;
     }
 
     public static abstract class EventEntry implements BaseColumns {

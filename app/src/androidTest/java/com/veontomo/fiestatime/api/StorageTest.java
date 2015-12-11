@@ -51,4 +51,14 @@ public class StorageTest extends AndroidTestCase {
         assertThat(id2).isEqualTo(-1);
     }
 
+    public void testRestoreSingleEventById(){
+        Event e = new SingleEvent("seminar", 3489547858L);
+        long id = storage.save(e);
+        assertThat(id).isNotEqualTo(-1);
+        Event e2 = storage.getEventById(id);
+        assertThat(e2).isNotNull();
+        assertThat(e2.getName()).isEqualTo("seminar");
+        assertThat(e2.getNextOccurrence()).isEqualTo(3489547858L);
+    }
+
 }
