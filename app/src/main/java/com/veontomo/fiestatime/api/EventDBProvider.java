@@ -23,7 +23,7 @@ public class EventDBProvider implements IProvider<Event> {
 
     @Override
     public List<Event> getItems() {
-        return mStorage.getHolidays();
+        return mStorage.getEvents();
     }
 
     /**
@@ -44,7 +44,7 @@ public class EventDBProvider implements IProvider<Event> {
      */
     @Override
     public List<Event> toAdjustDate(long time) {
-        List<Event> passed = mStorage.getHolidaysBefore(time);
+        List<Event> passed = mStorage.getEventsBefore(time);
         if (passed == null || passed.size() == 0){
             return null;
         }

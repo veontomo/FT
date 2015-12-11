@@ -161,7 +161,7 @@ public class Storage extends SQLiteOpenHelper {
      * @param name canonical name of the class
      */
     private short getType(final SQLiteDatabase db, String name) {
-        String query = "SELECT " + EventTypeEntry._ID + " FROM " + EventTypeEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NAME + " = ? LIMIT 1;";
+        String query = "SELECT " + EventTypeEntry._ID + " FROM " + EventTypeEntry.TABLE_NAME + " WHERE " + EventTypeEntry.COLUMN_NAME + " = ? LIMIT 1;";
         Cursor cursor = db.rawQuery(query, new String[]{name});
         short typeId = -1;
         if (cursor.getCount() == 1) {
@@ -175,18 +175,26 @@ public class Storage extends SQLiteOpenHelper {
 
 
     /**
-     * Returns a list of mEvents that are present in the storage in chronological order
+     * Returns a list of events that are present in the storage in chronological order
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
-    public List<Event> getHolidays() {
-        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
-        return getHolidaysByQuery(query, null);
+    public List<Event> getEvents() {
+        String query = "SELECT " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + " AS id," +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NAME + " AS name," +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_NEXT + " AS next, " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry.COLUMN_NAME + " AS type " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " ORDER BY next ASC";
+//        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
+        return getEventsByQuery(query, null);
     }
 
     /**
      * Execute given query against the database
      */
-    private List<Event> getHolidaysByQuery(String query, String[] args) {
+    private List<Event> getEventsByQuery(String query, String[] args) {
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -198,11 +206,11 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             Event item;
             int id;
-            String className;
+            String type;
             do {
                 id = (int) cursor.getLong(columnID);
-                className = classes[cursor.getInt(columnPeriod)];
-                item = factory.produce(className, id, cursor.getString(columnName), cursor.getLong(columnNext));
+                type = classes[cursor.getInt(columnPeriod)];
+                item = factory.produce(type, id, cursor.getString(columnName), cursor.getLong(columnNext));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -219,7 +227,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Event getNearest(long time) {
         String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC LIMIT 1";
-        List<Event> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+        List<Event> first = getEventsByQuery(query, new String[]{String.valueOf(time)});
         if (first != null && first.size() > 0) {
             return first.get(0);
         }
@@ -227,13 +235,13 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns mEvents that turn out to be before the given time
+     * Returns events that occur before the given time
      *
      * @param time time in milliseconds
      */
-    public List<Event> getHolidaysBefore(long time) {
+    public List<Event> getEventsBefore(long time) {
         String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " < ?";
-        return getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+        return getEventsByQuery(query, new String[]{String.valueOf(time)});
     }
 
     /**
@@ -301,6 +309,6 @@ public class Storage extends SQLiteOpenHelper {
 
     public static abstract class EventTypeEntry implements BaseColumns {
         public static final String TABLE_NAME = "Types";
-        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_NAME = "type";
     }
 }
