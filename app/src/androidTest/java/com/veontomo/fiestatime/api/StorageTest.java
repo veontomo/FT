@@ -92,7 +92,7 @@ public class StorageTest extends AndroidTestCase {
     }
 
 
-    public void testRetreiveAllEventIfOnlyOneEventIsPresent(){
+    public void testRetrieveAllEventIfOnlyOneEventIsPresent(){
         SingleEvent e = new SingleEvent("single event", 8888L);
         storage.save(e);
         List<Event> events = storage.getEvents();

@@ -179,7 +179,6 @@ public class Storage extends SQLiteOpenHelper {
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
     public List<Event> getEvents() {
-        // TODO: finish the implementation
         String query = "SELECT " +
                 EventEntry.TABLE_NAME + "." + EventEntry._ID + ", " +
                 EventEntry.COLUMN_NAME + ", " +
@@ -201,7 +200,7 @@ public class Storage extends SQLiteOpenHelper {
         int columnID = cursor.getColumnIndex(EventEntry._ID);
         int columnName = cursor.getColumnIndex(EventEntry.COLUMN_NAME);
         int columnNext = cursor.getColumnIndex(EventEntry.COLUMN_NEXT);
-        int columnPeriod = cursor.getColumnIndex(EventEntry.COLUMN_TYPE);
+        int columnPeriod = cursor.getColumnIndex(EventTypeEntry.COLUMN_NAME);
 
         if (cursor.moveToFirst()) {
             Event item;
