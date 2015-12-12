@@ -28,6 +28,11 @@ public class Storage extends SQLiteOpenHelper {
      */
     private static final String DATABASE_NAME = "Events";
 
+    /**
+     * Factory that is able to create instances of requested classes
+     */
+    private final Factory<Event> factory;
+
 
     /**
      * Constructor
@@ -37,6 +42,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Storage(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        factory = new Factory<>();
     }
 
     /**
@@ -60,20 +66,31 @@ public class Storage extends SQLiteOpenHelper {
                 EventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 EventEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 EventEntry.COLUMN_NEXT + " INTEGER NOT NULL, " +
-                EventEntry.COLUMN_TYPE + " INT, " +
+                EventEntry.COLUMN_TYPE + " INT NOT NULL, " +
                 " FOREIGN KEY(" + EventEntry.COLUMN_TYPE + ") REFERENCES " +
-                EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + ")" +
+                EventTypeEntry.TABLE_NAME + "(" + EventTypeEntry._ID + "), " +
+                "UNIQUE(" + EventEntry.COLUMN_NAME + ", " + EventEntry.COLUMN_NEXT + ", " + EventEntry.COLUMN_TYPE + ")" +
                 ")";
+        db.execSQL("PRAGMA foreign_keys=ON;");
         db.execSQL(createEventTypes);
         db.execSQL(createEventTable);
+
+//        db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onOpen(db);
         if (oldVersion < 1) {
             // empty task: nothing to do
         }
 
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        db.execSQL("PRAGMA foreign_keys=ON;");
+        super.onOpen(db);
     }
 
     /**
@@ -104,32 +121,80 @@ public class Storage extends SQLiteOpenHelper {
      */
     public long save(Event event) {
         SQLiteDatabase db = getWritableDatabase();
-        int periodicity = indexOf(event.getClass().getCanonicalName());
         ContentValues values;
         long id;
+        String className = event.getClass().getCanonicalName();
+        short typeId = getType(db, event.getClass().getCanonicalName());
+        if (typeId == -1) {
+            typeId = saveType(db, className);
+        }
         values = new ContentValues();
         values.put(EventEntry.COLUMN_NAME, event.name);
         values.put(EventEntry.COLUMN_NEXT, event.nextOccurrence);
-        values.put(EventEntry.COLUMN_TYPE, periodicity);
+        values.put(EventEntry.COLUMN_TYPE, typeId);
         id = db.insert(EventEntry.TABLE_NAME, null, values);
         db.close();
         return id;
     }
 
     /**
-     * Returns a list of mEvents that are present in the storage in chronological order
+     * Saves given class name in the table that stores the event types and
+     * returns id of the corresponding record.
+     * <br>
+     * The number of types is supposed to be quite limited so that the
+     * underlying table is supposed to have Java "short" type
+     * should be enough to parametrize
+     *
+     * @param db
+     * @param className
+     * @return
+     */
+    private short saveType(final SQLiteDatabase db, String className) {
+        ContentValues values = new ContentValues();
+        values.put(EventTypeEntry.COLUMN_NAME, className);
+        return (short) db.insert(EventTypeEntry.TABLE_NAME, null, values);
+    }
+
+    /**
+     * Returns id under which an event of given name is stored
+     *
+     * @param name canonical name of the class
+     */
+    private short getType(final SQLiteDatabase db, String name) {
+        String query = "SELECT " + EventTypeEntry._ID + " FROM " + EventTypeEntry.TABLE_NAME + " WHERE " + EventTypeEntry.COLUMN_NAME + " = ? LIMIT 1;";
+        Cursor cursor = db.rawQuery(query, new String[]{name});
+        short typeId = -1;
+        if (cursor.getCount() == 1) {
+            if (cursor.moveToFirst()) {
+                typeId = cursor.getShort(cursor.getColumnIndex(EventTypeEntry._ID));
+            }
+        }
+        cursor.close();
+        return typeId;
+    }
+
+
+    /**
+     * Returns a list of events that are present in the storage in chronological order
      * (the first list elements corresponds to a holiday that occurs first, etc)
      */
-    public List<Event> getHolidays() {
-        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
-        return getHolidaysByQuery(query, null);
+    public List<Event> getEvents() {
+        // TODO: finish the implementation
+        String query = "SELECT " +
+                EventEntry._ID + ", " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " ORDER BY next ASC";
+        return getEventsByQuery(query, null);
     }
 
     /**
      * Execute given query against the database
      */
-    private List<Event> getHolidaysByQuery(String query, String[] args) {
-        Factory<Event> factory = new Factory<>();
+    private List<Event> getEventsByQuery(String query, String[] args) {
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, args);
@@ -141,11 +206,11 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             Event item;
             int id;
-            String className;
+            String type;
             do {
                 id = (int) cursor.getLong(columnID);
-                className = classes[cursor.getInt(columnPeriod)];
-                item = factory.produce(className, id, cursor.getString(columnName), cursor.getLong(columnNext));
+                type = classes[cursor.getInt(columnPeriod)];
+                item = factory.produce(type, id, cursor.getString(columnName), cursor.getLong(columnNext));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -162,7 +227,7 @@ public class Storage extends SQLiteOpenHelper {
      */
     public Event getNearest(long time) {
         String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC LIMIT 1";
-        List<Event> first = getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+        List<Event> first = getEventsByQuery(query, new String[]{String.valueOf(time)});
         if (first != null && first.size() > 0) {
             return first.get(0);
         }
@@ -170,13 +235,13 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns mEvents that turn out to be before the given time
+     * Returns events that occur before the given time
      *
      * @param time time in milliseconds
      */
-    public List<Event> getHolidaysBefore(long time) {
+    public List<Event> getEventsBefore(long time) {
         String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " < ?";
-        return getHolidaysByQuery(query, new String[]{String.valueOf(time)});
+        return getEventsByQuery(query, new String[]{String.valueOf(time)});
     }
 
     /**
@@ -199,6 +264,42 @@ public class Storage extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Returns an event that is stored under the given id.
+     *
+     * @param id event id
+     */
+    public Event getEventById(long id) {
+        String query = "SELECT " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + " = ? AND " +
+                EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Event event;
+        if (cursor.getCount() != 1) {
+            event = null;
+        } else {
+            cursor.moveToFirst();
+            int nameIndex = cursor.getColumnIndex(EventEntry.COLUMN_NAME);
+            int nextIndex = cursor.getColumnIndex(EventEntry.COLUMN_NEXT);
+            int typeIndex = cursor.getColumnIndex(EventTypeEntry.COLUMN_NAME);
+
+            long next = cursor.getLong(nextIndex);
+            String type = cursor.getString(typeIndex);
+            String name = cursor.getString(nameIndex);
+            event = factory.produce(type, id, name, next);
+        }
+        cursor.close();
+        db.close();
+
+        return event;
+    }
+
     public static abstract class EventEntry implements BaseColumns {
         public static final String TABLE_NAME = "Events";
         public static final String COLUMN_NAME = "name";
@@ -208,6 +309,6 @@ public class Storage extends SQLiteOpenHelper {
 
     public static abstract class EventTypeEntry implements BaseColumns {
         public static final String TABLE_NAME = "Types";
-        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_NAME = "type";
     }
 }
