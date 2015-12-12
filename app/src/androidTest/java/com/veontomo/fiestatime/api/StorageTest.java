@@ -99,7 +99,35 @@ public class StorageTest extends AndroidTestCase {
         assertThat(events).hasSize(1);
         assertThat(events.get(0).getName()).isEqualTo("single event");
         assertThat(events.get(0).getNextOccurrence()).isEqualTo(8888L);
+    }
 
+    public void testRetrieveAllEventIfTwoEventsArePresent(){
+        SingleEvent e1 = new SingleEvent("second event", 654321L);
+        SingleEvent e2 = new SingleEvent("first event", 123456L);
+        storage.save(e1);
+        storage.save(e2);
+        List<Event> events = storage.getEvents();
+        assertThat(events).hasSize(2);
+        assertThat(events.get(0).getName()).isEqualTo("first event");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(123456L);
+        assertThat(events.get(1).getName()).isEqualTo("second event");
+        assertThat(events.get(1).getNextOccurrence()).isEqualTo(654321L);
+    }
+
+
+    public void testUpdateEvent(){
+        SingleEvent e = new SingleEvent("an event", 654321L);
+        long id = storage.save(e);
+        assertThat(id).isNotEqualTo(-1);
+        Event event = storage.getEventById(id);
+        event.name = "another name";
+        event.nextOccurrence = 11111L;
+        boolean outcome = storage.update(event);
+        assertThat(outcome).isTrue();
+        Event event2 = storage.getEventById(id);
+        assertThat(event2).isNotNull();
+        assertThat(event2.getName()).isEqualTo("another name");
+        assertThat(event2.getNextOccurrence()).isEqualTo(11111L);
     }
 
 

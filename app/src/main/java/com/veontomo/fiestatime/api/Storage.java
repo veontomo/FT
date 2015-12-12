@@ -200,7 +200,7 @@ public class Storage extends SQLiteOpenHelper {
         int columnID = cursor.getColumnIndex(EventEntry._ID);
         int columnName = cursor.getColumnIndex(EventEntry.COLUMN_NAME);
         int columnNext = cursor.getColumnIndex(EventEntry.COLUMN_NEXT);
-        int columnPeriod = cursor.getColumnIndex(EventTypeEntry.COLUMN_NAME);
+        int columnType = cursor.getColumnIndex(EventTypeEntry.COLUMN_NAME);
 
         if (cursor.moveToFirst()) {
             Event item;
@@ -208,7 +208,7 @@ public class Storage extends SQLiteOpenHelper {
             String type;
             do {
                 id = (int) cursor.getLong(columnID);
-                type = classes[cursor.getInt(columnPeriod)];
+                type = cursor.getString(columnType);
                 item = factory.produce(type, id, cursor.getString(columnName), cursor.getLong(columnNext));
                 items.add(item);
             } while (cursor.moveToNext());
@@ -249,6 +249,8 @@ public class Storage extends SQLiteOpenHelper {
      * @param item
      */
     public boolean update(Event item) {
+        /// TODO: implement according to a fact that there is
+        /// a separate table with event types
         int periodicity = indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
