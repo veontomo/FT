@@ -181,7 +181,7 @@ public class Storage extends SQLiteOpenHelper {
     public List<Event> getEvents() {
         // TODO: finish the implementation
         String query = "SELECT " +
-                EventEntry._ID + ", " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + ", " +
                 EventEntry.COLUMN_NAME + ", " +
                 EventEntry.COLUMN_NEXT + ", " +
                 EventTypeEntry.COLUMN_NAME + " " +
