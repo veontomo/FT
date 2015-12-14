@@ -77,7 +77,6 @@ public class Storage extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        super.onOpen(db);
         if (oldVersion < 1) {
             // empty task: nothing to do
         }
@@ -250,12 +249,20 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns events that occur before the given time
+     * Returns events that occur before the given time.
      *
      * @param time time in milliseconds
      */
     public List<Event> getEventsBefore(long time) {
-        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " < ?";
+        String query = "SELECT " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + ", " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " AND " +
+                EventEntry.COLUMN_NEXT + " < ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
         return getEventsByQuery(query, new String[]{String.valueOf(time)});
     }
 

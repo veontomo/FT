@@ -175,7 +175,6 @@ public class StorageTest extends AndroidTestCase {
         assertThat(events).hasSize(1);
         assertThat(events.get(0).getName()).isEqualTo("event 1");
         assertThat(events.get(0).getNextOccurrence()).isEqualTo(11111L);
-
     }
 
     public void testGetNearestEventsIfTwoEventsOccurAtTheSameTime() {
@@ -197,8 +196,56 @@ public class StorageTest extends AndroidTestCase {
         assertThat(events.get(0).getNextOccurrence()).isEqualTo(30L);
         assertThat(events.get(1).getName()).isEqualTo("event 4");
         assertThat(events.get(1).getNextOccurrence()).isEqualTo(30L);
-
     }
+
+    public void testGetEventsBeforeIfStorageIsEmpty(){
+        List<Event> events = storage.getEventsBefore(888999000L);
+        assertThat(events).isEmpty();
+    }
+
+    public void testGetEventsBeforeIfThereIsNoEventsBeforeGivenTime() {
+        Event e1 = new SingleEvent("event 1", 56789000L);
+        Event e2 = new SingleEvent("event 2", 78970000L);
+        storage.save(e1);
+        storage.save(e2);
+        List<Event> events = storage.getEventsBefore(33333L);
+        assertThat(events).isEmpty();
+    }
+
+    public void testGetEventsBeforeIfJustOneEventOccursEarlier() {
+        Event e1 = new SingleEvent("event 1", 10L);
+        Event e2 = new SingleEvent("event 2", 20L);
+        Event e3 = new SingleEvent("event 3", 30L);
+        storage.save(e1);
+        storage.save(e2);
+        storage.save(e3);
+        List<Event> events = storage.getEventsBefore(15L);
+        assertThat(events).hasSize(1);
+        assertThat(events.get(0).getName()).isEqualTo("event 1");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(10L);
+    }
+
+    public void testGetEventsBeforeIfThreeEventsOccurEarlier() {
+        Event e1 = new SingleEvent("event 1", 10L);
+        Event e2 = new SingleEvent("event 2", 20L);
+        Event e3 = new SingleEvent("event 3", 30L);
+        Event e4 = new SingleEvent("event 4", 40L);
+        Event e5 = new SingleEvent("event 5", 50L);
+        storage.save(e1);
+        storage.save(e2);
+        storage.save(e3);
+        storage.save(e4);
+        storage.save(e5);
+        List<Event> events = storage.getEventsBefore(35L);
+        assertThat(events).hasSize(3);
+        assertThat(events.get(0).getName()).isEqualTo("event 1");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(10L);
+        assertThat(events.get(1).getName()).isEqualTo("event 2");
+        assertThat(events.get(1).getNextOccurrence()).isEqualTo(20L);
+        assertThat(events.get(2).getName()).isEqualTo("event 3");
+        assertThat(events.get(2).getNextOccurrence()).isEqualTo(30L);
+    }
+
 
 
 
