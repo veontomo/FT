@@ -249,17 +249,21 @@ public class Storage extends SQLiteOpenHelper {
      * @param item
      */
     public boolean update(Event item) {
-        /// TODO: implement according to a fact that there is
-        /// a separate table with event types
-        int periodicity = indexOf(item.getClass().getCanonicalName());
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values;
-        int rows;
-        values = new ContentValues();
-        values.put(EventEntry.COLUMN_NAME, item.name);
-        values.put(EventEntry.COLUMN_NEXT, item.nextOccurrence);
-        values.put(EventEntry.COLUMN_TYPE, periodicity);
-        rows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
+        String eventClassName = item.getClass().getCanonicalName();
+        short type = getType(db, eventClassName);
+        if (type == -1) {
+            type = saveType(db, eventClassName);
+        }
+        int rows = 0;
+        if (type != -1) {
+            ContentValues values;
+            values = new ContentValues();
+            values.put(EventEntry.COLUMN_NAME, item.name);
+            values.put(EventEntry.COLUMN_NEXT, item.nextOccurrence);
+            values.put(EventEntry.COLUMN_TYPE, type);
+            rows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
+        }
         db.close();
         return rows == 1;
 
