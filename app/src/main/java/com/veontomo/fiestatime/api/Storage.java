@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +120,22 @@ public class Storage extends SQLiteOpenHelper {
      * @param event
      * @return id of the record or -1
      */
-    public long save(Event event) {
+    public long save(@NonNull Event event) {
+        if (event.id != -1) {
+            return update(event);
+        }
+        return saveAsNew(event);
+    }
+
+    /**
+     * Saves the event.
+     * <p/>
+     * Returns id of the record that corresponds to the event, or -1 in case of failure.
+     *
+     * @param event
+     * @return id of the record or -1
+     */
+    private long saveAsNew(Event event) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values;
         long id;
@@ -244,11 +260,13 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Updates a record that is already present in the storage
+     * Updates a record that is already present in the storage.
+     * <br> If successful, the id of the event is returned. Otherwise, -1 is returned.
      *
-     * @param item
+     * @param item event to update
+     * @return id or -1
      */
-    public boolean update(Event item) {
+    private long update(Event item) {
         SQLiteDatabase db = getWritableDatabase();
         String eventClassName = item.getClass().getCanonicalName();
         short type = getType(db, eventClassName);
@@ -256,15 +274,16 @@ public class Storage extends SQLiteOpenHelper {
             type = saveType(db, eventClassName);
         }
         int rows = 0;
+        long id = item.id;
         if (type != -1) {
             ContentValues values = new ContentValues();
             values.put(EventEntry.COLUMN_NAME, item.name);
             values.put(EventEntry.COLUMN_NEXT, item.nextOccurrence);
             values.put(EventEntry.COLUMN_TYPE, type);
-            rows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " = ?", new String[]{String.valueOf(item.id)});
+            rows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " = ?", new String[]{String.valueOf(id)});
         }
         db.close();
-        return rows == 1;
+        return (rows == 1) ? id : -1;
 
     }
 

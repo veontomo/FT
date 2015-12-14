@@ -31,7 +31,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         List<Event> events = itemProvider.toAdjustDate(System.currentTimeMillis());
         for (Event h : events){
             h.adjustDate(time);
-            itemProvider.update(h);
+            itemProvider.save(h);
         }
         Event event = itemProvider.getNearest(time);
         if (event != null) {

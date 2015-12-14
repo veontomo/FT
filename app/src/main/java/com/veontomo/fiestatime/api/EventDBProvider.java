@@ -58,15 +58,6 @@ public class EventDBProvider implements IProvider<Event> {
 
     }
 
-    /**
-     * Updates record that is already present in the storage
-     *
-     * @param item
-     */
-    @Override
-    public boolean update(Event item) {
-        return mStorage.update(item);
-    }
 
 
 }

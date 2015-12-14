@@ -138,7 +138,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                 Factory<Event> factory = new Factory<>();
                 Event h = factory.produce(classes[pos], id, name, nextOccurrence);
                 if (id != -1) {
-                    if (holidayProvider.update(h)) {
+                    if (holidayProvider.save(h) != -1) {
                         view.onHolidayUpdated(h);
                     }
                 } else {
