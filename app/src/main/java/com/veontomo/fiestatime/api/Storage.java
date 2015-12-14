@@ -15,10 +15,6 @@ import java.util.List;
  * Performs operations with saving and retrieving mEvents from database.
  */
 public class Storage extends SQLiteOpenHelper {
-    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
-            "com.veontomo.fiestatime.api.WeekEvent",
-            "com.veontomo.fiestatime.api.MonthEvent",
-            "com.veontomo.fiestatime.api.YearEvent"};
     /**
      * current version of the database
      */
@@ -94,23 +90,7 @@ public class Storage extends SQLiteOpenHelper {
         super.onOpen(db);
     }
 
-    /**
-     * Returns index at which given class is  present in {@link #classes}.
-     * <br>
-     * If nothing is found, -1 is returned.
-     *
-     * @param name
-     * @return
-     */
-    public int indexOf(String name) {
-        int len = classes.length;
-        for (int i = 0; i < len; i++) {
-            if (name.equals(classes[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
+
 
     /**
      * Saves the event.
