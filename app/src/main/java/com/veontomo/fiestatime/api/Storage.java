@@ -231,16 +231,20 @@ public class Storage extends SQLiteOpenHelper {
                 EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
         List<Event> comingAfter = getEventsByQuery(query, new String[]{String.valueOf(time)});
         List<Event> first = new ArrayList<>();
-        if (comingAfter == null || comingAfter.size() == 0) {
+        if (comingAfter == null) {
             return first;
         }
-        long nearestOccurrence = comingAfter.get(0).getNextOccurrence();
-        for (Event e : comingAfter) {
-            if (e.nextOccurrence == nearestOccurrence) {
-                first.add(e);
-            } else {
-                return first;
-            }
+        int size = comingAfter.size();
+        if (size == 0) {
+            return first;
+        }
+        Event e = comingAfter.get(0);
+        int i = 0;
+        long nearestOccurrence = e.getNextOccurrence();
+        while (e.nextOccurrence == nearestOccurrence) {
+            first.add(e);
+            i++;
+            e = comingAfter.get(i);
         }
         return first;
     }
