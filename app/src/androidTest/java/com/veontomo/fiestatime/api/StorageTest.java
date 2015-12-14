@@ -115,19 +115,41 @@ public class StorageTest extends AndroidTestCase {
     }
 
 
-    public void testUpdateEvent(){
+    public void testUpdateEventWithoutChangeOfItsType(){
+        // create an event and save it
         SingleEvent e = new SingleEvent("an event", 654321L);
         long id = storage.save(e);
         assertThat(id).isNotEqualTo(-1);
+        // restore the event by its id
         Event event = storage.getEventById(id);
+        // change event parameters
         event.name = "another name";
         event.nextOccurrence = 11111L;
+        // update the corresponding record in the storage
         boolean outcome = storage.update(event);
         assertThat(outcome).isTrue();
+        // retrieve the event in order to check its parameters
         Event event2 = storage.getEventById(id);
         assertThat(event2).isNotNull();
         assertThat(event2.getName()).isEqualTo("another name");
         assertThat(event2.getNextOccurrence()).isEqualTo(11111L);
+    }
+
+    public void testUpdateEventChangingItsType(){
+        // create an event and save it
+        SingleEvent e = new SingleEvent("an event", 654321L);
+        long id = storage.save(e);
+        assertThat(id).isNotEqualTo(-1);
+        // create an event of another type but with previous event id
+        WeekEvent event = new WeekEvent(id, "new week event", 12345L);
+        // updating the event
+        boolean outcome = storage.update(event);
+        assertThat(outcome).isTrue();
+        // retrieve the event in order to check its parameters
+        WeekEvent event2 = (WeekEvent) storage.getEventById(id);
+        assertThat(event2).isNotNull();
+        assertThat(event2.getName()).isEqualTo("new week event");
+        assertThat(event2.getNextOccurrence()).isEqualTo(12345L);
     }
 
 

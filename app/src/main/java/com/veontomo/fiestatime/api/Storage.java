@@ -257,8 +257,7 @@ public class Storage extends SQLiteOpenHelper {
         }
         int rows = 0;
         if (type != -1) {
-            ContentValues values;
-            values = new ContentValues();
+            ContentValues values = new ContentValues();
             values.put(EventEntry.COLUMN_NAME, item.name);
             values.put(EventEntry.COLUMN_NEXT, item.nextOccurrence);
             values.put(EventEntry.COLUMN_TYPE, type);
