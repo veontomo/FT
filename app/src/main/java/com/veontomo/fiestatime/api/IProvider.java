@@ -22,10 +22,10 @@ public interface IProvider<T> {
 
 
     /**
-     * Returns nearest event to occur
+     * Returns a list of nearest events that occur at the same time after given time
      * @return
      */
-    T getNearest(long time);
+    List<T> getNearest(long time);
 
     /**
      * Returns a list of events whose date should be adjusted

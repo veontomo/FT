@@ -152,6 +152,54 @@ public class StorageTest extends AndroidTestCase {
         assertThat(event2.getNextOccurrence()).isEqualTo(12345L);
     }
 
+    public void testGetNearestEventsFromEmptyStorage() {
+        List<Event> events = storage.getNearest(123L);
+        assertThat(events).isEmpty();
+    }
+
+    public void testGetNearestEventsIfThereIsNoEventsAfterGivenTime() {
+        Event e1 = new SingleEvent("event 1", 11111L);
+        Event e2 = new SingleEvent("event 2", 22222L);
+        storage.save(e1);
+        storage.save(e2);
+        List<Event> events = storage.getNearest(33333L);
+        assertThat(events).isEmpty();
+    }
+
+    public void testGetNearestEventsIfAllEventsComeAfterGivenTime() {
+        Event e1 = new SingleEvent("event 1", 11111L);
+        Event e2 = new SingleEvent("event 2", 22222L);
+        storage.save(e1);
+        storage.save(e2);
+        List<Event> events = storage.getNearest(1L);
+        assertThat(events).hasSize(1);
+        assertThat(events.get(0).getName()).isEqualTo("event 1");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(11111L);
+
+    }
+
+    public void testGetNearestEventsIfTwoEventsOccurAtTheSameTime() {
+        Event e1 = new SingleEvent("event 1", 10L);
+        Event e2 = new SingleEvent("event 2", 20L);
+        Event e3 = new SingleEvent("event 3", 30L);
+        Event e4 = new SingleEvent("event 4", 30L);
+        Event e5 = new SingleEvent("event 5", 40L);
+        Event e6 = new SingleEvent("event 6", 40L);
+        storage.save(e1);
+        storage.save(e2);
+        storage.save(e3);
+        storage.save(e4);
+        storage.save(e5);
+        storage.save(e6);
+        List<Event> events = storage.getNearest(25L);
+        assertThat(events).hasSize(2);
+        assertThat(events.get(0).getName()).isEqualTo("event 3");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(30L);
+        assertThat(events.get(1).getName()).isEqualTo("event 4");
+        assertThat(events.get(1).getNextOccurrence()).isEqualTo(30L);
+
+    }
+
 
 
 }

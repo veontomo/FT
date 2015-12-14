@@ -33,7 +33,7 @@ public class EventDBProvider implements IProvider<Event> {
      * @return
      */
     @Override
-    public Event getNearest(long time) {
+    public List<Event> getNearest(long time) {
         return mStorage.getNearest(time);
 
     }

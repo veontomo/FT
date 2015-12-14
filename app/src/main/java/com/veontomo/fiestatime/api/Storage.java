@@ -91,7 +91,6 @@ public class Storage extends SQLiteOpenHelper {
     }
 
 
-
     /**
      * Saves the event.
      * <p/>
@@ -215,18 +214,35 @@ public class Storage extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns the nearest holiday that occurs after given time
+     * Returns the nearest event that occurs after given time
      *
      * @param time time in milliseconds
      * @return
      */
-    public Event getNearest(long time) {
-        String query = "SELECT * FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC LIMIT 1";
-        List<Event> first = getEventsByQuery(query, new String[]{String.valueOf(time)});
-        if (first != null && first.size() > 0) {
-            return first.get(0);
+    public List<Event> getNearest(long time) {
+        String query = "SELECT " +
+                EventEntry.TABLE_NAME + "." + EventEntry._ID + ", " +
+                EventEntry.COLUMN_NAME + ", " +
+                EventEntry.COLUMN_NEXT + ", " +
+                EventTypeEntry.COLUMN_NAME + " " +
+                "FROM " + EventEntry.TABLE_NAME + ", " + EventTypeEntry.TABLE_NAME + " WHERE " +
+                EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
+                EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " AND " +
+                EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
+        List<Event> comingAfter = getEventsByQuery(query, new String[]{String.valueOf(time)});
+        List<Event> first = new ArrayList<>();
+        if (comingAfter == null || comingAfter.size() == 0) {
+            return first;
         }
-        return null;
+        long nearestOccurrence = comingAfter.get(0).getNextOccurrence();
+        for (Event e : comingAfter) {
+            if (e.nextOccurrence == nearestOccurrence) {
+                first.add(e);
+            } else {
+                return first;
+            }
+        }
+        return first;
     }
 
     /**
