@@ -187,6 +187,7 @@ public class Storage extends SQLiteOpenHelper {
     /**
      * Execute given query against the database
      */
+    @NonNull
     private List<Event> getEventsByQuery(String query, String[] args) {
         SQLiteDatabase db = getReadableDatabase();
         List<Event> items = new ArrayList<>();
@@ -230,9 +231,7 @@ public class Storage extends SQLiteOpenHelper {
                 EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
         List<Event> comingAfter = getEventsByQuery(query, new String[]{String.valueOf(time)});
         List<Event> first = new ArrayList<>();
-        if (comingAfter == null) {
-            return first;
-        }
+
         int size = comingAfter.size();
         if (size == 0) {
             return first;
