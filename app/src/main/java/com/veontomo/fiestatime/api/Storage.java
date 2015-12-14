@@ -219,6 +219,7 @@ public class Storage extends SQLiteOpenHelper {
      * @param time time in milliseconds
      * @return
      */
+    @NonNull
     public List<Event> getNearest(long time) {
         String query = "SELECT " +
                 EventEntry.TABLE_NAME + "." + EventEntry._ID + ", " +
