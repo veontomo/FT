@@ -50,7 +50,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
     @Override
     public void onStart() {
         super.onStart();
-        mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
+        mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_event_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
