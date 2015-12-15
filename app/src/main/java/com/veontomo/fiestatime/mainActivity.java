@@ -12,7 +12,7 @@ import android.view.View;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.fragments.AddEvent;
 import com.veontomo.fiestatime.fragments.AllEvents;
-import com.veontomo.fiestatime.views.MultiHolidaysView;
+import com.veontomo.fiestatime.views.MultiEventView;
 
 public class mainActivity extends AppCompatActivity implements AddEvent.onActions, AllEvents.onActions {
     @Override
@@ -64,20 +64,20 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
 
     @Override
     public void onHolidayAdded(Event h) {
-        MultiHolidaysView allHolidays = (MultiHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
-        allHolidays.addHoliday(h);
+        MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
+        allEvents.addEvent(h);
 
     }
 
     @Override
     public void onHolidayUpdated(Event h) {
-        MultiHolidaysView allHolidays = (MultiHolidaysView) getFragmentManager().findFragmentById(R.id.act_main_all_holiday);
-        allHolidays.updateHoliday(h);
+        MultiEventView allHolidays = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
+        allHolidays.updateEvent(h);
     }
 
     @Override
     public void onHolidayClicked(Event h) {
-        AddEvent addEvent = (AddEvent) getFragmentManager().findFragmentById(R.id.act_main_add_holiday);
+        AddEvent addEvent = (AddEvent) getFragmentManager().findFragmentById(R.id.act_main_add_event);
         Logger.log("main activity: " + h.serialize());
         addEvent.load(h);
     }

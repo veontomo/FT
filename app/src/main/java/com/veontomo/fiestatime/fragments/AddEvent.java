@@ -15,14 +15,18 @@ import android.widget.Toast;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.EventDBProvider;
+import com.veontomo.fiestatime.api.MonthEvent;
+import com.veontomo.fiestatime.api.SingleEvent;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.presenters.AddHolidayPresenter;
-import com.veontomo.fiestatime.views.AddHolidayView;
+import com.veontomo.fiestatime.api.WeekEvent;
+import com.veontomo.fiestatime.api.YearEvent;
+import com.veontomo.fiestatime.presenters.AddEventPresenter;
+import com.veontomo.fiestatime.views.AddEventView;
 
 
-public class AddEvent extends Fragment implements AddHolidayView {
-    private final AddHolidayPresenter mPresenter = new AddHolidayPresenter(this);
-    private EditText mHolidayNameView;
+public class AddEvent extends Fragment implements AddEventView {
+    private final AddEventPresenter mPresenter = new AddEventPresenter(this);
+    private EditText mEventNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
     private Button mConfirmButton;
@@ -50,10 +54,10 @@ public class AddEvent extends Fragment implements AddHolidayView {
     @Override
     public void onStart() {
         super.onStart();
-        mHolidayNameView = (EditText) getActivity().findViewById(R.id.frag_add_holiday_name);
+        mEventNameView = (EditText) getActivity().findViewById(R.id.frag_add_event_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
-        mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_confirm);
+        mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_event_confirm);
         mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
@@ -62,7 +66,10 @@ public class AddEvent extends Fragment implements AddHolidayView {
 
         // TODO: make the presenter use a task in order to load holiday info (if any) into
         // the edit view. See how it is done in {@link AllEvents#onActivityCreated}
-
+        mPresenter.setEventTypes(new String[]{SingleEvent.class.getCanonicalName(),
+                WeekEvent.class.getCanonicalName(),
+                MonthEvent.class.getCanonicalName(),
+                YearEvent.class.getCanonicalName()});
         mPresenter.bindView(this);
 
         attachListeners();
@@ -74,7 +81,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
         super.onActivityCreated(savedInstanceState);
         hostingActivity = (onActions) getActivity();
         Storage storage = new Storage(getActivity().getApplicationContext());
-        mPresenter.setHolidayProvider(new EventDBProvider(storage));
+        mPresenter.setEventProvider(new EventDBProvider(storage));
     }
 
     @Override
@@ -84,7 +91,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
         mConfirmButton = null;
         mPeriodicityView.setAdapter(null);
         mPeriodicityView = null;
-        mHolidayNameView = null;
+        mEventNameView = null;
         super.onDestroyView();
     }
 
@@ -93,15 +100,15 @@ public class AddEvent extends Fragment implements AddHolidayView {
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onConfirm(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
-                mHolidayNameView.setText(null);
+                mPresenter.onConfirm(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                mEventNameView.setText(null);
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onCancel(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
-                mHolidayNameView.setText(null);
+                mPresenter.onCancel(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+                mEventNameView.setText(null);
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +123,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
 
     @Override
     public void onPause() {
-        mPresenter.onPause(mHolidayNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+        mPresenter.onPause(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
         super.onPause();
 
     }
@@ -150,7 +157,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
     @Override
     public void onHolidayAdded(Event h) {
         hostingActivity.onHolidayAdded(h);
-        mHolidayNameView.setText(null);
+        mEventNameView.setText(null);
     }
 
     @Override
@@ -177,7 +184,7 @@ public class AddEvent extends Fragment implements AddHolidayView {
 
     @Override
     public void updateViews() {
-        this.mHolidayNameView.setText(mPresenter.getHolidayName());
+        this.mEventNameView.setText(mPresenter.getHolidayName());
         this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
     }

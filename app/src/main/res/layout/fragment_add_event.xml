@@ -6,7 +6,7 @@
     tools:context=".fragments.AddEvent">
 
     <EditText
-        android:id="@+id/frag_add_holiday_name"
+        android:id="@+id/frag_add_event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/holiday_name"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
-        android:id="@+id/frag_add_holiday_confirm" />
+        android:id="@+id/frag_add_event_confirm" />
 
 
 </LinearLayout>

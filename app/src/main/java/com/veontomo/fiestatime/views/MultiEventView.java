@@ -5,12 +5,12 @@ import com.veontomo.fiestatime.api.Event;
 /**
  * Interface for View in a MVP pattern that is used to add mEvents.
  */
-public interface MultiHolidaysView extends MVPView {
+public interface MultiEventView extends MVPView {
     /**
      * Adds a holiday
      * @param h
      */
-    void addHoliday(Event h);
+    void addEvent(Event h);
 
     /**
      * Eliminates a holiday at given position
@@ -28,5 +28,5 @@ public interface MultiHolidaysView extends MVPView {
      * Updates a holiday
      * @param h
      */
-    void updateHoliday(Event h);
+    void updateEvent(Event h);
 }

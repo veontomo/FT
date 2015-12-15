@@ -16,14 +16,14 @@ import com.veontomo.fiestatime.api.RetrieveAllHolidaysTask;
 import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
-import com.veontomo.fiestatime.views.MultiHolidaysView;
+import com.veontomo.fiestatime.views.MultiEventView;
 
 import java.util.ArrayList;
 
 /**
  * Displays all available fragments
  */
-public class AllEvents extends ListFragment implements MultiHolidaysView {
+public class AllEvents extends ListFragment implements MultiEventView {
 
     private final MultiHolidaysPresenter mPresenter = new MultiHolidaysPresenter(this);
 
@@ -123,8 +123,8 @@ public class AllEvents extends ListFragment implements MultiHolidaysView {
     }
 
     @Override
-    public void addHoliday(Event h) {
-        Logger.log("AllEvents addHoliday");
+    public void addEvent(Event h) {
+        Logger.log("AllEvents addEvent");
         mPresenter.addHoliday(h);
     }
 
@@ -150,7 +150,7 @@ public class AllEvents extends ListFragment implements MultiHolidaysView {
      * @param h
      */
     @Override
-    public void updateHoliday(Event h) {
+    public void updateEvent(Event h) {
         mPresenter.updateHoliday(h);
     }
 
