@@ -12,7 +12,7 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
-import com.veontomo.fiestatime.views.AddHolidayView;
+import com.veontomo.fiestatime.views.AddEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.ParseException;
@@ -22,11 +22,7 @@ import java.util.Calendar;
 /**
  * Implementation of {@link MVPPresenter} for adding mEvents
  */
-public class AddHolidayPresenter implements MVPPresenter {
-    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
-            "com.veontomo.fiestatime.api.WeekEvent",
-            "com.veontomo.fiestatime.api.MonthEvent",
-            "com.veontomo.fiestatime.api.YearEvent"};
+public class AddEventPresenter implements MVPPresenter {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
@@ -44,7 +40,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     private static final String PERIODICITY_TOKEN = "periodicity";
 
 
-    private final AddHolidayView view;
+    private final AddEventView view;
 
     /**
      * Date that corresponds to the holiday's next occurrence
@@ -66,9 +62,13 @@ public class AddHolidayPresenter implements MVPPresenter {
      */
     private long id;
 
-    private IProvider<Event> holidayProvider;
+    private IProvider<Event> eventProvider;
+    /**
+     * list of canonical class names of available classes
+     */
+    private String[] mEventTypes;
 
-    public AddHolidayPresenter(AddHolidayView view) {
+    public AddEventPresenter(AddEventView view) {
         this.view = view;
         if (this.date == null) {
             Calendar calendar = Calendar.getInstance();
@@ -118,7 +118,7 @@ public class AddHolidayPresenter implements MVPPresenter {
                     msg = "Give a name to the holiday!";
                 } else if (next == null || next.isEmpty()) {
                     msg = "Choose the holiday next occurrence!";
-                } else if (holidayProvider == null) {
+                } else if (eventProvider == null) {
                     msg = "Can not save";
                 }
                 if (msg != null) {
@@ -136,15 +136,15 @@ public class AddHolidayPresenter implements MVPPresenter {
                     return;
                 }
                 Factory<Event> factory = new Factory<>();
-                Event h = factory.produce(classes[pos], id, name, nextOccurrence);
+                Event h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                 if (id != -1) {
-                    if (holidayProvider.save(h) != -1) {
+                    if (eventProvider.save(h) != -1) {
                         view.onHolidayUpdated(h);
                     }
                 } else {
-                    id = holidayProvider.save(h);
+                    id = eventProvider.save(h);
                     if (id != -1) {
-                        h = factory.produce(classes[pos], id, name, nextOccurrence);
+                        h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                         view.onHolidayAdded(h);
                     } else {
                         view.showMessage("Failed to save the holiday!");
@@ -158,8 +158,8 @@ public class AddHolidayPresenter implements MVPPresenter {
     /**
      * Set a provider of the mEvents
      */
-    public void setHolidayProvider(IProvider hp) {
-        this.holidayProvider = hp;
+    public void setEventProvider(IProvider hp) {
+        this.eventProvider = hp;
     }
 
 
@@ -225,7 +225,7 @@ public class AddHolidayPresenter implements MVPPresenter {
     }
 
     /**
-     * Returns index at which given class is  present in {@link #classes}.
+     * Returns index at which given class is  present in {@link #mEventTypes}.
      * <br>
      * If nothing is found, -1 is returned.
      *
@@ -233,13 +233,17 @@ public class AddHolidayPresenter implements MVPPresenter {
      * @return
      */
     private int indexOf(String name) {
-        int len = classes.length;
+        int len = mEventTypes.length;
         for (int i = 0; i < len; i++) {
-            if (name.equals(classes[i])) {
+            if (name.equals(mEventTypes[i])) {
                 return i;
             }
         }
         return -1;
+    }
+
+    public void setEventTypes(String[] eventTypes) {
+        mEventTypes = eventTypes;
     }
 
 
@@ -249,7 +253,7 @@ public class AddHolidayPresenter implements MVPPresenter {
         /**
          * to whom the result of the date picker should be given
          */
-        public static AddHolidayPresenter presenter;
+        public static AddEventPresenter presenter;
         /**
          * a view to which current date picker is bound
          */

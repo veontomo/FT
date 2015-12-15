@@ -7,7 +7,7 @@ import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.ITask;
 import com.veontomo.fiestatime.views.MVPView;
-import com.veontomo.fiestatime.views.MultiHolidaysView;
+import com.veontomo.fiestatime.views.MultiEventView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ public class MultiHolidaysPresenter implements MVPPresenter {
             "com.veontomo.fiestatime.api.MonthEvent",
             "com.veontomo.fiestatime.api.YearEvent"};
     private final static String HOLIDAYS_TOKEN = "mEvents";
-    protected final MultiHolidaysView view;
+    protected final MultiEventView view;
     protected ArrayList<Event> mEvents;
     protected ITask mTask;
 
-    public MultiHolidaysPresenter(MultiHolidaysView view) {
+    public MultiHolidaysPresenter(MultiEventView view) {
         this.view = view;
     }
 
