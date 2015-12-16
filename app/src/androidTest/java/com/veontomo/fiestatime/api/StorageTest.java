@@ -166,6 +166,19 @@ public class StorageTest extends AndroidTestCase {
         assertThat(events.get(0).getNextOccurrence()).isEqualTo(11111L);
     }
 
+    public void testGetNearestEventsThreeSimultaneous() {
+        Event e1 = new SingleEvent("event 1", 11111L);
+        Event e2 = new SingleEvent("event 2", 11111L);
+        storage.save(e1);
+        storage.save(e2);
+        List<Event> events = storage.getNearest(1L);
+        assertThat(events).hasSize(2);
+        assertThat(events.get(0).getName()).isEqualTo("event 1");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(11111L);
+        assertThat(events.get(1).getName()).isEqualTo("event 2");
+        assertThat(events.get(1).getNextOccurrence()).isEqualTo(11111L);
+    }
+
     public void testGetNearestEventsIfThereIsNoEventsAfterGivenTime() {
         Event e1 = new SingleEvent("event 1", 11111L);
         Event e2 = new SingleEvent("event 2", 22222L);
