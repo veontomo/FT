@@ -29,25 +29,33 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         long time = System.currentTimeMillis();
         List<Event> events = itemProvider.toAdjustDate(System.currentTimeMillis());
-        for (Event h : events){
+        for (Event h : events) {
             h.adjustDate(time);
             itemProvider.save(h);
         }
-        List<Event> event = itemProvider.getNearest(time);
-        if (event != null) {
-            updateProvider(event.get(0));
-        }
+        events = itemProvider.getNearest(time);
+        updateProvider(events);
         return null;
     }
 
     /**
-     * Updates provider data based on what mEvents is coming.
+     * Updates provider data based on what events is coming.
      */
-    private void updateProvider(@NonNull Event event) {
-        int days = (int) ((event.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY);
+    private void updateProvider(@NonNull final List<Event> events) {
+        Event e = events.get(0);
+        int days = (int) ((e.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY) + 1 ;
         provider.setNearest(days);
         provider.setNextNearest(days + 8);
-        provider.setDescription(event.name);
+        provider.setDescription(getEventsInfo(events));
+    }
+
+    private String getEventsInfo(@NonNull final List<Event> events){
+        StringBuilder builder = new StringBuilder();
+        for (Event e : events){
+            builder.append(e.name);
+            builder.append(" ");
+        }
+        return builder.toString();
     }
 
     @Override

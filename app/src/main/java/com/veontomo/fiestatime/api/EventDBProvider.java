@@ -1,6 +1,8 @@
 package com.veontomo.fiestatime.api;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class EventDBProvider implements IProvider<Event> {
      * @return
      */
     @Override
+    @NonNull
     public List<Event> getNearest(long time) {
         return mStorage.getNearest(time);
 
