@@ -53,7 +53,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         StringBuilder builder = new StringBuilder();
         for (Event e : events){
             builder.append(e.name);
-            builder.append(" ");
+            builder.append(System.getProperty("line.separator", " "));
         }
         return builder.toString();
     }
@@ -63,5 +63,4 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         this.provider.onUpdated();
     }
 
-    ;
 }
