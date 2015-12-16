@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,12 +65,12 @@ public class AddEvent extends Fragment implements AddEventView {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPeriodicityView.setAdapter(adapter);
 
-        // TODO: make the presenter use a task in order to load holiday info (if any) into
-        // the edit view. See how it is done in {@link AllEvents#onActivityCreated}
         mPresenter.setEventTypes(new String[]{SingleEvent.class.getCanonicalName(),
                 WeekEvent.class.getCanonicalName(),
                 MonthEvent.class.getCanonicalName(),
                 YearEvent.class.getCanonicalName()});
+        // TODO: make the presenter use a task in order to load holiday info (if any) into
+        // the edit view. See how it is done in {@link AllEvents#onActivityCreated}
         mPresenter.bindView(this);
 
         attachListeners();
@@ -155,14 +156,14 @@ public class AddEvent extends Fragment implements AddEventView {
 
 
     @Override
-    public void onHolidayAdded(Event h) {
-        hostingActivity.onHolidayAdded(h);
+    public void onEventAdded(Event h) {
+        hostingActivity.onEventAdded(h);
         mEventNameView.setText(null);
     }
 
     @Override
-    public void onHolidayUpdated(Event h) {
-        hostingActivity.onHolidayUpdated(h);
+    public void onEventUpdated(Event h) {
+        hostingActivity.onEventUpdated(h);
     }
 
     @Override
@@ -184,7 +185,7 @@ public class AddEvent extends Fragment implements AddEventView {
 
     @Override
     public void updateViews() {
-        this.mEventNameView.setText(mPresenter.getHolidayName());
+        this.mEventNameView.setText(mPresenter.getEventName());
         this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
     }
@@ -206,12 +207,13 @@ public class AddEvent extends Fragment implements AddEventView {
      * @param msg
      */
     @Override
-    public void showMessage(String msg) {
+    public void showMessage(int msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public interface onActions {
-        void onHolidayAdded(Event h);
-        void onHolidayUpdated(Event h);
+        void onEventAdded(Event h);
+        void onEventUpdated(Event h);
     }
+
 }

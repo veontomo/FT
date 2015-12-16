@@ -230,22 +230,25 @@ public class Storage extends SQLiteOpenHelper {
                 EventEntry.TABLE_NAME + "." + EventEntry.COLUMN_TYPE + " = " +
                 EventTypeEntry.TABLE_NAME + "." + EventTypeEntry._ID + " AND " +
                 EventEntry.COLUMN_NEXT + " > ? ORDER BY " + EventEntry.COLUMN_NEXT + " ASC";
-        List<Event> comingAfter = getEventsByQuery(query, new String[]{String.valueOf(time)});
-        List<Event> first = new ArrayList<>();
+        List<Event> forthcoming = getEventsByQuery(query, new String[]{String.valueOf(time)});
+        List<Event> nearest = new ArrayList<>();
 
-        int size = comingAfter.size();
-        if (size == 0) {
-            return first;
+        int size = forthcoming.size();
+        if (size == 0){
+            return nearest;
         }
-        Event e = comingAfter.get(0);
-        int i = 0;
-        long nearestOccurrence = e.getNextOccurrence();
-        while (e.nextOccurrence == nearestOccurrence) {
-            first.add(e);
-            i++;
-            e = comingAfter.get(i);
+        Event e = forthcoming.get(0);
+        long nearestTime = e.nextOccurrence;
+        nearest.add(e);
+        for (int i = 1; i < size; i++){
+            e = forthcoming.get(i);
+            if (e.nextOccurrence == nearestTime){
+                nearest.add(e);
+            } else {
+                break;
+            }
         }
-        return first;
+        return nearest;
     }
 
     /**

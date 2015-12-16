@@ -68,7 +68,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         this.mContext = context;
-        showMessage(context.getString(R.string.widget_removed));
+        showMessage(R.string.widget_removed);
         super.onDeleted(context, appWidgetIds);
     }
 
@@ -93,12 +93,12 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     }
 
     /**
-     * Displays a short message
+     * Displays a message by its resource id
      *
-     * @param msg
+     * @param msg string resource id
      */
     @Override
-    public void showMessage(String msg) {
+    public void showMessage(int msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 }

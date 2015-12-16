@@ -18,5 +18,10 @@
     <string name="title_activity_act_add_holiday">Add Holiday</string>
     <string name="no_data">No data</string>
     <string name="widget_removed">widget has been removed</string>
+    <string name="event_provider_missing">there is no possibility to save</string>
+    <string name="event_next_occurrence_missing">Choose the event next occurrence!</string>
+    <string name="event_name_missing">Event must have a name!</string>
+    <string name="wrong_date">Failed to elaborate the date</string>
+    <string name="save_event_fail">Failed to save the event!</string>
 
 </resources>

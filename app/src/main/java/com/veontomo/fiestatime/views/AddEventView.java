@@ -1,5 +1,6 @@
 package com.veontomo.fiestatime.views;
 
+import android.content.Context;
 import android.view.View;
 
 import com.veontomo.fiestatime.api.Event;
@@ -13,9 +14,9 @@ public interface AddEventView extends MVPView {
 
     void setDate(String date);
 
-    void onHolidayAdded(Event h);
+    void onEventAdded(Event h);
 
-    void onHolidayUpdated(Event h);
+    void onEventUpdated(Event h);
 
     void load(Event h);
 

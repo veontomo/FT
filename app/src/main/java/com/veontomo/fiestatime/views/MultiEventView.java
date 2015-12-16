@@ -16,13 +16,13 @@ public interface MultiEventView extends MVPView {
      * Eliminates a holiday at given position
      * @param pos
      */
-    void deleteHoliday(int pos);
+    void deleteEvent(int pos);
 
     /**
      * This method is called when a click on a given event occurs
      * @param event
      */
-    void onHolidayClick(Event event);
+    void onEventClick(Event event);
 
     /**
      * Updates a holiday

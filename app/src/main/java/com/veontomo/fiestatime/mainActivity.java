@@ -63,20 +63,20 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     }
 
     @Override
-    public void onHolidayAdded(Event h) {
+    public void onEventAdded(Event h) {
         MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allEvents.addEvent(h);
 
     }
 
     @Override
-    public void onHolidayUpdated(Event h) {
+    public void onEventUpdated(Event h) {
         MultiEventView allHolidays = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allHolidays.updateEvent(h);
     }
 
     @Override
-    public void onHolidayClicked(Event h) {
+    public void onEventClicked(Event h) {
         AddEvent addEvent = (AddEvent) getFragmentManager().findFragmentById(R.id.act_main_add_event);
         Logger.log("main activity: " + h.serialize());
         addEvent.load(h);

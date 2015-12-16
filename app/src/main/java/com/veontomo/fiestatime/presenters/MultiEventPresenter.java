@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  */
-public class MultiHolidaysPresenter implements MVPPresenter {
+public class MultiEventPresenter implements MVPPresenter {
     private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
             "com.veontomo.fiestatime.api.WeekEvent",
             "com.veontomo.fiestatime.api.MonthEvent",
@@ -24,7 +24,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     protected ArrayList<Event> mEvents;
     protected ITask mTask;
 
-    public MultiHolidaysPresenter(MultiEventView view) {
+    public MultiEventPresenter(MultiEventView view) {
         this.view = view;
     }
 
@@ -115,7 +115,7 @@ public class MultiHolidaysPresenter implements MVPPresenter {
     }
 
 
-    public void addHoliday(Event h) {
+    public void addEvent(Event h) {
         this.mEvents.add(h);
         view.updateViews();
     }
@@ -127,11 +127,11 @@ public class MultiHolidaysPresenter implements MVPPresenter {
      */
     public void onItemClick(int index) {
         Logger.log("click on " + this.mEvents.get(index));
-        view.onHolidayClick(this.mEvents.get(index));
+        view.onEventClick(this.mEvents.get(index));
     }
 
 
-    public void updateHoliday(Event h) {
+    public void updateEvent(Event h) {
         for (Event event : this.mEvents) {
             if (event.getId() == h.getId()) {
                 int pos = this.mEvents.indexOf(event);

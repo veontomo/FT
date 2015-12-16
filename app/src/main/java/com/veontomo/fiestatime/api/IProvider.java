@@ -1,6 +1,8 @@
 package com.veontomo.fiestatime.api;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public interface IProvider<T> {
      * Returns a list of nearest events that occur at the same time after given time
      * @return
      */
+    @NonNull
     List<T> getNearest(long time);
 
     /**

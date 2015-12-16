@@ -4,11 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
@@ -26,16 +28,16 @@ public class AddEventPresenter implements MVPPresenter {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
-     * name of the token under which the presenter saves the holiday's name in the bundle
+     * name of the token under which the presenter saves the event's name in the bundle
      */
     private static final String NAME_TOKEN = "name";
 
     /**
-     * name of the token under which the presenter saves the holiday's date in the bundle
+     * name of the token under which the presenter saves the event's date in the bundle
      */
     private static final String DATE_TOKEN = "date";
     /**
-     * name of the token under which the presenter saves the holiday's periodicity in the bundle
+     * name of the token under which the presenter saves the event's periodicity in the bundle
      */
     private static final String PERIODICITY_TOKEN = "periodicity";
 
@@ -43,7 +45,7 @@ public class AddEventPresenter implements MVPPresenter {
     private final AddEventView view;
 
     /**
-     * Date that corresponds to the holiday's next occurrence
+     * Date that corresponds to the event's next occurrence
      */
     private String date;
 
@@ -60,7 +62,7 @@ public class AddEventPresenter implements MVPPresenter {
     /**
      * Event id.
      */
-    private long id;
+    private long id = -1;
 
     private IProvider<Event> eventProvider;
     /**
@@ -103,27 +105,27 @@ public class AddEventPresenter implements MVPPresenter {
     /**
      * This method is called when a user clicks the "confirm" button
      *
-     * @param name content of the text view corresponding to holiday's name
-     * @param next content of the date picker dialog text view corresponding to holiday's date
-     * @param pos  index of the item selected from dropdown list corresponding to the holiday's periodicity
+     * @param name content of the text view corresponding to event's name
+     * @param next content of the date picker dialog text view corresponding to event's date
+     * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
     public void onConfirm(final String name, final String next, final int pos) {
         (new Thread(new Runnable() {
             @Override
             public void run() {
                 view.setEnableButtons(false);
-                String msg = null;
+                int msgCode = -1;
                 // elaborate three similar scenarios
                 if (name == null || name.isEmpty()) {
-                    msg = "Give a name to the holiday!";
+                    msgCode = R.string.event_name_missing;
                 } else if (next == null || next.isEmpty()) {
-                    msg = "Choose the holiday next occurrence!";
+                    msgCode = R.string.event_next_occurrence_missing;
                 } else if (eventProvider == null) {
-                    msg = "Can not save";
+                    msgCode = R.string.event_provider_missing;
                 }
-                if (msg != null) {
+                if (msgCode != -1) {
                     // once the message text is present, it is time to show it and exit
-                    view.showMessage(msg);
+                    view.showMessage(msgCode);
                     view.setEnableButtons(true);
                     return;
                 }
@@ -131,7 +133,8 @@ public class AddEventPresenter implements MVPPresenter {
                 try {
                     nextOccurrence = format.parse(next).getTime();
                 } catch (ParseException e) {
-                    view.showMessage("Failed to elaborate the holiday date!");
+                    msgCode = R.string.wrong_date;
+                    view.showMessage(msgCode);
                     view.setEnableButtons(true);
                     return;
                 }
@@ -139,15 +142,16 @@ public class AddEventPresenter implements MVPPresenter {
                 Event h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                 if (id != -1) {
                     if (eventProvider.save(h) != -1) {
-                        view.onHolidayUpdated(h);
+                        view.onEventUpdated(h);
                     }
                 } else {
                     id = eventProvider.save(h);
                     if (id != -1) {
                         h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
-                        view.onHolidayAdded(h);
+                        view.onEventAdded(h);
                     } else {
-                        view.showMessage("Failed to save the holiday!");
+                        msgCode = R.string.save_event_fail;
+                        view.showMessage(msgCode);
                     }
                 }
                 view.setEnableButtons(true);
@@ -156,7 +160,7 @@ public class AddEventPresenter implements MVPPresenter {
     }
 
     /**
-     * Set a provider of the mEvents
+     * Set a provider of events
      */
     public void setEventProvider(IProvider hp) {
         this.eventProvider = hp;
@@ -166,9 +170,9 @@ public class AddEventPresenter implements MVPPresenter {
     /**
      * This method is called when a user clicks the "cancel" button
      *
-     * @param name content of the text view corresponding to holiday's name
-     * @param next content of the date picker dialog text view corresponding to holiday's date
-     * @param pos  index of the item selected from dropdown list corresponding to the holiday's periodicity
+     * @param name content of the text view corresponding to event's name
+     * @param next content of the date picker dialog text view corresponding to event's date
+     * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
     public void onCancel(String name, String next, int pos) {
         /// TODO
@@ -196,7 +200,7 @@ public class AddEventPresenter implements MVPPresenter {
         return this.name + " " + this.date + " " + this.periodicity;
     }
 
-    public String getHolidayName() {
+    public String getEventName() {
         return this.name;
     }
 

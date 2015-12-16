@@ -2,20 +2,20 @@ package com.veontomo.fiestatime.api;
 
 import android.os.AsyncTask;
 
-import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
+import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 
 import java.util.List;
 
 /**
  * Task that retrieves all mEvents from the storage
  */
-public class RetrieveAllHolidaysTask implements ITask {
+public class RetrieveAllEventsTask implements ITask {
 
     private final IProvider provider;
-    private MultiHolidaysPresenter presenter;
+    private MultiEventPresenter presenter;
 
 
-    public RetrieveAllHolidaysTask(IProvider provider) {
+    public RetrieveAllEventsTask(IProvider provider) {
         this.provider = provider;
     }
 
@@ -30,7 +30,7 @@ public class RetrieveAllHolidaysTask implements ITask {
      *
      * @param presenter
      */
-    public void setOnDataLoaded(MultiHolidaysPresenter presenter) {
+    public void setOnDataLoaded(MultiEventPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -38,9 +38,9 @@ public class RetrieveAllHolidaysTask implements ITask {
     private class HolidayLoader extends AsyncTask<Void, Void, List<Event>> {
 
         private final IProvider provider;
-        private final MultiHolidaysPresenter presenter;
+        private final MultiEventPresenter presenter;
 
-        public HolidayLoader(IProvider provider, MultiHolidaysPresenter presenter) {
+        public HolidayLoader(IProvider provider, MultiEventPresenter presenter) {
             this.provider = provider;
             this.presenter = presenter;
         }
