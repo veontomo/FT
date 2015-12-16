@@ -157,6 +157,15 @@ public class StorageTest extends AndroidTestCase {
         assertThat(events).isEmpty();
     }
 
+    public void testGetNearestEventsSingleEvent() {
+        Event e1 = new SingleEvent("event 1", 11111L);
+        storage.save(e1);
+        List<Event> events = storage.getNearest(123L);
+        assertThat(events).hasSize(1);
+        assertThat(events.get(0).getName()).isEqualTo("event 1");
+        assertThat(events.get(0).getNextOccurrence()).isEqualTo(11111L);
+    }
+
     public void testGetNearestEventsIfThereIsNoEventsAfterGivenTime() {
         Event e1 = new SingleEvent("event 1", 11111L);
         Event e2 = new SingleEvent("event 2", 22222L);
