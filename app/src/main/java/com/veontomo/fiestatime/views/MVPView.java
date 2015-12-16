@@ -27,9 +27,9 @@ public interface MVPView {
     void restoreState(Bundle b);
 
     /**
-     * Displays a short message
-     * @param msg
+     * Displays a message by its resource id
+     * @param msg string resource id
      */
-    void showMessage(String msg);
+    void showMessage(int msg);
 
 }

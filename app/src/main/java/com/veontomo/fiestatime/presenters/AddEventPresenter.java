@@ -4,11 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
@@ -26,7 +28,7 @@ public class AddEventPresenter implements MVPPresenter {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
-     * name of the token under which the presenter saves the events's name in the bundle
+     * name of the token under which the presenter saves the event's name in the bundle
      */
     private static final String NAME_TOKEN = "name";
 
@@ -60,7 +62,7 @@ public class AddEventPresenter implements MVPPresenter {
     /**
      * Event id.
      */
-    private long id;
+    private long id = -1;
 
     private IProvider<Event> eventProvider;
     /**
@@ -112,18 +114,18 @@ public class AddEventPresenter implements MVPPresenter {
             @Override
             public void run() {
                 view.setEnableButtons(false);
-                String msg = null;
+                int msgCode = -1;
                 // elaborate three similar scenarios
                 if (name == null || name.isEmpty()) {
-                    msg = "Give a name to the event!";
+                    msgCode = R.string.event_name_missing;
                 } else if (next == null || next.isEmpty()) {
-                    msg = "Choose the event next occurrence!";
+                    msgCode = R.string.event_next_occurrence_missing;
                 } else if (eventProvider == null) {
-                    msg = "Can not save";
+                    msgCode = R.string.event_provider_missing;
                 }
-                if (msg != null) {
+                if (msgCode != -1) {
                     // once the message text is present, it is time to show it and exit
-                    view.showMessage(msg);
+                    view.showMessage(msgCode);
                     view.setEnableButtons(true);
                     return;
                 }
@@ -131,7 +133,8 @@ public class AddEventPresenter implements MVPPresenter {
                 try {
                     nextOccurrence = format.parse(next).getTime();
                 } catch (ParseException e) {
-                    view.showMessage("Failed to elaborate the event date!");
+                    msgCode = R.string.wrong_date;
+                    view.showMessage(msgCode);
                     view.setEnableButtons(true);
                     return;
                 }
@@ -147,7 +150,8 @@ public class AddEventPresenter implements MVPPresenter {
                         h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                         view.onEventAdded(h);
                     } else {
-                        view.showMessage("Failed to save the event!");
+                        msgCode = R.string.save_event_fail;
+                        view.showMessage(msgCode);
                     }
                 }
                 view.setEnableButtons(true);
@@ -156,7 +160,7 @@ public class AddEventPresenter implements MVPPresenter {
     }
 
     /**
-     * Set a provider of the mEvents
+     * Set a provider of events
      */
     public void setEventProvider(IProvider hp) {
         this.eventProvider = hp;

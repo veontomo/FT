@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -206,7 +207,7 @@ public class AddEvent extends Fragment implements AddEventView {
      * @param msg
      */
     @Override
-    public void showMessage(String msg) {
+    public void showMessage(int msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -214,4 +215,5 @@ public class AddEvent extends Fragment implements AddEventView {
         void onEventAdded(Event h);
         void onEventUpdated(Event h);
     }
+
 }

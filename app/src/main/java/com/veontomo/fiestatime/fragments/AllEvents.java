@@ -110,7 +110,7 @@ public class AllEvents extends ListFragment implements MultiEventView {
      * @param msg
      */
     @Override
-    public void showMessage(String msg) {
+    public void showMessage(int msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
