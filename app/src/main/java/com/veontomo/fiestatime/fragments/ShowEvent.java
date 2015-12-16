@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShowHolidayActions} interface
+ * {@link ShowEventActions} interface
  * to handle interaction events.
  * Use the {@link ShowEvent#newInstance} factory method to
  * produce an instance of this fragment.
@@ -43,11 +43,11 @@ public class ShowEvent extends Fragment {
     private Date mNextOccurrence;
 
     /**
-     * Activity that hosts this fragment being cast to {@link ShowHolidayActions} interface.
+     * Activity that hosts this fragment being cast to {@link ShowEventActions} interface.
      * Might be null, if the activity does not implement the above interface.
      */
     @Nullable
-    private ShowHolidayActions mHostActivity;
+    private ShowEventActions mHostActivity;
 
     public ShowEvent() {
         // Required empty public constructor
@@ -87,9 +87,9 @@ public class ShowEvent extends Fragment {
             mName = rawName == null ? "no name" : rawName;
             mDescription = b.getString(DESCR_TOKEN);
             try {
-                mHostActivity = (ShowHolidayActions) getActivity();
+                mHostActivity = (ShowEventActions) getActivity();
             } catch (ClassCastException e) {
-                Logger.log("hosting activity does not support ShowHolidayActions interface");
+                Logger.log("hosting activity does not support ShowEventActions interface");
                 mHostActivity = null;
             }
         }
@@ -115,7 +115,7 @@ public class ShowEvent extends Fragment {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    public interface ShowHolidayActions {
+    public interface ShowEventActions {
         void onFragmentInteraction();
     }
 

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
+import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
 
@@ -20,7 +20,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
 
     private OnFragmentInteractionListener mListener;
 
-    private final MultiHolidaysPresenter mPresenter = new MultiHolidaysPresenter(this);
+    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this);
 
     private TextView mTextView;
 
@@ -113,7 +113,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
      * @param pos
      */
     @Override
-    public void deleteHoliday(int pos) {
+    public void deleteEvent(int pos) {
         // TODO
 
     }
@@ -124,7 +124,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
      * @param event
      */
     @Override
-    public void onHolidayClick(Event event) {
+    public void onEventClick(Event event) {
 
     }
 
@@ -135,7 +135,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
      */
     @Override
     public void updateEvent(Event h) {
-        mPresenter.updateHoliday(h);
+        mPresenter.updateEvent(h);
     }
 
 

@@ -12,10 +12,10 @@ import android.widget.Toast;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.api.RetrieveAllHolidaysTask;
+import com.veontomo.fiestatime.api.RetrieveAllEventsTask;
 import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Storage;
-import com.veontomo.fiestatime.presenters.MultiHolidaysPresenter;
+import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class AllEvents extends ListFragment implements MultiEventView {
 
-    private final MultiHolidaysPresenter mPresenter = new MultiHolidaysPresenter(this);
+    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this);
 
     private ArrayAdapter<Event> adapter;
 
@@ -46,7 +46,7 @@ public class AllEvents extends ListFragment implements MultiEventView {
 
         Storage storage = new Storage(getActivity().getApplicationContext());
         EventDBProvider provider = new EventDBProvider(storage);
-        RetrieveAllHolidaysTask task = new RetrieveAllHolidaysTask(provider);
+        RetrieveAllEventsTask task = new RetrieveAllEventsTask(provider);
         mPresenter.setTask(task);
         hostingActivity = (onActions) getActivity();
     }
@@ -125,7 +125,7 @@ public class AllEvents extends ListFragment implements MultiEventView {
     @Override
     public void addEvent(Event h) {
         Logger.log("AllEvents addEvent");
-        mPresenter.addHoliday(h);
+        mPresenter.addEvent(h);
     }
 
     /**
@@ -134,28 +134,28 @@ public class AllEvents extends ListFragment implements MultiEventView {
      * @param pos
      */
     @Override
-    public void deleteHoliday(int pos) {
+    public void deleteEvent(int pos) {
         // TODO
     }
 
-    public void onHolidayClick(Event event) {
+    public void onEventClick(Event event) {
         if (hostingActivity != null) {
-            hostingActivity.onHolidayClicked(event);
+            hostingActivity.onEventClicked(event);
         }
     }
 
     /**
-     * Updates a holiday
+     * Updates an event
      *
      * @param h
      */
     @Override
     public void updateEvent(Event h) {
-        mPresenter.updateHoliday(h);
+        mPresenter.updateEvent(h);
     }
 
 
     public interface onActions {
-        void onHolidayClicked(Event h);
+        void onEventClicked(Event h);
     }
 }
