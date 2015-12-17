@@ -56,6 +56,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
             provider.setNextNearest(daysToEvent(events2.get(0).nextOccurrence, timeNow));
         }
         provider.setDescription(getEventsInfo(events));
+
     }
 
     /**

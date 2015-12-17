@@ -1,5 +1,8 @@
 package com.veontomo.fiestatime;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,12 +35,23 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
                         .setAction("Action", null).show();
             }
         });
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Logger.log("mainActivity onStart");
+        ContentResolver contentResolver  = getApplicationContext().getContentResolver();
+        Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
+                (new String[]{"calendar_id", "title", "description", "dtstart", "dtend", "eventTimezone", "eventLocation"}), "(" + "dtstart" + "> 0)", null, "dtstart ASC");
+        Logger.log("cursor size = " + cursor.getCount());
+        while(cursor.moveToNext()){
+            Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
+            Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
+            Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+        }
+
     }
 
     @Override
@@ -66,6 +80,8 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     public void onEventAdded(Event h) {
         MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allEvents.addEvent(h);
+
+
 
     }
 
