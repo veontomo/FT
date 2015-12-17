@@ -42,14 +42,23 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     public void onStart() {
         super.onStart();
         Logger.log("mainActivity onStart");
-        ContentResolver contentResolver  = getApplicationContext().getContentResolver();
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+//        Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
+//                (new String[]{"calendar_id", "title", "description", "dtstart", "dtend", "eventTimezone", "eventLocation"}), "(" + "dtstart" + "> 0)", null, "dtstart ASC");
         Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
-                (new String[]{"calendar_id", "title", "description", "dtstart", "dtend", "eventTimezone", "eventLocation"}), "(" + "dtstart" + "> 0)", null, "dtstart ASC");
-        Logger.log("cursor size = " + cursor.getCount());
-        while(cursor.moveToNext()){
-            Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
-            Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
-            Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+                null, "(" + "dtstart" + "> 0)", null, "dtstart ASC");
+        if (cursor != null) {
+            Logger.log("cursor size = " + cursor.getCount());
+            int col = cursor.getColumnCount();
+            while (cursor.moveToNext()) {
+                for (int i = 0; i < col; i++){
+                    Logger.log(String.valueOf(i) + cursor.getColumnName(i) + " " + cursor.getString(i));
+                }
+//                Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
+//                Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
+//                Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+            }
+            cursor.close();
         }
 
     }
@@ -80,7 +89,6 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     public void onEventAdded(Event h) {
         MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allEvents.addEvent(h);
-
 
 
     }
