@@ -28,30 +28,50 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         long time = System.currentTimeMillis();
-        List<Event> events = itemProvider.toAdjustDate(System.currentTimeMillis());
-        for (Event h : events) {
+        List<Event> nearestEvents = itemProvider.toAdjustDate(System.currentTimeMillis());
+        for (Event h : nearestEvents) {
             h.adjustDate(time);
             itemProvider.save(h);
         }
-        events = itemProvider.getNearest(time);
-        updateProvider(events);
+        nearestEvents = itemProvider.getNearest(time);
+        if (!nearestEvents.isEmpty()) {
+            long nearestDate = nearestEvents.get(0).nextOccurrence;
+            List<Event> afterNearestEvents = itemProvider.getNearest(nearestDate);
+            updateProvider(nearestEvents, afterNearestEvents);
+        }
         return null;
     }
 
     /**
-     * Updates provider data based on what events is coming.
+     * Updates the provider based on two lists: the nearest events and events that come
+     * immediately after nearest ones.
+     *
+     * @param events  list of nearest events. It is supposed to be not null and not empty
+     * @param events2 list of after-nearest events. It is supposed to be not null, but might be empty
      */
-    private void updateProvider(@NonNull final List<Event> events) {
-        Event e = events.get(0);
-        int days = (int) ((e.nextOccurrence - System.currentTimeMillis()) / MILLISEC_IN_DAY) + 1 ;
-        provider.setNearest(days);
-        provider.setNextNearest(days + 8);
+    private void updateProvider(@NonNull final List<Event> events, @NonNull final List<Event> events2) {
+        long timeNow = System.currentTimeMillis();
+        provider.setNearest(daysToEvent(events.get(0).nextOccurrence, timeNow));
+        if (!events2.isEmpty()) {
+            provider.setNextNearest(daysToEvent(events2.get(0).nextOccurrence, timeNow));
+        }
         provider.setDescription(getEventsInfo(events));
     }
 
-    private String getEventsInfo(@NonNull final List<Event> events){
+    /**
+     * Calculates the number of days from moment of time t2 to moment of time t1
+     *
+     * @param t1
+     * @param t2
+     * @return
+     */
+    private int daysToEvent(long t1, long t2) {
+        return (int) ((t1 - t2) / MILLISEC_IN_DAY) + 1;
+    }
+
+    private String getEventsInfo(@NonNull final List<Event> events) {
         StringBuilder builder = new StringBuilder();
-        for (Event e : events){
+        for (Event e : events) {
             builder.append(e.name);
             builder.append(System.getProperty("line.separator", " "));
         }
