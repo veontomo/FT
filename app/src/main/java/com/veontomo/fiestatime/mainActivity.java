@@ -50,13 +50,21 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
         if (cursor != null) {
             Logger.log("cursor size = " + cursor.getCount());
             int col = cursor.getColumnCount();
+            StringBuilder builder;
             while (cursor.moveToNext()) {
-                for (int i = 0; i < col; i++){
-                    Logger.log(String.valueOf(i) + cursor.getColumnName(i) + " " + cursor.getString(i));
+                builder = new StringBuilder();
+                for (int i = 0; i < col; i++) {
+                    builder.append(cursor.getColumnName(i));
+                    builder.append(": ");
+                    builder.append(cursor.getString(i));
+                    builder.append(" ");
+
                 }
+//                builder.append(System.getProperty("line.separator", " "));
 //                Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
 //                Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
 //                Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+                Logger.log(builder.toString());
             }
             cursor.close();
         }
