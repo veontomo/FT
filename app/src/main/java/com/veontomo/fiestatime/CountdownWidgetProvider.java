@@ -50,9 +50,13 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
-        mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
-        mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
-        mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
+        if (mPresenter.getNearest() >= 0) {
+            mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
+            if (mPresenter.getNextNearest() > 0) {
+                mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
+            }
+            mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
+        }
 
         for (int widgetId : mWidgetIds) {
             Intent intent = new Intent(mContext, CountdownWidgetProvider.class);

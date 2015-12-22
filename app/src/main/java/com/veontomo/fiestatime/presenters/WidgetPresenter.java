@@ -13,12 +13,12 @@ public class WidgetPresenter {
     /**
      * number of days to the nearest holiday
      */
-    private int nearest;
+    private int nearest = -1;
 
     /**
      * number of days to the holiday after the nearest
      */
-    private int nextNearest;
+    private int nextNearest = -1;
 
     /**
      * String representation of the forthcoming holiday(s)

@@ -1,5 +1,8 @@
 package com.veontomo.fiestatime;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,12 +35,40 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
                         .setAction("Action", null).show();
             }
         });
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Logger.log("mainActivity onStart");
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+//        Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
+//                (new String[]{"calendar_id", "title", "description", "dtstart", "dtend", "eventTimezone", "eventLocation"}), "(" + "dtstart" + "> 0)", null, "dtstart ASC");
+        Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
+                null, "(" + "dtstart" + "> 0)", null, "dtstart ASC");
+        if (cursor != null) {
+            Logger.log("cursor size = " + cursor.getCount());
+            int col = cursor.getColumnCount();
+            StringBuilder builder;
+            while (cursor.moveToNext()) {
+                builder = new StringBuilder();
+                for (int i = 0; i < col; i++) {
+                    builder.append(cursor.getColumnName(i));
+                    builder.append(": ");
+                    builder.append(cursor.getString(i));
+                    builder.append(" ");
+
+                }
+//                builder.append(System.getProperty("line.separator", " "));
+//                Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
+//                Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
+//                Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+                Logger.log(builder.toString());
+            }
+            cursor.close();
+        }
+
     }
 
     @Override
@@ -66,6 +97,7 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     public void onEventAdded(Event h) {
         MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allEvents.addEvent(h);
+
 
     }
 
