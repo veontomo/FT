@@ -27,7 +27,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        long time = System.currentTimeMillis() - MILLISEC_IN_DAY;
+        final long time = System.currentTimeMillis() - MILLISEC_IN_DAY;
         List<Event> nearestEvents = itemProvider.toAdjustDate(time);
         for (Event h : nearestEvents) {
             h.adjustDate(time);
@@ -66,7 +66,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      * @param t2
      * @return
      */
-    private int daysToEvent(long t1, long t2) {
+    public int daysToEvent(long t1, long t2) {
         return (int) ((t1 - t2) / MILLISEC_IN_DAY) + 1;
     }
 
