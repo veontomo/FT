@@ -17,18 +17,21 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      */
     private static final int MILLISEC_IN_DAY = 1000 * 60 * 60 * 24;
 
-    private final WidgetPresenter provider;
-    private final IProvider<Event> itemProvider;
+    private WidgetPresenter provider;
+    private IProvider<Event> itemProvider;
 
     public WidgetUpdateTask(WidgetPresenter caller, IProvider<Event> itemProvider) {
         this.provider = caller;
         this.itemProvider = itemProvider;
     }
 
+    public WidgetUpdateTask() {
+    }
+
     @Override
     protected Void doInBackground(Void... params) {
-        long time = System.currentTimeMillis();
-        List<Event> nearestEvents = itemProvider.toAdjustDate(System.currentTimeMillis());
+        final long time = System.currentTimeMillis() - MILLISEC_IN_DAY;
+        List<Event> nearestEvents = itemProvider.toAdjustDate(time);
         for (Event h : nearestEvents) {
             h.adjustDate(time);
             itemProvider.save(h);
@@ -51,23 +54,40 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      */
     private void updateProvider(@NonNull final List<Event> events, @NonNull final List<Event> events2) {
         long timeNow = System.currentTimeMillis();
-        provider.setNearest(daysToEvent(events.get(0).nextOccurrence, timeNow));
+        provider.setNearest(daysBetween(timeNow, events.get(0).nextOccurrence));
         if (!events2.isEmpty()) {
-            provider.setNextNearest(daysToEvent(events2.get(0).nextOccurrence, timeNow));
+            provider.setNextNearest(daysBetween(timeNow, events2.get(0).nextOccurrence));
         }
         provider.setDescription(getEventsInfo(events));
 
     }
 
     /**
-     * Calculates the number of days from moment of time t2 to moment of time t1
+     * Gives the description of the number of days that remain until the event time.
+     * <br>
+     * If the event occurs (w.r.t. the reference time) in period
+     * <ol>
+     * <li>from 0 to 24 hours, then return +1.</li>
+     * <li>from 24 to 48 hours, then return +2.</li>
+     * <li>from 48 to 72 hours, then return +3.</li>
+     * </ol>
+     * <br>
+     * If the event occurred (w.r.t. the reference time) in period
+     * <ol>
+     * <li>from 0 to 24 hours ago, then return 0.</li>
+     * <li>from 24 to 48 hours ago, then return -1.</li>
+     * <li>from 48 to 72 hours ago, then return -2.</li>
+     * </ol>
      *
-     * @param t1
-     * @param t2
+     * @param reference reference time
+     * @param eventTime event time
      * @return
      */
-    private int daysToEvent(long t1, long t2) {
-        return (int) ((t1 - t2) / MILLISEC_IN_DAY) + 1;
+    public int daysBetween(long reference, long eventTime) {
+        if (eventTime > reference) {
+            return (int) ((eventTime - reference) / MILLISEC_IN_DAY) + 1;
+        }
+        return (int) ((eventTime - reference) / MILLISEC_IN_DAY);
     }
 
     private String getEventsInfo(@NonNull final List<Event> events) {

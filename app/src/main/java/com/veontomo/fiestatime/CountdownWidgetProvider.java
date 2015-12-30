@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -50,8 +51,17 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
-        if (mPresenter.getNearest() >= 0) {
-            mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
+        int daysToNearest = mPresenter.getNearest();
+        if (daysToNearest >= 0) {
+            if (daysToNearest == 0){
+                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.today));
+                mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 15.0f);
+            } else if (daysToNearest == 1){
+                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.tomorrow));
+            } else {
+                mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
+            }
+
             if (mPresenter.getNextNearest() > 0) {
                 mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
             }
