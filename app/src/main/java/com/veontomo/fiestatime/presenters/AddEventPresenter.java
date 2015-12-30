@@ -175,7 +175,7 @@ public class AddEventPresenter implements MVPPresenter {
      * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
     public void onCancel(String name, String next, int pos) {
-        /// TODO
+       Logger.log("cancelling: " + name + " "+ next + " " + pos);
     }
 
     @Override

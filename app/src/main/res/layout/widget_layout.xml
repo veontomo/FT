@@ -35,7 +35,7 @@
             android:padding="5dip"
             android:textColor="#966683e1"
             android:textSize="20sp"
-            tools:text="9">
+            tools:text="Tomorrow">
         </TextView>
 
         <TextView
@@ -50,7 +50,7 @@
             android:padding="0dip"
             android:textColor="#dc24115b"
             android:textSize="50sp"
-            tools:text="13">
+            tools:text="Today">
         </TextView>
     </RelativeLayout>
 

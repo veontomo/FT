@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
@@ -52,14 +53,20 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void updateViews() {
         int daysToNearest = mPresenter.getNearest();
+        // TODO: clean it up!
         if (daysToNearest >= 0) {
             if (daysToNearest == 0){
                 mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.today));
-                mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 15.0f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
+                }
             } else if (daysToNearest == 1){
                 mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.tomorrow));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
+                }
             } else {
-                mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(mPresenter.getNearest()));
+                mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(daysToNearest));
             }
 
             if (mPresenter.getNextNearest() > 0) {
