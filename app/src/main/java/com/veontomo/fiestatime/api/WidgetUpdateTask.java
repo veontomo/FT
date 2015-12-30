@@ -63,17 +63,31 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Calculates the number of complete days (24 hours) that interval [t1, t2] contains.
+     * Gives the description of the number of days that remain until the event time.
+     * <br>
+     * If the event occurs (w.r.t. the reference time) in period
+     * <ol>
+     * <li>from 0 to 24 hours, then return +1.</li>
+     * <li>from 24 to 48 hours, then return +2.</li>
+     * <li>from 48 to 72 hours, then return +3.</li>
+     * </ol>
+     * <br>
+     * If the event occurred (w.r.t. the reference time) in period
+     * <ol>
+     * <li>from 0 to 24 hours ago, then return 0.</li>
+     * <li>from 24 to 48 hours ago, then return -1.</li>
+     * <li>from 48 to 72 hours ago, then return -2.</li>
+     * </ol>
      *
-     * @param t1 start time
-     * @param t2 end time
+     * @param reference reference time
+     * @param eventTime event time
      * @return
      */
-    public int daysBetween(long t1, long t2) {
-        if (t2 > t1) {
-            return (int) ((t2 - t1) / MILLISEC_IN_DAY) + 1;
+    public int daysBetween(long reference, long eventTime) {
+        if (eventTime > reference) {
+            return (int) ((eventTime - reference) / MILLISEC_IN_DAY) + 1;
         }
-        return (int) ((t2 - t1) / MILLISEC_IN_DAY);
+        return (int) ((eventTime - reference) / MILLISEC_IN_DAY);
     }
 
     private String getEventsInfo(@NonNull final List<Event> events) {
