@@ -27,8 +27,8 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        long time = System.currentTimeMillis();
-        List<Event> nearestEvents = itemProvider.toAdjustDate(System.currentTimeMillis());
+        long time = System.currentTimeMillis() - MILLISEC_IN_DAY;
+        List<Event> nearestEvents = itemProvider.toAdjustDate(time);
         for (Event h : nearestEvents) {
             h.adjustDate(time);
             itemProvider.save(h);
