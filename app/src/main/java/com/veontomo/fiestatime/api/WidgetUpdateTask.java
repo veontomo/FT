@@ -17,12 +17,15 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      */
     private static final int MILLISEC_IN_DAY = 1000 * 60 * 60 * 24;
 
-    private final WidgetPresenter provider;
-    private final IProvider<Event> itemProvider;
+    private WidgetPresenter provider;
+    private IProvider<Event> itemProvider;
 
     public WidgetUpdateTask(WidgetPresenter caller, IProvider<Event> itemProvider) {
         this.provider = caller;
         this.itemProvider = itemProvider;
+    }
+
+    public WidgetUpdateTask() {
     }
 
     @Override
@@ -51,23 +54,26 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      */
     private void updateProvider(@NonNull final List<Event> events, @NonNull final List<Event> events2) {
         long timeNow = System.currentTimeMillis();
-        provider.setNearest(daysToEvent(events.get(0).nextOccurrence, timeNow));
+        provider.setNearest(daysBetween(timeNow, events.get(0).nextOccurrence));
         if (!events2.isEmpty()) {
-            provider.setNextNearest(daysToEvent(events2.get(0).nextOccurrence, timeNow));
+            provider.setNextNearest(daysBetween(timeNow, events2.get(0).nextOccurrence));
         }
         provider.setDescription(getEventsInfo(events));
 
     }
 
     /**
-     * Calculates the number of days from moment of time t2 to moment of time t1
+     * Calculates the number of complete days (24 hours) that interval [t1, t2] contains.
      *
-     * @param t1
-     * @param t2
+     * @param t1 start time
+     * @param t2 end time
      * @return
      */
-    public int daysToEvent(long t1, long t2) {
-        return (int) ((t1 - t2) / MILLISEC_IN_DAY) + 1;
+    public int daysBetween(long t1, long t2) {
+        if (t2 > t1) {
+            return (int) ((t2 - t1) / MILLISEC_IN_DAY) + 1;
+        }
+        return (int) ((t2 - t1) / MILLISEC_IN_DAY);
     }
 
     private String getEventsInfo(@NonNull final List<Event> events) {
