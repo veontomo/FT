@@ -23,5 +23,7 @@
     <string name="event_name_missing">Event must have a name!</string>
     <string name="wrong_date">Failed to elaborate the date</string>
     <string name="save_event_fail">Failed to save the event!</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
 </resources>
