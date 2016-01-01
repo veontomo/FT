@@ -9,13 +9,6 @@
     android:orientation="horizontal"
     android:padding="4dip">
 
-    <ImageView
-        android:id="@+id/widget_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/app_logo"/>
-
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
