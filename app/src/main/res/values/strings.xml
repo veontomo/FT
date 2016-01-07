@@ -26,5 +26,6 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="days_to_event"># days to #</string>
+    <string name="noEvents">Keep calm: no events so far</string>
 
 </resources>
