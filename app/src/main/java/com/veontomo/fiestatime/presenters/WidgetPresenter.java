@@ -1,5 +1,7 @@
 package com.veontomo.fiestatime.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
@@ -74,5 +76,18 @@ public class WidgetPresenter {
 
     public void setItemProvider(IProvider<Event> itemProvider) {
         mItemProvider = itemProvider;
+    }
+
+    /**
+     * Returns text for the secondary phrase using the base as a template
+     */
+    public CharSequence getSecondaryPhrase(@NonNull String base) {
+        String result;
+        if (nextNearest > 0){
+            result = base.replaceFirst("#1", String.valueOf(nextNearest));
+        } else {
+            result = "";
+        }
+        return result;
     }
 }

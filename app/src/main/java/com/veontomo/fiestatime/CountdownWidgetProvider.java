@@ -56,26 +56,28 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         // TODO: clean it up!
         if (daysToNearest >= 0) {
             if (daysToNearest == 0){
-                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.today));
+                mRemoteViews.setTextViewText(R.id.countdownPrimary, mContext.getString(R.string.today));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
+                    mRemoteViews.setTextViewTextSize(R.id.secondaryEvent, TypedValue.COMPLEX_UNIT_SP, 25.0f);
                 }
             } else if (daysToNearest == 1){
-                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.tomorrow));
+                mRemoteViews.setTextViewText(R.id.countdownPrimary, mContext.getString(R.string.tomorrow));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
+                    mRemoteViews.setTextViewTextSize(R.id.secondaryEvent, TypedValue.COMPLEX_UNIT_SP, 25.0f);
                 }
             } else {
-                mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(daysToNearest));
+                mRemoteViews.setTextViewText(R.id.countdownPrimary, String.valueOf(daysToNearest));
             }
 
             if (mPresenter.getNextNearest() > 0) {
-                mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
+                mRemoteViews.setTextViewText(R.id.secondaryEvent, mPresenter.getSecondaryPhrase(mContext.getString(R.string.days_to_event)));
+            } else {
+                mRemoteViews.setTextViewText(R.id.secondaryEvent, "");
             }
-            mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
+            mRemoteViews.setTextViewText(R.id.primaryEvent, String.valueOf(mPresenter.getDescription()));
         } else {
-            mRemoteViews.setTextViewText(R.id.background, "");
-            mRemoteViews.setTextViewText(R.id.widget_text,  mContext.getString(R.string.noEvents));
+            mRemoteViews.setTextViewText(R.id.secondaryEvent, "");
+            mRemoteViews.setTextViewText(R.id.primaryEvent,  mContext.getString(R.string.noEvents));
         }
 
         for (int widgetId : mWidgetIds) {
@@ -84,7 +86,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mRemoteViews.setOnClickPendingIntent(R.id.foreground, pendingIntent);
+            mRemoteViews.setOnClickPendingIntent(R.id.countdownPrimary, pendingIntent);
             mWidgetManager.updateAppWidget(widgetId, mRemoteViews);
         }
     }
