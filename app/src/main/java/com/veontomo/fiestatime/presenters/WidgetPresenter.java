@@ -78,16 +78,5 @@ public class WidgetPresenter {
         mItemProvider = itemProvider;
     }
 
-    /**
-     * Returns text for the secondary phrase using the base as a template
-     */
-    public CharSequence getSecondaryPhrase(@NonNull String base) {
-        String result;
-        if (nextNearest > 0){
-            result = base.replaceFirst("#1", String.valueOf(nextNearest));
-        } else {
-            result = "";
-        }
-        return result;
-    }
+
 }
