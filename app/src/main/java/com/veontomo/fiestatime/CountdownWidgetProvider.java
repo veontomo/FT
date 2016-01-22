@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.veontomo.fiestatime.api.EventDBProvider;
