@@ -40,7 +40,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
                          int[] appWidgetIds) {
         this.mWidgetManager = appWidgetManager;
         this.mWidgetIds = appWidgetIds;
-        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_2);
         this.mContext = context;
         this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
         this.mPresenter.update();
