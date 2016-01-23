@@ -5,9 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -40,7 +38,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
                          int[] appWidgetIds) {
         this.mWidgetManager = appWidgetManager;
         this.mWidgetIds = appWidgetIds;
-        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_2);
         this.mContext = context;
         this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
         this.mPresenter.update();
@@ -53,27 +51,21 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void updateViews() {
         int daysToNearest = mPresenter.getNearest();
-        // TODO: clean it up!
-        if (daysToNearest >= 0) {
-            if (daysToNearest == 0){
-                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.today));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
-                }
-            } else if (daysToNearest == 1){
-                mRemoteViews.setTextViewText(R.id.background, mContext.getString(R.string.tomorrow));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mRemoteViews.setTextViewTextSize(R.id.background, TypedValue.COMPLEX_UNIT_SP, 25.0f);
-                }
-            } else {
-                mRemoteViews.setTextViewText(R.id.foreground, String.valueOf(daysToNearest));
-            }
-
-            if (mPresenter.getNextNearest() > 0) {
-                mRemoteViews.setTextViewText(R.id.background, String.valueOf(mPresenter.getNextNearest()));
-            }
-            mRemoteViews.setTextViewText(R.id.widget_text, String.valueOf(mPresenter.getDescription()));
-        }
+        int daysToNextNearest = mPresenter.getNextNearest();
+        setPrimaryCountdown(daysToNearest);
+        setPrimaryDescr(mPresenter.getDescription());
+        setSecondaryCountdown(daysToNextNearest);
+//        if (daysToNearest >= 0) {
+//            if (mPresenter.getNextNearest() > 0) {
+//                mRemoteViews.setTextViewText(R.id.secondaryEvent, mPresenter.getSecondaryPhrase(mContext.getString(R.string.days_to_event)));
+//            } else {
+//                mRemoteViews.setTextViewText(R.id.secondaryEvent, "");
+//            }
+//            mRemoteViews.setTextViewText(R.id.primaryEvent, String.valueOf(mPresenter.getDescription()));
+//        } else {
+//            mRemoteViews.setTextViewText(R.id.secondaryEvent, "");
+//            mRemoteViews.setTextViewText(R.id.primaryEvent, mContext.getString(R.string.noEvents));
+//        }
 
         for (int widgetId : mWidgetIds) {
             Intent intent = new Intent(mContext, CountdownWidgetProvider.class);
@@ -81,9 +73,68 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mRemoteViews.setOnClickPendingIntent(R.id.foreground, pendingIntent);
+            mRemoteViews.setOnClickPendingIntent(R.id.countdownPrimary, pendingIntent);
             mWidgetManager.updateAppWidget(widgetId, mRemoteViews);
         }
+    }
+
+    /**
+     * Sets the description
+     * @param description text of the description
+     *
+     */
+    private void setPrimaryDescr(String description) {
+        mRemoteViews.setTextViewText(R.id.primaryEvent, description);
+    }
+
+    /**
+     * Sets the value of the number of days to the event that comes after the nearest.
+     *
+     * @param days non-negative number that means the number of days between the nearest event and the one after it.
+     */
+    private void setSecondaryCountdown(int days) {
+        String text;
+        if (days > 0) {
+            text = mContext.getString(R.string.days_to_event);
+            text = text.replaceFirst("#1", String.valueOf(days));
+        } else {
+            text = mContext.getString(R.string.noNextToNearestEvents);
+        }
+        mRemoteViews.setTextViewText(R.id.secondaryEvent, text);
+
+    }
+
+
+    /**
+     * Sets the value of the number of days to the nearest event.
+     * <p/>
+     * If the argument is negative, then display "no event" text.
+     * If the argument is equal to 0, then display "today" (localized).
+     * If the argument is equal to 1, then display "tomorrow" (localized).
+     * In other cases display the argument.
+     *
+     * @param days
+     */
+    private void setPrimaryCountdown(int days) {
+        String text;
+        int daysNorm = days;
+        if (daysNorm < 0) {
+            daysNorm = -1;
+        }
+        switch (daysNorm) {
+            case -1:
+                text = mContext.getString(R.string.noEvents);
+                break;
+            case 0:
+                text = mContext.getString(R.string.today);
+                break;
+            case 1:
+                text = mContext.getString(R.string.tomorrow);
+                break;
+            default:
+                text = String.valueOf(daysNorm);
+        }
+        mRemoteViews.setTextViewText(R.id.countdownPrimary, text);
     }
 
     @Override

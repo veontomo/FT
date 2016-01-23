@@ -1,5 +1,7 @@
 package com.veontomo.fiestatime.presenters;
 
+import android.support.annotation.NonNull;
+
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
@@ -75,4 +77,6 @@ public class WidgetPresenter {
     public void setItemProvider(IProvider<Event> itemProvider) {
         mItemProvider = itemProvider;
     }
+
+
 }
