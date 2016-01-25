@@ -38,6 +38,6 @@ public class SingleEvent extends Event {
      */
     @Override
     public void adjustDate(long time) {
-        return;
+        // no date adjustment for this class
     }
 }

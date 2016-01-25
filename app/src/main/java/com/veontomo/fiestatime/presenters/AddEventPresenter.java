@@ -162,7 +162,7 @@ public class AddEventPresenter implements MVPPresenter {
     /**
      * Set a provider of events
      */
-    public void setEventProvider(IProvider hp) {
+    public void setEventProvider(IProvider<Event> hp) {
         this.eventProvider = hp;
     }
 
