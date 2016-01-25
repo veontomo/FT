@@ -65,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
-            android:text="@string/days_to_event"
+            android:singleLine="true"
+            android:text="@string/days_to_next_nearest_event"
             android:textColor="#ffffff"
             android:textSize="16sp"
             tools:text="16 days to Piscina"/>

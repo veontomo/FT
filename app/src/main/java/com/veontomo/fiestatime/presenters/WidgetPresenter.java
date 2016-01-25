@@ -1,7 +1,6 @@
 package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
@@ -17,19 +16,19 @@ import java.util.List;
 public class WidgetPresenter {
     private final MVPView view;
     /**
-     * number of days to the nearest holiday
+     * number of days to the daysToNearest event.
      */
-    private int nearest = -1;
+    private int daysToNearest = -1;
 
     /**
-     * number of days to the holiday after the nearest
+     * number of days to the holiday after the daysToNearest
      */
-    private int nextNearest = -1;
+    private int daysToNextNearest = -1;
 
     private IProvider<Event> mItemProvider;
 
     /**
-     * list of nearest events
+     * list of daysToNearest events
      */
     private List<Event> mNearestEvents;
 
@@ -55,29 +54,38 @@ public class WidgetPresenter {
         view.updateViews();
     }
 
-    public int getNearest() {
-        return nearest;
+    public int getDaysToNearest() {
+        return daysToNearest;
     }
 
-    public int getNextNearest() {
-        return nextNearest;
+    public int getDaysToNextNearest() {
+        return daysToNextNearest;
     }
 
+    /**
+     * Returns a localized description of the next daysToNearest events.
+     * @param context
+     * @return
+     */
     public String getNearestEventsDescription(final Context context) {
-        StringBuilder builder = new StringBuilder();
-        for (Event e : mNearestEvents) {
-            builder.append(e.getName());
-            builder.append(System.getProperty("line.separator", " "));
+        int size = mNearestEvents == null ? 0 : mNearestEvents.size();
+        if (size == 0){
+            return context.getString(R.string.noEvents);
         }
-        return builder.toString();
+        if (size == 1){
+            return mNearestEvents.get(0).getName();
+        }
+        String text = context.getString(R.string.days_to_nearest_events);
+        text = text.replaceFirst("#1", String.valueOf(size));
+        return text;
     }
 
-    public void setNearest(int nearest) {
-        this.nearest = nearest;
+    public void setDaysToNearest(int daysToNearest) {
+        this.daysToNearest = daysToNearest;
     }
 
-    public void setNextNearest(int nextNearest) {
-        this.nextNearest = nextNearest;
+    public void setDaysToNextNearest(int daysToNextNearest) {
+        this.daysToNextNearest = daysToNextNearest;
     }
 
     public void setItemProvider(IProvider<Event> itemProvider) {
@@ -86,7 +94,7 @@ public class WidgetPresenter {
 
 
     /**
-     * Returns a phrase corresponding to the number of days to the nearest event(s).
+     * Returns a phrase corresponding to the number of days to the daysToNearest event(s).
      * <p/>
      * If the number of days is negative, then display "no event" text.
      * If the number of days is equal to 0, then display "today" (localized).
@@ -98,7 +106,7 @@ public class WidgetPresenter {
      */
     public String getCountdownPhrase(final Context context) {
         String text;
-        int daysNorm = getNearest();
+        int daysNorm = getDaysToNearest();
         if (daysNorm < 0) {
             daysNorm = -1;
         }
@@ -119,16 +127,16 @@ public class WidgetPresenter {
     }
 
     /**
-     * Returns description of the event(s) coming after the nearest event.
+     * Returns description of the event(s) coming after the daysToNearest event.
      *
      * @param context it is necessary in order to take localized version of the message
      * @return human-friendly form of the number of days
      */
     public String getNextNearestEventsDescription(final Context context) {
         String text;
-        int days = getNextNearest();
+        int days = getDaysToNextNearest();
         if (days > 0) {
-            text = context.getString(R.string.days_to_event);
+            text = context.getString(R.string.days_to_next_nearest_event);
             text = text.replaceFirst("#1", String.valueOf(days));
         } else {
             text = context.getString(R.string.noNextToNearestEvents);

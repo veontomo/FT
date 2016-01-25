@@ -25,8 +25,9 @@
     <string name="save_event_fail">Failed to save the event!</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    <string name="days_to_event">#1 days to another event</string>
-    <string name="noEvents">Add events first</string>
+    <string name="days_to_nearest_events">#1 events</string>
+    <string name="days_to_next_nearest_event">+#1 days</string>
+    <string name="noEvents">No events</string>
     <string name="noNextToNearestEvents">and then nothing</string>
 
 </resources>

@@ -54,9 +54,9 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
      */
     private void updateProvider(@NonNull final List<Event> events, @NonNull final List<Event> events2) {
         long timeNow = System.currentTimeMillis();
-        provider.setNearest(daysBetween(timeNow, events.get(0).nextOccurrence));
+        provider.setDaysToNearest(daysBetween(timeNow, events.get(0).nextOccurrence));
         if (!events2.isEmpty()) {
-            provider.setNextNearest(daysBetween(timeNow, events2.get(0).nextOccurrence));
+            provider.setDaysToNextNearest(daysBetween(timeNow, events2.get(0).nextOccurrence));
         }
         provider.setNearestEvents(events);
     }
