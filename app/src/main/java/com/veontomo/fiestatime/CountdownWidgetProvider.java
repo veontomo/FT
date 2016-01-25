@@ -52,9 +52,9 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     public void updateViews() {
         int daysToNearest = mPresenter.getNearest();
         int daysToNextNearest = mPresenter.getNextNearest();
-        setPrimaryCountdown(daysToNearest);
-        setPrimaryDescr(mPresenter.getDescription());
-        setSecondaryCountdown(daysToNextNearest);
+        displayPrimaryCountdown(daysToNearest);
+        displayPrimaryDescr(mPresenter.getDescription());
+        displaySecondaryCountdown(daysToNextNearest);
 //        if (daysToNearest >= 0) {
 //            if (mPresenter.getNextNearest() > 0) {
 //                mRemoteViews.setTextViewText(R.id.secondaryEvent, mPresenter.getSecondaryPhrase(mContext.getString(R.string.days_to_event)));
@@ -79,20 +79,20 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     }
 
     /**
-     * Sets the description
+     * Dsplays the description of the nearest events
      * @param description text of the description
      *
      */
-    private void setPrimaryDescr(String description) {
+    private void displayPrimaryDescr(String description) {
         mRemoteViews.setTextViewText(R.id.primaryEvent, description);
     }
 
     /**
-     * Sets the value of the number of days to the event that comes after the nearest.
+     * Displays the number of days to the event that comes after the nearest.
      *
      * @param days non-negative number that means the number of days between the nearest event and the one after it.
      */
-    private void setSecondaryCountdown(int days) {
+    private void displaySecondaryCountdown(int days) {
         String text;
         if (days > 0) {
             text = mContext.getString(R.string.days_to_event);
@@ -106,7 +106,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
 
     /**
-     * Sets the value of the number of days to the nearest event.
+     * Displays the number of days to the nearest event.
      * <p/>
      * If the argument is negative, then display "no event" text.
      * If the argument is equal to 0, then display "today" (localized).
@@ -115,7 +115,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      *
      * @param days
      */
-    private void setPrimaryCountdown(int days) {
+    private void displayPrimaryCountdown(int days) {
         String text;
         int daysNorm = days;
         if (daysNorm < 0) {
