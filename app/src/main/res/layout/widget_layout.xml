@@ -16,7 +16,7 @@
         android:padding="2dip">
 
         <TextView
-            android:id="@+id/countdownPrimary"
+            android:id="@+id/primaryEventCountdown"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingEnd="5dp"
@@ -29,7 +29,7 @@
             tools:text="12"/>
 
         <TextView
-            android:id="@+id/primaryEvent"
+            android:id="@+id/primaryEventDescr"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -63,7 +63,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/secondaryEvent"
+            android:id="@+id/secondaryEventDescr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
