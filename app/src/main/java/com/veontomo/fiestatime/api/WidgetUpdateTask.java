@@ -58,8 +58,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         if (!events2.isEmpty()) {
             provider.setNextNearest(daysBetween(timeNow, events2.get(0).nextOccurrence));
         }
-        provider.setDescription(getEventsInfo(events));
-
+        provider.setNearestEvents(events);
     }
 
     /**
@@ -90,14 +89,7 @@ public class WidgetUpdateTask extends AsyncTask<Void, Void, Void> {
         return (int) ((eventTime - reference) / MILLISEC_IN_DAY);
     }
 
-    private String getEventsInfo(@NonNull final List<Event> events) {
-        StringBuilder builder = new StringBuilder();
-        for (Event e : events) {
-            builder.append(e.name);
-            builder.append(System.getProperty("line.separator", " "));
-        }
-        return builder.toString();
-    }
+
 
     @Override
     public void onPostExecute(Void v) {

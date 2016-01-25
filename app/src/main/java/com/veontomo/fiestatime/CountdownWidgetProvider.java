@@ -51,7 +51,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void updateViews() {
         mRemoteViews.setTextViewText(R.id.primaryEventCountdown, mPresenter.getCountdownPhrase(mContext));
-        mRemoteViews.setTextViewText(R.id.primaryEventDescr, mPresenter.getNearestEventsDescription());
+        mRemoteViews.setTextViewText(R.id.primaryEventDescr, mPresenter.getNearestEventsDescription(mContext));
         mRemoteViews.setTextViewText(R.id.secondaryEventDescr, mPresenter.getNextNearestEventsDescription(mContext));
 
         for (int widgetId : mWidgetIds) {

@@ -1,12 +1,15 @@
 package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.IProvider;
 import com.veontomo.fiestatime.api.WidgetUpdateTask;
 import com.veontomo.fiestatime.views.MVPView;
+
+import java.util.List;
 
 /**
  * Presenter for the countdown widget.
@@ -23,11 +26,12 @@ public class WidgetPresenter {
      */
     private int nextNearest = -1;
 
-    /**
-     * String representation of the forthcoming holiday(s)
-     */
-    private String setDescription;
     private IProvider<Event> mItemProvider;
+
+    /**
+     * list of nearest events
+     */
+    private List<Event> mNearestEvents;
 
     public WidgetPresenter(MVPView view) {
         this.view = view;
@@ -59,8 +63,13 @@ public class WidgetPresenter {
         return nextNearest;
     }
 
-    public String getNearestEventsDescription() {
-        return setDescription;
+    public String getNearestEventsDescription(final Context context) {
+        StringBuilder builder = new StringBuilder();
+        for (Event e : mNearestEvents) {
+            builder.append(e.getName());
+            builder.append(System.getProperty("line.separator", " "));
+        }
+        return builder.toString();
     }
 
     public void setNearest(int nearest) {
@@ -69,10 +78,6 @@ public class WidgetPresenter {
 
     public void setNextNearest(int nextNearest) {
         this.nextNearest = nextNearest;
-    }
-
-    public void setDescription(String text) {
-        setDescription = text;
     }
 
     public void setItemProvider(IProvider<Event> itemProvider) {
@@ -93,7 +98,7 @@ public class WidgetPresenter {
      */
     public String getCountdownPhrase(final Context context) {
         String text;
-        int daysNorm = this.nearest;
+        int daysNorm = getNearest();
         if (daysNorm < 0) {
             daysNorm = -1;
         }
@@ -121,12 +126,22 @@ public class WidgetPresenter {
      */
     public String getNextNearestEventsDescription(final Context context) {
         String text;
-        if (nextNearest > 0) {
+        int days = getNextNearest();
+        if (days > 0) {
             text = context.getString(R.string.days_to_event);
-            text = text.replaceFirst("#1", String.valueOf(nextNearest));
+            text = text.replaceFirst("#1", String.valueOf(days));
         } else {
             text = context.getString(R.string.noNextToNearestEvents);
         }
         return text;
     }
+
+    /**
+     * Setter for {@link #mNearestEvents}.
+     * @param nearestEvents
+     */
+    public void setNearestEvents(final List<Event> nearestEvents) {
+        mNearestEvents = nearestEvents;
+    }
+
 }
