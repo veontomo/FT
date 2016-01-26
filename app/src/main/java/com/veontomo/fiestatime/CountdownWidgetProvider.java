@@ -108,7 +108,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
-
+    @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         this.mContext = context;
