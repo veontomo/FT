@@ -110,7 +110,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
 
     public void onReceive(Context context, Intent intent) {
-        Logger.log("Message received");
+        super.onReceive(context, intent);
         this.mContext = context;
         this.mWidgetManager = AppWidgetManager.getInstance(context);
         updateViews();
