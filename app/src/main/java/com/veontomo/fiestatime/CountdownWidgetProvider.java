@@ -33,13 +33,29 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
     private Context mContext;
 
+
+    @Override
+    public void onEnabled(Context context){
+        super.onEnabled(context);
+        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_2);
+        this.mContext = context;
+        Intent intent = new Intent(context, CountdownWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.primaryEventCountdown, pendingIntent);
+        showMessage(R.string.action_settings);
+
+
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         this.mWidgetManager = appWidgetManager;
-        this.mWidgetIds = appWidgetIds;
-        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_2);
         this.mContext = context;
+        this.mWidgetIds = appWidgetIds;
         this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
         this.mPresenter.update();
     }
@@ -50,6 +66,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
+        this.mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_2);
         mRemoteViews.setTextViewText(R.id.primaryEventCountdown, mPresenter.getCountdownPhrase(mContext));
         mRemoteViews.setTextViewText(R.id.primaryEventDescr, mPresenter.getNearestEventsDescription(mContext));
         mRemoteViews.setTextViewText(R.id.secondaryEventDescr, mPresenter.getNextNearestEventsDescription(mContext));
