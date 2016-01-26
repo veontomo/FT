@@ -1,6 +1,9 @@
 package com.veontomo.fiestatime;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,14 +100,27 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
     public void onEventAdded(Event h) {
         MultiEventView allEvents = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allEvents.addEvent(h);
-
-
     }
 
     @Override
     public void onEventUpdated(Event h) {
         MultiEventView allHolidays = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allHolidays.updateEvent(h);
+
+//        ComponentName thisWidget = new ComponentName( getApplicationContext(), CountdownWidgetProvider.class );
+//        RemoteViews mRemoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget_layout_2);
+//        AppWidgetManager.getInstance(getApplicationContext()).updateAppWidget(thisWidget, mRemoteViews);
+        Intent intent = new Intent(getApplicationContext(), CountdownWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        AppWidgetManager widgetManager = AppWidgetManager.getInstance(getApplicationContext());
+        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), CountdownWidgetProvider.class));
+
+        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
+
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
     @Override

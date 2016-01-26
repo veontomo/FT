@@ -22,7 +22,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
     private final WidgetPresenter mPresenter = new WidgetPresenter(this);
 
-    private RemoteViews mRemoteViews;
+//    private RemoteViews mRemoteViews;
 
     private AppWidgetManager mWidgetManager;
 
@@ -53,7 +53,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void updateViews() {
         Logger.log("CountdownWidgetProvider: on update views");
-        this.mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_2);
+        RemoteViews mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_2);
         mRemoteViews.setTextViewText(R.id.primaryEventCountdown, mPresenter.getCountdownPhrase(mContext));
         mRemoteViews.setTextViewText(R.id.primaryEventDescr, mPresenter.getNearestEventsDescription(mContext));
         mRemoteViews.setTextViewText(R.id.secondaryEventDescr, mPresenter.getNextNearestEventsDescription(mContext));
@@ -106,5 +106,13 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     @Override
     public void showMessage(int msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void onReceive(Context context, Intent intent) {
+        Logger.log("Message received");
+        this.mContext = context;
+        this.mWidgetManager = AppWidgetManager.getInstance(context);
+        updateViews();
     }
 }
