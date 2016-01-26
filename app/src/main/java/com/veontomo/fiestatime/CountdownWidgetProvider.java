@@ -33,26 +33,10 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
     private Context mContext;
 
-
-    @Override
-    public void onEnabled(Context context){
-        super.onEnabled(context);
-        this.mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_2);
-        this.mContext = context;
-        Intent intent = new Intent(context, CountdownWidgetProvider.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.primaryEventCountdown, pendingIntent);
-        showMessage(R.string.action_settings);
-
-
-    }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
+        Logger.log("CountdownWidgetProvider: on update");
         this.mWidgetManager = appWidgetManager;
         this.mContext = context;
         this.mWidgetIds = appWidgetIds;
@@ -66,20 +50,19 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
      */
     @Override
     public void updateViews() {
+        Logger.log("CountdownWidgetProvider: on update views");
         this.mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_2);
         mRemoteViews.setTextViewText(R.id.primaryEventCountdown, mPresenter.getCountdownPhrase(mContext));
         mRemoteViews.setTextViewText(R.id.primaryEventDescr, mPresenter.getNearestEventsDescription(mContext));
         mRemoteViews.setTextViewText(R.id.secondaryEventDescr, mPresenter.getNextNearestEventsDescription(mContext));
 
-        for (int widgetId : mWidgetIds) {
-            Intent intent = new Intent(mContext, CountdownWidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
+        Intent intent = new Intent(mContext, mainActivity.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mRemoteViews.setOnClickPendingIntent(R.id.primaryEventCountdown, pendingIntent);
-            mWidgetManager.updateAppWidget(widgetId, mRemoteViews);
-        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.primaryEventCountdown, pendingIntent);
+        mWidgetManager.updateAppWidget(mWidgetIds, mRemoteViews);
     }
 
 
