@@ -120,6 +120,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             this.mContext = context;
             this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
+            this.mPresenter.update();
             this.mWidgetManager = AppWidgetManager.getInstance(context);
             Logger.log("action is correct");
             final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
