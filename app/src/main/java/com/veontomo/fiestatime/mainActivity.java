@@ -114,11 +114,11 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
         // TODO: clean it up!
         Intent intent = new Intent(getApplicationContext(), CountdownWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+//         Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
         // since it seems the onUpdate() is only fired on that:
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(getApplicationContext());
         int[] ids = widgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), CountdownWidgetProvider.class));
-//        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
+        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
     }

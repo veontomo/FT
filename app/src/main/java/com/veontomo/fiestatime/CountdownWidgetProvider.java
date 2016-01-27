@@ -3,6 +3,7 @@ package com.veontomo.fiestatime;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -114,5 +115,18 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         this.mContext = context;
         this.mWidgetManager = AppWidgetManager.getInstance(context);
         updateViews();
+
+
+        //////////////////////////
+//        final String action = intent.getAction();
+//        if (action.equals(SHOW_NEW_DATA_ACTION)) {
+//            final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+//            final ComponentName cn = new ComponentName(context, this.getClass());
+//            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetLayout);
+//
+//        }
+//        super.onReceive(ctx, intent);
+        //////////////////////////
+
     }
 }
