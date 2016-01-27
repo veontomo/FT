@@ -6,12 +6,14 @@
               android:orientation="vertical"
               tools:context=".fragments.AddEvent">
 
-    <EditText
+    <com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/frag_add_event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/holiday_name"
-        android:inputType="text"/>
+        android:inputType="text"
+        app:bootstrapBrand="info"
+        app:bootstrapSize="lg"/>
 
     <TextView
         android:id="@+id/frag_add_holiday_next"
@@ -46,14 +48,14 @@
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:text="@string/btn_reset"
             app:bootstrapBrand="warning"
             app:bootstrapSize="md"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
             app:buttonMode="regular"
             app:roundedCorners="true"
             app:showOutline="false"

@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.EventDBProvider;
@@ -28,7 +29,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class AddEvent extends Fragment implements AddEventView {
     private final AddEventPresenter mPresenter = new AddEventPresenter(this);
-    private EditText mEventNameView;
+    private BootstrapEditText mEventNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
     private BootstrapButton mConfirmButton;
@@ -56,7 +57,7 @@ public class AddEvent extends Fragment implements AddEventView {
     @Override
     public void onStart() {
         super.onStart();
-        mEventNameView = (EditText) getActivity().findViewById(R.id.frag_add_event_name);
+        mEventNameView = (BootstrapEditText) getActivity().findViewById(R.id.frag_add_event_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_event_confirm);
