@@ -64,7 +64,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, mWidgetIds);
 
         // use method getActivity (and not getBroadcast) in order to start mainActivity.
-        // prevoiusly, getBroadcast() was used because a click on the widget was starting
+        // previously, getBroadcast() was used because a click on the widget was starting
         // CountdownWidgetProvider which after all inherits from BroadcastReceiver and not from Activity.
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.primaryEventCountdown, pendingIntent);

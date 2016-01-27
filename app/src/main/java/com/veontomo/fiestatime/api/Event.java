@@ -1,13 +1,5 @@
 package com.veontomo.fiestatime.api;
 
-import android.support.annotation.NonNull;
-
-import com.veontomo.fiestatime.Logger;
-
-import java.util.Calendar;
-
-import javax.annotation.Nonnull;
-
 /**
  * Event
  *

@@ -1,7 +1,6 @@
 package com.veontomo.fiestatime;
 
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;

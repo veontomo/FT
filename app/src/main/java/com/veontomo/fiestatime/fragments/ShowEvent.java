@@ -2,7 +2,6 @@ package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +22,12 @@ import java.util.Date;
  */
 public class ShowEvent extends Fragment {
     private static final String NAME_TOKEN = "name";
-    private static final String DESCR_TOKEN = "descr";
+    private static final String DESC_TOKEN = "desc";
 
 
     /**
      * Event's name
      */
-    @NonNull
     private String mName;
 
     /**
@@ -58,14 +56,14 @@ public class ShowEvent extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param name  holiday name
-     * @param descr holiday description.
+     * @param desc holiday description.
      * @return A new instance of fragment ShowEvent.
      */
-    public static ShowEvent newInstance(String name, String descr) {
+    public static ShowEvent newInstance(String name, String desc) {
         ShowEvent fragment = new ShowEvent();
         Bundle args = new Bundle();
         args.putString(NAME_TOKEN, name);
-        args.putString(DESCR_TOKEN, descr);
+        args.putString(DESC_TOKEN, desc);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,7 +83,7 @@ public class ShowEvent extends Fragment {
         if (b != null) {
             String rawName = b.getString(NAME_TOKEN);
             mName = rawName == null ? "no name" : rawName;
-            mDescription = b.getString(DESCR_TOKEN);
+            mDescription = b.getString(DESC_TOKEN);
             try {
                 mHostActivity = (ShowEventActions) getActivity();
             } catch (ClassCastException e) {

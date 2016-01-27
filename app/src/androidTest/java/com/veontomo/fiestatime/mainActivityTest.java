@@ -1,6 +1,5 @@
 package com.veontomo.fiestatime;
 
-import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;

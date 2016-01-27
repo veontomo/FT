@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.presenters.MultiEventPresenter;
@@ -32,6 +33,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            Logger.log(this.getClass().getSimpleName() + ", method onCreate() is called with arguments");
         }
     }
 

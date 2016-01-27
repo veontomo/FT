@@ -1,6 +1,5 @@
 package com.veontomo.fiestatime.views;
 
-import android.content.Context;
 import android.os.Bundle;
 
 /**

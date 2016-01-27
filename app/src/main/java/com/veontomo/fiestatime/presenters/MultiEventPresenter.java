@@ -15,10 +15,6 @@ import java.util.List;
 /**
  */
 public class MultiEventPresenter implements MVPPresenter {
-    private final static String[] classes = new String[]{"com.veontomo.fiestatime.api.SingleEvent",
-            "com.veontomo.fiestatime.api.WeekEvent",
-            "com.veontomo.fiestatime.api.MonthEvent",
-            "com.veontomo.fiestatime.api.YearEvent"};
     private final static String HOLIDAYS_TOKEN = "mEvents";
     protected final MultiEventView view;
     protected ArrayList<Event> mEvents;
