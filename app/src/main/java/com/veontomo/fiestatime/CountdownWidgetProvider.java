@@ -109,33 +109,22 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * A broadcast receiver.
+     * <br> If the broadcast action corresponds to an update action, then call {@link #onUpdate(Context, AppWidgetManager, int[])} method
+     * with properly set arguments.
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Logger.log("Broadcast receved: action = " + intent.getClass());
-//        super.onReceive(context, intent);
-
-
-        //////////////////////////
-        final String action = intent.getAction();
-        if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
-            this.mContext = context;
-            this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
-            this.mPresenter.update();
-            this.mWidgetManager = AppWidgetManager.getInstance(context);
-            Logger.log("action is correct");
+        final String action = (intent == null) ? null : intent.getAction();
+        if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {
             final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
             final ComponentName cn = new ComponentName(context, CountdownWidgetProvider.class);
-            this.mWidgetIds = mWidgetManager.getAppWidgetIds(cn);
-            Logger.log("component name " + cn.getClassName());
-            Logger.log("size: " + mWidgetManager.getAppWidgetIds(cn).length);
-            mgr.notifyAppWidgetViewDataChanged(mWidgetManager.getAppWidgetIds(cn), R.id.widgetLayout);
-
-        } else {
-            Logger.log("action is different from " + AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            int[] appWidgetIds = mgr.getAppWidgetIds(cn);
+            onUpdate(context, mgr, appWidgetIds);
         }
-        updateViews();
         super.onReceive(context, intent);
-        //////////////////////////
-
     }
 }

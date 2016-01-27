@@ -107,19 +107,8 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
         MultiEventView allHolidays = (MultiEventView) getFragmentManager().findFragmentById(R.id.act_main_all_events);
         allHolidays.updateEvent(h);
 
-//        ComponentName thisWidget = new ComponentName( getApplicationContext(), CountdownWidgetProvider.class );
-//        RemoteViews mRemoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget_layout_2);
-//        AppWidgetManager.getInstance(getApplicationContext()).updateAppWidget(thisWidget, mRemoteViews);
-
-        // TODO: clean it up!
         Intent intent = new Intent(getApplicationContext(), CountdownWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//         Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-        // since it seems the onUpdate() is only fired on that:
-//        AppWidgetManager widgetManager = AppWidgetManager.getInstance(getApplicationContext());
-//        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), CountdownWidgetProvider.class));
-//        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
-//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
     }
 
