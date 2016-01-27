@@ -1,16 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.AddEvent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".fragments.AddEvent">
 
     <EditText
         android:id="@+id/frag_add_event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/holiday_name"
-        android:inputType="text" />
+        android:inputType="text"/>
 
     <TextView
         android:id="@+id/frag_add_holiday_next"
@@ -21,18 +22,56 @@
     <Spinner
         android:id="@+id/frag_add_holiday_periodicity"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/frag_add_holiday_cancel" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:id="@+id/frag_add_event_confirm" />
+        android:orientation="horizontal">
+
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/frag_add_event_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_confirm"
+            app:bootstrapBrand="success"
+            app:bootstrapSize="md"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_reset"
+            app:bootstrapBrand="warning"
+            app:bootstrapSize="md"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/frag_add_holiday_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_delete"
+            app:bootstrapBrand="danger"
+            app:bootstrapSize="md"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false"
+            />
+    </LinearLayout>
 
 
 </LinearLayout>

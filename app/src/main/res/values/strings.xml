@@ -29,5 +29,8 @@
     <string name="days_to_next_nearest_event">+#1 days</string>
     <string name="noEvents">No events</string>
     <string name="noNextToNearestEvents">and then nothing</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_delete">Delete</string>
 
 </resources>

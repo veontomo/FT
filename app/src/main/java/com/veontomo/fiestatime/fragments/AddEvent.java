@@ -23,14 +23,16 @@ import com.veontomo.fiestatime.api.YearEvent;
 import com.veontomo.fiestatime.presenters.AddEventPresenter;
 import com.veontomo.fiestatime.views.AddEventView;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
 
 public class AddEvent extends Fragment implements AddEventView {
     private final AddEventPresenter mPresenter = new AddEventPresenter(this);
     private EditText mEventNameView;
     private TextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
-    private Button mConfirmButton;
-    private Button mCancelButton;
+    private BootstrapButton mConfirmButton;
+    private BootstrapButton mCancelButton;
     private onActions hostingActivity;
 
     public AddEvent() { }
@@ -57,8 +59,8 @@ public class AddEvent extends Fragment implements AddEventView {
         mEventNameView = (EditText) getActivity().findViewById(R.id.frag_add_event_name);
         mNextOccurrenceView = (TextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
-        mConfirmButton = (Button) getActivity().findViewById(R.id.frag_add_event_confirm);
-        mCancelButton = (Button) getActivity().findViewById(R.id.frag_add_holiday_cancel);
+        mConfirmButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_event_confirm);
+        mCancelButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_holiday_cancel);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

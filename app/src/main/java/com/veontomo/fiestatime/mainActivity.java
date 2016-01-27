@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.fragments.AddEvent;
 import com.veontomo.fiestatime.fragments.AllEvents;
@@ -22,6 +23,7 @@ import com.veontomo.fiestatime.views.MultiEventView;
 public class mainActivity extends AppCompatActivity implements AddEvent.onActions, AllEvents.onActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TypefaceProvider.registerDefaultIconSets();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Logger.log("mainActivity onCreate");
