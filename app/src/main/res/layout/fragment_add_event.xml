@@ -15,11 +15,19 @@
         app:bootstrapBrand="info"
         app:bootstrapSize="lg"/>
 
-    <TextView
-        android:id="@+id/frag_add_holiday_next"
+    <!--<TextView-->
+        <!--android:id="@+id/frag_add_holiday_next"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:text="15 November"/>-->
+    <com.beardedhen.androidbootstrap.AwesomeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="15 November"/>
+        android:id="@+id/frag_add_holiday_next"
+        android:textSize="50sp"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="@string/calendar_event_date"
+        />
 
     <Spinner
         android:id="@+id/frag_add_holiday_periodicity"
