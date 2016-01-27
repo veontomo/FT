@@ -111,21 +111,29 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-        this.mContext = context;
-        this.mWidgetManager = AppWidgetManager.getInstance(context);
-        updateViews();
+        Logger.log("Broadcast receved: action = " + intent.getClass());
+//        super.onReceive(context, intent);
 
 
         //////////////////////////
-//        final String action = intent.getAction();
-//        if (action.equals(SHOW_NEW_DATA_ACTION)) {
-//            final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-//            final ComponentName cn = new ComponentName(context, this.getClass());
-//            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetLayout);
-//
-//        }
-//        super.onReceive(ctx, intent);
+        final String action = intent.getAction();
+        if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+            this.mContext = context;
+            this.mPresenter.setItemProvider(new EventDBProvider(new Storage(this.mContext)));
+            this.mWidgetManager = AppWidgetManager.getInstance(context);
+            Logger.log("action is correct");
+            final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+            final ComponentName cn = new ComponentName(context, CountdownWidgetProvider.class);
+            this.mWidgetIds = mWidgetManager.getAppWidgetIds(cn);
+            Logger.log("component name " + cn.getClassName());
+            Logger.log("size: " + mWidgetManager.getAppWidgetIds(cn).length);
+            mgr.notifyAppWidgetViewDataChanged(mWidgetManager.getAppWidgetIds(cn), R.id.widgetLayout);
+
+        } else {
+            Logger.log("action is different from " + AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        }
+        updateViews();
+        super.onReceive(context, intent);
         //////////////////////////
 
     }
