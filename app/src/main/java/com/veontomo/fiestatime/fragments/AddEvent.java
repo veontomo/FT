@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
@@ -25,8 +23,6 @@ import com.veontomo.fiestatime.api.YearEvent;
 import com.veontomo.fiestatime.presenters.AddEventPresenter;
 import com.veontomo.fiestatime.views.AddEventView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
-
 
 public class AddEvent extends Fragment implements AddEventView {
     private final AddEventPresenter mPresenter = new AddEventPresenter(this);
@@ -37,8 +33,8 @@ public class AddEvent extends Fragment implements AddEventView {
     private BootstrapButton mCancelButton;
     private onActions hostingActivity;
 
-    public AddEvent() { }
-
+    public AddEvent() {
+    }
 
 
     @Override
@@ -146,7 +142,6 @@ public class AddEvent extends Fragment implements AddEventView {
     }
 
 
-
     @Override
     public void onDateClick(View v) {
         mPresenter.onDateClick(v, getActivity().getFragmentManager());
@@ -188,8 +183,14 @@ public class AddEvent extends Fragment implements AddEventView {
 
     @Override
     public void updateViews() {
-        this.mEventNameView.setText(mPresenter.getEventName());
-        this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
+        String date = mPresenter.getNextOccurrence();
+        String name = mPresenter.getEventName();
+        if (name != null) {
+            this.mEventNameView.setText(name);
+        }
+        if (date != null) {
+            this.mNextOccurrenceView.setText(date);
+        }
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
     }
 
@@ -216,6 +217,7 @@ public class AddEvent extends Fragment implements AddEventView {
 
     public interface onActions {
         void onEventAdded(Event h);
+
         void onEventUpdated(Event h);
     }
 

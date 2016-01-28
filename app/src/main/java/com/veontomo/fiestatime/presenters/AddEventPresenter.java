@@ -71,10 +71,6 @@ public class AddEventPresenter implements MVPPresenter {
 
     public AddEventPresenter(AddEventView view) {
         this.view = view;
-        if (this.date == null) {
-            Calendar calendar = Calendar.getInstance();
-            this.date = format.format(calendar.getTime());
-        }
     }
 
 

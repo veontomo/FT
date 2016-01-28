@@ -24,10 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/frag_add_holiday_next"
-        android:textSize="40sp"
+        android:textSize="25sp"
         android:drawableLeft="@mipmap/calendar_selection_day"
+        android:drawableStart="@mipmap/calendar_selection_day"
         app:bootstrapBrand="primary"
-        app:bootstrapText="@string/calendar_event_date"
+        app:bootstrapText="@string/select_event_date"
         />
 
     <Spinner
