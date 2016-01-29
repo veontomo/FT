@@ -58,6 +58,16 @@ public class EventDBProvider implements IProvider<Event> {
 
     }
 
+    /**
+     * Deletes the item with given id from the storage
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean delete(long id) {
+        return mStorage.delete(id);
+    }
 
 
 }
