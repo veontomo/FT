@@ -36,4 +36,11 @@ public interface IProvider<T> {
      */
     List<T> toAdjustDate(long time);
 
+    /**
+     * Deletes the item with given id from the storage
+     * @param id
+     * @return
+     */
+    boolean delete(long id);
+
 }

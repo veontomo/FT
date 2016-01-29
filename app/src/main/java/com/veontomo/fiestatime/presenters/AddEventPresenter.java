@@ -13,6 +13,7 @@ import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.views.AddEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -95,6 +96,13 @@ public class AddEventPresenter implements MVPPresenter {
     public void onDateChosen(String date) {
         this.date = date;
         view.setDate(date);
+    }
+
+    /**
+     * This method is called when the event has been deleted from the storage
+     */
+    public void onDeleted(){
+        // TODO: implement
     }
 
     /**
@@ -245,6 +253,17 @@ public class AddEventPresenter implements MVPPresenter {
 
     public void setEventTypes(String[] eventTypes) {
         mEventTypes = eventTypes;
+    }
+
+    /**
+     * Deletes current event from the storage
+     */
+    public void onDelete() {
+        if (id != -1) {
+            (new DeleteEventTask(id, this, eventProvider)).execute();
+        }
+
+
     }
 
 

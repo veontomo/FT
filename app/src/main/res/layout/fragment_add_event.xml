@@ -59,6 +59,7 @@
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="0dp"
+            android:id="@+id/frag_add_holiday_reset"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginLeft="5dp"
@@ -74,7 +75,7 @@
             />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/frag_add_holiday_cancel"
+            android:id="@+id/frag_add_holiday_delete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

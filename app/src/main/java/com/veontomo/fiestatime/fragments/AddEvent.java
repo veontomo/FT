@@ -31,6 +31,7 @@ public class AddEvent extends Fragment implements AddEventView {
     private Spinner mPeriodicityView;
     private BootstrapButton mConfirmButton;
     private BootstrapButton mCancelButton;
+    private BootstrapButton mDeleteButton;
     private onActions hostingActivity;
 
     public AddEvent() {
@@ -58,7 +59,8 @@ public class AddEvent extends Fragment implements AddEventView {
         mNextOccurrenceView = (AwesomeTextView) getActivity().findViewById(R.id.frag_add_holiday_next);
         mPeriodicityView = (Spinner) getActivity().findViewById(R.id.frag_add_holiday_periodicity);
         mConfirmButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_event_confirm);
-        mCancelButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_holiday_cancel);
+        mCancelButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_holiday_reset);
+        mDeleteButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_holiday_delete);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -109,6 +111,12 @@ public class AddEvent extends Fragment implements AddEventView {
             public void onClick(View v) {
                 mPresenter.onCancel(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
                 mEventNameView.setText(null);
+            }
+        });
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onDelete();
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +179,7 @@ public class AddEvent extends Fragment implements AddEventView {
     }
 
     /**
-     * Disables "confirm" and "cancel" buttons
+     * Enables or disables "confirm", "cancel" and "delete" buttons
      *
      * @param status true to enable buttons, false to disable them
      */
@@ -179,6 +187,8 @@ public class AddEvent extends Fragment implements AddEventView {
     public void setEnableButtons(boolean status) {
         mConfirmButton.setClickable(status);
         mCancelButton.setClickable(status);
+        mDeleteButton.setClickable(status);
+
     }
 
     @Override
@@ -192,6 +202,7 @@ public class AddEvent extends Fragment implements AddEventView {
             this.mNextOccurrenceView.setText(date);
         }
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
+
     }
 
 
