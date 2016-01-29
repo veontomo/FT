@@ -102,7 +102,9 @@ public class AddEventPresenter implements MVPPresenter {
      * This method is called when the event has been deleted from the storage
      */
     public void onDeleted(){
-        // TODO: implement
+        view.showMessage(R.string.event_deleted);
+        view.updateViews();
+
     }
 
     /**

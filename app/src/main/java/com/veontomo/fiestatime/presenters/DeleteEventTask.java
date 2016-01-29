@@ -61,6 +61,8 @@ public class DeleteEventTask extends AsyncTask<Void, Void, Void> {
     public void onPostExecute(Void v) {
         if (isSuccessful) {
             this.mPresenter.onDeleted();
+        } else {
+//            this.mPresenter.onFailure();
         }
     }
 }
