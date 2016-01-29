@@ -103,6 +103,10 @@ public class AddEventPresenter implements MVPPresenter {
      */
     public void onDeleted(){
         view.showMessage(R.string.event_deleted);
+        this.id = -1;
+        this.name = null;
+        this.date = null;
+        this.periodicity = -1;
         view.updateViews();
 
     }

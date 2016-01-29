@@ -193,14 +193,8 @@ public class ManageEvent extends Fragment implements AddEventView {
 
     @Override
     public void updateViews() {
-        String date = mPresenter.getNextOccurrence();
-        String name = mPresenter.getEventName();
-        if (name != null) {
-            this.mEventNameView.setText(name);
-        }
-        if (date != null) {
-            this.mNextOccurrenceView.setText(date);
-        }
+        this.mEventNameView.setText(mPresenter.getEventName());
+        this.mNextOccurrenceView.setText(mPresenter.getNextOccurrence());
         this.mPeriodicityView.setSelection(mPresenter.getPeriodicity());
 
     }
