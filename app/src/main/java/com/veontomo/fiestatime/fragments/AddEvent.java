@@ -61,7 +61,7 @@ public class AddEvent extends Fragment implements AddEventView {
         mCancelButton = (BootstrapButton) getActivity().findViewById(R.id.frag_add_holiday_cancel);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.periodicity, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         mPeriodicityView.setAdapter(adapter);
 
         mPresenter.setEventTypes(new String[]{SingleEvent.class.getCanonicalName(),
