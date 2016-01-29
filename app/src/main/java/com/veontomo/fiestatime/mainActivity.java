@@ -16,11 +16,11 @@ import android.view.View;
 
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.fragments.AddEvent;
+import com.veontomo.fiestatime.fragments.ManageEvent;
 import com.veontomo.fiestatime.fragments.AllEvents;
 import com.veontomo.fiestatime.views.MultiEventView;
 
-public class mainActivity extends AppCompatActivity implements AddEvent.onActions, AllEvents.onActions {
+public class mainActivity extends AppCompatActivity implements ManageEvent.onActions, AllEvents.onActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TypefaceProvider.registerDefaultIconSets();
@@ -115,8 +115,8 @@ public class mainActivity extends AppCompatActivity implements AddEvent.onAction
 
     @Override
     public void onEventClicked(Event h) {
-        AddEvent addEvent = (AddEvent) getFragmentManager().findFragmentById(R.id.act_main_add_event);
+        ManageEvent manageEvent = (ManageEvent) getFragmentManager().findFragmentById(R.id.act_main_add_event);
         Logger.log("main activity: " + h.serialize());
-        addEvent.load(h);
+        manageEvent.load(h);
     }
 }

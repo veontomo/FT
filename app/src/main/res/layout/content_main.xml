@@ -16,10 +16,10 @@
 
     <fragment
         android:id="@+id/act_main_add_event"
-        android:name="com.veontomo.fiestatime.fragments.AddEvent"
+        android:name="com.veontomo.fiestatime.fragments.ManageEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_add_event" />
+        tools:layout="@layout/fragment_manage_event" />
 
     <fragment
         android:id="@+id/act_main_forthcoming"

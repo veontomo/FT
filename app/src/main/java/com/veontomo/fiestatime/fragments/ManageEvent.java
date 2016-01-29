@@ -24,7 +24,7 @@ import com.veontomo.fiestatime.presenters.AddEventPresenter;
 import com.veontomo.fiestatime.views.AddEventView;
 
 
-public class AddEvent extends Fragment implements AddEventView {
+public class ManageEvent extends Fragment implements AddEventView {
     private final AddEventPresenter mPresenter = new AddEventPresenter(this);
     private BootstrapEditText mEventNameView;
     private AwesomeTextView mNextOccurrenceView;
@@ -34,7 +34,7 @@ public class AddEvent extends Fragment implements AddEventView {
     private BootstrapButton mDeleteButton;
     private onActions hostingActivity;
 
-    public AddEvent() {
+    public ManageEvent() {
     }
 
 
@@ -43,7 +43,7 @@ public class AddEvent extends Fragment implements AddEventView {
                              Bundle savedInstanceState) {
         restoreState(savedInstanceState);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_event, container, false);
+        return inflater.inflate(R.layout.fragment_manage_event, container, false);
     }
 
     @Override
