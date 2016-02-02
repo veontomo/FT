@@ -13,7 +13,6 @@ import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
-import com.veontomo.fiestatime.api.UpdateEventTask;
 import com.veontomo.fiestatime.views.AddEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -148,7 +147,6 @@ public class ManageEventPresenter implements MVPPresenter {
                 Factory<Event> factory = new Factory<>();
                 Event h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                 if (id != -1) {
-                    UpdateEventTask task = new UpdateEventTask(h);
                     if (eventProvider.save(h) != -1) {
                         view.onEventUpdated(h);
                     }
