@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.BaseAdapter;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Factory;
@@ -23,7 +24,7 @@ public class MultiEventPresenter implements MVPPresenter {
     protected final MultiEventView view;
     protected ArrayList<Event> mEvents;
     private final Context mContext;
-    private BaseAdapter mAdapter;
+    private DetailedAdapter<Event> mAdapter;
 
 
     public MultiEventPresenter(MultiEventView view, final Context context) {
@@ -31,7 +32,7 @@ public class MultiEventPresenter implements MVPPresenter {
         this.mContext = context;
     }
 
-    public void setAdapter(BaseAdapter adapter){
+    public void setAdapter(DetailedAdapter<Event> adapter){
         this.mAdapter = adapter;
         this.view.setAdapter(adapter);
     }
@@ -146,6 +147,7 @@ public class MultiEventPresenter implements MVPPresenter {
      * This method is called after the events have been loaded into the presenter
      */
     public void onLoaded() {
+        this.mAdapter.load(mEvents);
         this.mAdapter.notifyDataSetChanged();
 
     }

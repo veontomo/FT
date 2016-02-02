@@ -5,11 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.List;
+
 /**
  * An adapter for visualizing events. It displays event name, event next occurrence
  * and the quantity of days until the event.
  */
-public class DetailedAdapter<T> extends BaseAdapter {
+public class DetailedAdapter<T extends Event> extends BaseAdapter {
+
+    /**
+     * List of items that this adapter is supposed to display
+     */
+    List<T> items;
+
+    /**
+     * number of items in {@link #items}
+     */
+    int size = 0;
     /**
      * How many items are in the data set represented by this Adapter.
      *
@@ -17,7 +29,7 @@ public class DetailedAdapter<T> extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return 0;
+        return size;
     }
 
     /**
@@ -29,7 +41,7 @@ public class DetailedAdapter<T> extends BaseAdapter {
      */
     @Override
     public T getItem(int position) {
-        return null;
+        return (items == null) ? null :  items.get(position);
     }
 
     /**
@@ -40,7 +52,13 @@ public class DetailedAdapter<T> extends BaseAdapter {
      */
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
+    }
+
+
+    public void load(List<T> items){
+        this.items = items;
+
     }
 
     /**
