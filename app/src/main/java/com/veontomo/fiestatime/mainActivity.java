@@ -17,10 +17,10 @@ import android.view.View;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.fragments.ManageEvent;
-import com.veontomo.fiestatime.fragments.AllEvents;
+import com.veontomo.fiestatime.fragments.MultiEvents;
 import com.veontomo.fiestatime.views.MultiEventView;
 
-public class mainActivity extends AppCompatActivity implements ManageEvent.onActions, AllEvents.onActions {
+public class mainActivity extends AppCompatActivity implements ManageEvent.onActions, MultiEvents.onActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TypefaceProvider.registerDefaultIconSets();

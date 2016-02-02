@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/act_main_all_events"
         android:layout_below="@id/act_main_add_event"
-        android:name="com.veontomo.fiestatime.fragments.AllEvents"
+        android:name="com.veontomo.fiestatime.fragments.MultiEvents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_all_events" />

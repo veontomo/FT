@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
  * An adapter for visualizing events. It displays event name, event next occurrence
  * and the quantity of days until the event.
  */
-public class DetailedEventAdapter extends BaseAdapter {
+public class DetailedAdapter<T> extends BaseAdapter {
     /**
      * How many items are in the data set represented by this Adapter.
      *
@@ -28,7 +28,7 @@ public class DetailedEventAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public Object getItem(int position) {
+    public T getItem(int position) {
         return null;
     }
 

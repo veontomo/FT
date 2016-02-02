@@ -1,16 +1,16 @@
 package com.veontomo.fiestatime.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.RetrieveAllEventsTask;
 import com.veontomo.fiestatime.api.EventDBProvider;
@@ -18,31 +18,27 @@ import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
-import java.util.ArrayList;
-
 /**
  * Displays all available fragments
  */
-public class AllEvents extends ListFragment implements MultiEventView {
+public class MultiEvents extends Fragment implements MultiEventView {
 
     private final MultiEventPresenter mPresenter = new MultiEventPresenter(this);
 
-    private ArrayAdapter<Event> adapter;
+    private DetailedAdapter<Event> mAdapter;
 
     private onActions hostingActivity;
 
-    public AllEvents() {
+    private ListView mEventList;
+
+    public MultiEvents() {
         // Required empty public constructor
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Logger.log("AllEvents onActivityCreated");
-        ArrayList<Event> values = new ArrayList<>();
-        adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
+        Logger.log("MultiEvents onActivityCreated");
 
         Storage storage = new Storage(getActivity().getApplicationContext());
         EventDBProvider provider = new EventDBProvider(storage);
@@ -55,7 +51,7 @@ public class AllEvents extends ListFragment implements MultiEventView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Logger.log("AllEvents onCreateView");
+        Logger.log("MultiEvents onCreateView");
         restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_events, container, false);
     }
@@ -63,33 +59,24 @@ public class AllEvents extends ListFragment implements MultiEventView {
     @Override
     public void onStart() {
         super.onStart();
-        Logger.log("AllEvents onStart");
+        this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
+        this.mAdapter = new DetailedAdapter<>();
+        this.mEventList.setAdapter(this.mAdapter);
+
         mPresenter.bindView(this);
-    }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        mPresenter.onItemClick(position);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
 
     @Override
     public void updateViews() {
-        Logger.log("AllEvents updateView");
-        adapter.clear();
-        adapter.addAll(mPresenter.getEvents());
-        adapter.notifyDataSetChanged();
-        Logger.log("AllEvents updateView is done");
+        mAdapter.notifyDataSetChanged();
+        Logger.log("MultiEvents updateView is done");
     }
 
     @Override
     public void saveState(Bundle b) {
-        Logger.log("AllEvents saveState");
+        Logger.log("MultiEvents saveState");
         mPresenter.saveState(b);
     }
 
@@ -100,7 +87,7 @@ public class AllEvents extends ListFragment implements MultiEventView {
      */
     @Override
     public void restoreState(Bundle b) {
-        Logger.log("AllEvents restoreState");
+        Logger.log("MultiEvents restoreState");
         mPresenter.restoreState(b);
     }
 
@@ -117,14 +104,14 @@ public class AllEvents extends ListFragment implements MultiEventView {
 
     @Override
     public void onSaveInstanceState(Bundle b) {
-        Logger.log("AllEvents onSaveInstanceState");
+        Logger.log("MultiEvents onSaveInstanceState");
         saveState(b);
         super.onSaveInstanceState(b);
     }
 
     @Override
     public void addEvent(Event h) {
-        Logger.log("AllEvents addEvent");
+        Logger.log("MultiEvents addEvent");
         mPresenter.addEvent(h);
     }
 
