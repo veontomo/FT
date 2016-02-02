@@ -165,6 +165,7 @@ public class ManageEvent extends Fragment implements AddEventView {
     public void onEventAdded(Event h) {
         hostingActivity.onEventAdded(h);
         clearView();
+        showMessage(R.string.event_added);
     }
 
     /**
@@ -180,6 +181,7 @@ public class ManageEvent extends Fragment implements AddEventView {
     @Override
     public void onEventUpdated(Event h) {
         hostingActivity.onEventUpdated(h);
+        showMessage(R.string.event_updated);
         clearView();
     }
 

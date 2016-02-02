@@ -34,5 +34,8 @@
     <string name="btn_delete">Delete</string>
     <string name="select_event_date">select event date</string>
     <string name="event_deleted">event has been deleted</string>
+    <string name="event_update_failure">Failed to update the event</string>
+    <string name="event_updated">Event updated</string>
+    <string name="event_added">Event added</string>
 
 </resources>

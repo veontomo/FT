@@ -146,23 +146,59 @@ public class ManageEventPresenter implements MVPPresenter {
                 }
                 Factory<Event> factory = new Factory<>();
                 Event h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
+                long id2 = eventProvider.save(h);
                 if (id != -1) {
-                    if (eventProvider.save(h) != -1) {
-                        view.onEventUpdated(h);
+                    if (id2 != -1) {
+                        onEventUpdated(h);
+                    } else {
+                        onEventUpdateFailure(h);
                     }
                 } else {
-                    id = eventProvider.save(h);
-                    if (id != -1) {
-                        h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
-                        view.onEventAdded(h);
+                    if (id2 != -1) {
+                        h = factory.produce(mEventTypes[pos], id2, name, nextOccurrence);
+                        onEventAdded(h);
+
                     } else {
-                        msgCode = R.string.save_event_fail;
-                        view.showMessage(msgCode);
+                        onEventAddedFailure(h);
+
                     }
                 }
                 view.setEnableButtons(true);
             }
         })).run();
+    }
+
+    /**
+     *  This method is called if updating the existing event on the storage has failed
+     * @param h
+     */
+    private void onEventUpdateFailure(Event h) {
+        view.showMessage(R.string.event_update_failure);
+    }
+
+    /**
+     * This method is called if adding a new event to the storage has failed
+     * @param h
+     */
+    private void onEventAddedFailure(final Event h) {
+        view.showMessage(R.string.save_event_fail);
+    }
+
+    /**
+     * This method is called after a given event has been added to the storage
+     * @param h
+     */
+    private void onEventAdded(final Event h) {
+        id = h.getId();
+        view.onEventAdded(h);
+    }
+
+    /**
+     * This method is called after the event has been updated
+     * @param h
+     */
+    private void onEventUpdated(final Event h) {
+        view.onEventUpdated(h);
     }
 
     /**
