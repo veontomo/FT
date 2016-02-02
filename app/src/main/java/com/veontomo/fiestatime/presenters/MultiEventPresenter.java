@@ -1,11 +1,15 @@
 package com.veontomo.fiestatime.presenters;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Factory;
-import com.veontomo.fiestatime.api.ITask;
+import com.veontomo.fiestatime.api.RetrieveAllEventsTask;
+import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiEventView;
 
@@ -18,10 +22,18 @@ public class MultiEventPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "mEvents";
     protected final MultiEventView view;
     protected ArrayList<Event> mEvents;
-    protected ITask mTask;
+    private final Context mContext;
+    private BaseAdapter mAdapter;
 
-    public MultiEventPresenter(MultiEventView view) {
+
+    public MultiEventPresenter(MultiEventView view, final Context context) {
         this.view = view;
+        this.mContext = context;
+    }
+
+    public void setAdapter(BaseAdapter adapter){
+        this.mAdapter = adapter;
+        this.view.setAdapter(adapter);
     }
 
 
@@ -29,9 +41,6 @@ public class MultiEventPresenter implements MVPPresenter {
     public void bindView(final MVPView v) {
         if (this.mEvents != null) {
             v.updateViews();
-        } else if (mTask != null) {
-            mTask.setOnDataLoaded(this);
-            mTask.execute();
         }
     }
 
@@ -93,18 +102,12 @@ public class MultiEventPresenter implements MVPPresenter {
      * Loads mEvents into the presenter AND initializes the view
      * TODO: split the method in two, since it performs two actions
      */
-    public void load(List<Event> events) {
-        this.mEvents = new ArrayList<>();
-        for (Event event : events) {
-            this.mEvents.add(event);
-        }
-        view.updateViews();
+    public void load(final List<Event> events) {
+        this.mEvents.addAll(events);
+
     }
 
 
-    public void setTask(ITask task) {
-        this.mTask = task;
-    }
 
     public ArrayList<Event> getEvents() {
         return this.mEvents;
@@ -136,6 +139,22 @@ public class MultiEventPresenter implements MVPPresenter {
 
             }
         }
+
+    }
+
+    /**
+     * This method is called after the events have been loaded into the presenter
+     */
+    public void onLoaded() {
+        this.mAdapter.notifyDataSetChanged();
+
+    }
+
+    /**
+     * Retrieve events from the storage.
+     */
+    public void loadEvents() {
+        (new RetrieveAllEventsTask(new EventDBProvider(new Storage(mContext)), this)).execute();
 
     }
 }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,14 +18,18 @@ import com.veontomo.fiestatime.views.MultiEventView;
 
 
 /**
+ * This class is supposed to show forthcoming events.
+ * But it seems that it is better to use {@link MultiEvents} class.
  */
 public class ForthcomingEvents extends Fragment implements MultiEventView {
 
     private OnFragmentInteractionListener mListener;
 
-    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this);
+    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
 
     private TextView mTextView;
+
+    private ListView mEventList;
 
     public ForthcomingEvents() {
         // Required empty public constructor
@@ -35,6 +41,11 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
         if (getArguments() != null) {
             Logger.log(this.getClass().getSimpleName() + ", method onCreate() is called with arguments");
         }
+    }
+
+    @Override
+    public void setAdapter(BaseAdapter adapter){
+        this.mEventList.setAdapter(adapter);
     }
 
     @Override

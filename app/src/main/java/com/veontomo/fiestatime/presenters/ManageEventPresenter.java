@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
+import com.veontomo.fiestatime.api.DeleteEventTask;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;

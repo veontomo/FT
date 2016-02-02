@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_manage_event" />
 
-    <fragment
-        android:id="@+id/act_main_forthcoming"
-        android:layout_below="@id/act_main_add_event"
-        android:name="com.veontomo.fiestatime.fragments.ForthcomingEvents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_forthcoming_events" />
+    <!--<fragment-->
+        <!--android:id="@+id/act_main_forthcoming"-->
+        <!--android:layout_below="@id/act_main_add_event"-->
+        <!--android:name="com.veontomo.fiestatime.fragments.ForthcomingEvents"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:layout="@layout/fragment_forthcoming_events" />-->
 
     <fragment
         android:id="@+id/act_main_all_events"

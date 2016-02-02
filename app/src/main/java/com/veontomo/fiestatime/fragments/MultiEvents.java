@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,9 +13,6 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.api.RetrieveAllEventsTask;
-import com.veontomo.fiestatime.api.EventDBProvider;
-import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
@@ -23,15 +21,14 @@ import com.veontomo.fiestatime.views.MultiEventView;
  */
 public class MultiEvents extends Fragment implements MultiEventView {
 
-    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this);
+    private MultiEventPresenter mPresenter;
 
-    private DetailedAdapter<Event> mAdapter;
-
-    private onActions hostingActivity;
+    private onActions mHostingActivity;
 
     private ListView mEventList;
 
     public MultiEvents() {
+
         // Required empty public constructor
     }
 
@@ -39,12 +36,6 @@ public class MultiEvents extends Fragment implements MultiEventView {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Logger.log("MultiEvents onActivityCreated");
-
-        Storage storage = new Storage(getActivity().getApplicationContext());
-        EventDBProvider provider = new EventDBProvider(storage);
-        RetrieveAllEventsTask task = new RetrieveAllEventsTask(provider);
-        mPresenter.setTask(task);
-        hostingActivity = (onActions) getActivity();
     }
 
 
@@ -52,26 +43,31 @@ public class MultiEvents extends Fragment implements MultiEventView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Logger.log("MultiEvents onCreateView");
-        restoreState(savedInstanceState);
+//        restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_events, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        this.mHostingActivity = (onActions) getActivity();
         this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
-        this.mAdapter = new DetailedAdapter<>();
-        this.mEventList.setAdapter(this.mAdapter);
-
+        this.mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
+        mPresenter.setAdapter(new DetailedAdapter<Event>());
         mPresenter.bindView(this);
+        mPresenter.loadEvents();
+    }
 
+    @Override
+    public void setAdapter(BaseAdapter adapter){
+        this.mEventList.setAdapter(adapter);
     }
 
 
     @Override
     public void updateViews() {
-        mAdapter.notifyDataSetChanged();
-        Logger.log("MultiEvents updateView is done");
+        ((BaseAdapter) this.mEventList.getAdapter()).notifyDataSetChanged();
+        Logger.log("MultiEvents updateView is called");
     }
 
     @Override
@@ -126,8 +122,8 @@ public class MultiEvents extends Fragment implements MultiEventView {
     }
 
     public void onEventClick(Event event) {
-        if (hostingActivity != null) {
-            hostingActivity.onEventClicked(event);
+        if (mHostingActivity != null) {
+            mHostingActivity.onEventClicked(event);
         }
     }
 

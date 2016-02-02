@@ -1,9 +1,10 @@
-package com.veontomo.fiestatime.presenters;
+package com.veontomo.fiestatime.api;
 
 import android.os.AsyncTask;
 
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.IProvider;
+import com.veontomo.fiestatime.presenters.ManageEventPresenter;
 
 /**
  * A task for deletion of an event with given identifier
