@@ -102,21 +102,21 @@ public class ManageEvent extends Fragment implements AddEventView {
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onConfirm(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
-                mEventNameView.setText(null);
+                mPresenter.confirm(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
+               clearView();
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onCancel(mEventNameView.getEditableText().toString(), mNextOccurrenceView.getText().toString(), mPeriodicityView.getSelectedItemPosition());
-                mEventNameView.setText(null);
+                mPresenter.reset();
+                clearView();
             }
         });
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onDelete();
+                mPresenter.deleteEvent();
             }
         });
         mNextOccurrenceView.setOnClickListener(new View.OnClickListener() {

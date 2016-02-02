@@ -13,6 +13,7 @@ import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
+import com.veontomo.fiestatime.api.UpdateEventTask;
 import com.veontomo.fiestatime.views.AddEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -101,14 +102,12 @@ public class ManageEventPresenter implements MVPPresenter {
      * This method is called when the event has been deleted from the storage
      */
     public void onDeleted(){
+        reset();
         view.showMessage(R.string.event_deleted);
-        this.id = -1;
-        this.name = null;
-        this.date = null;
-        this.periodicity = -1;
         view.updateViews();
-
     }
+
+
 
     /**
      * This method is called when a user clicks the "confirm" button
@@ -117,7 +116,7 @@ public class ManageEventPresenter implements MVPPresenter {
      * @param next content of the date picker dialog text view corresponding to event's date
      * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
-    public void onConfirm(final String name, final String next, final int pos) {
+    public void confirm(final String name, final String next, final int pos) {
         (new Thread(new Runnable() {
             @Override
             public void run() {
@@ -149,6 +148,7 @@ public class ManageEventPresenter implements MVPPresenter {
                 Factory<Event> factory = new Factory<>();
                 Event h = factory.produce(mEventTypes[pos], id, name, nextOccurrence);
                 if (id != -1) {
+                    UpdateEventTask task = new UpdateEventTask(h);
                     if (eventProvider.save(h) != -1) {
                         view.onEventUpdated(h);
                     }
@@ -178,14 +178,13 @@ public class ManageEventPresenter implements MVPPresenter {
     /**
      * This method is called when a user clicks the "cancel" button
      *
-     * @param name content of the text view corresponding to event's name
-     * @param next content of the date picker dialog text view corresponding to event's date
-     * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
-    public void onCancel(String name, String next, int pos) {
+    public void reset() {
         this.id = -1;
         this.name = null;
-        Logger.log("cancelling: " + name + " " + next + " " + pos);
+        this.date = null;
+        this.periodicity = -1;
+
     }
 
     @Override
@@ -263,7 +262,7 @@ public class ManageEventPresenter implements MVPPresenter {
     /**
      * Deletes current event from the storage
      */
-    public void onDelete() {
+    public void deleteEvent() {
         if (id != -1) {
             (new DeleteEventTask(id, this, eventProvider)).execute();
         }
