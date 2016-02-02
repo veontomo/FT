@@ -164,12 +164,23 @@ public class ManageEvent extends Fragment implements AddEventView {
     @Override
     public void onEventAdded(Event h) {
         hostingActivity.onEventAdded(h);
+        clearView();
+    }
+
+    /**
+     * Clears all the fields of this fragment
+     */
+    private void clearView() {
         mEventNameView.setText(null);
+        mNextOccurrenceView.setText(R.string.select_event_date);
+        mPeriodicityView.setSelection(0);
+
     }
 
     @Override
     public void onEventUpdated(Event h) {
         hostingActivity.onEventUpdated(h);
+        clearView();
     }
 
     @Override
