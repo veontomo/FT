@@ -13,7 +13,6 @@ import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
-import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.views.AddEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
@@ -24,7 +23,7 @@ import java.util.Calendar;
 /**
  * Implementation of {@link MVPPresenter} for adding mEvents
  */
-public class AddEventPresenter implements MVPPresenter {
+public class ManageEventPresenter implements MVPPresenter {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
     /**
@@ -70,7 +69,7 @@ public class AddEventPresenter implements MVPPresenter {
      */
     private String[] mEventTypes;
 
-    public AddEventPresenter(AddEventView view) {
+    public ManageEventPresenter(AddEventView view) {
         this.view = view;
     }
 
@@ -279,7 +278,7 @@ public class AddEventPresenter implements MVPPresenter {
         /**
          * to whom the result of the date picker should be given
          */
-        public static AddEventPresenter presenter;
+        public static ManageEventPresenter presenter;
         /**
          * a view to which current date picker is bound
          */

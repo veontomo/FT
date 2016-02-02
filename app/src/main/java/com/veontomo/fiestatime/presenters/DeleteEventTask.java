@@ -18,7 +18,7 @@ public class DeleteEventTask extends AsyncTask<Void, Void, Void> {
     /**
      * reference to the presenter that has requested the deletion
      */
-    private final AddEventPresenter mPresenter;
+    private final ManageEventPresenter mPresenter;
 
     /**
      * outcome of the deletion
@@ -31,7 +31,7 @@ public class DeleteEventTask extends AsyncTask<Void, Void, Void> {
      */
     private final IProvider<Event> mProvider;
 
-    public DeleteEventTask(long id, AddEventPresenter addEventPresenter, IProvider<Event> provider) {
+    public DeleteEventTask(long id, ManageEventPresenter addEventPresenter, IProvider<Event> provider) {
         this.mId = id;
         this.mPresenter = addEventPresenter;
         this.mProvider = provider;

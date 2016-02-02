@@ -20,12 +20,12 @@ import com.veontomo.fiestatime.api.SingleEvent;
 import com.veontomo.fiestatime.api.Storage;
 import com.veontomo.fiestatime.api.WeekEvent;
 import com.veontomo.fiestatime.api.YearEvent;
-import com.veontomo.fiestatime.presenters.AddEventPresenter;
+import com.veontomo.fiestatime.presenters.ManageEventPresenter;
 import com.veontomo.fiestatime.views.AddEventView;
 
 
 public class ManageEvent extends Fragment implements AddEventView {
-    private final AddEventPresenter mPresenter = new AddEventPresenter(this);
+    private final ManageEventPresenter mPresenter = new ManageEventPresenter(this);
     private BootstrapEditText mEventNameView;
     private AwesomeTextView mNextOccurrenceView;
     private Spinner mPeriodicityView;
