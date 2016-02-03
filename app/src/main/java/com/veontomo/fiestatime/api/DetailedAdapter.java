@@ -82,6 +82,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     public void load(List<T> items){
         this.items.clear();
         this.items.addAll(items);
+        this.size = items.size();
 
     }
 
