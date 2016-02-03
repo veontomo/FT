@@ -23,19 +23,17 @@ public class MultiEventPresenter implements MVPPresenter {
     protected final MultiEventView mView;
     protected final ArrayList<Event> mEvents;
     private final Context mContext;
-    private DetailedAdapter<Event> mAdapter;
+    private final DetailedAdapter<Event> mAdapter;
 
 
-    public MultiEventPresenter(MultiEventView view, final Context context) {
+    public MultiEventPresenter(MultiEventView view, final Context context, DetailedAdapter<Event> adapter) {
         this.mView = view;
         this.mContext = context;
         this.mEvents = new ArrayList<>();
+        this.mAdapter = adapter;
+        this.mView.setAdapter(this.mAdapter);
     }
 
-    public void setAdapter(DetailedAdapter<Event> adapter){
-        this.mAdapter = adapter;
-        this.mView.setAdapter(adapter);
-    }
 
 
     @Override
