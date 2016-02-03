@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import java.util.List;
  * and the quantity of days until the event.
  */
 public class DetailedAdapter<T extends Event> extends BaseAdapter {
+
+    private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
 
     private final Context mContext;
     /**
@@ -127,22 +130,26 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
                     LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     row = inflater.inflate(R.layout.detailed_event_row, parent, false);
                     WeekEventHolder eventHolder = new WeekEventHolder();
-                    eventHolder.text = (TextView) row.findViewById(R.id.layout_event_row_name);
+                    eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
+                    eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
                     row.setTag(eventHolder);
                 }
                 WeekEventHolder holder = (WeekEventHolder) row.getTag();
-                holder.text.setText(item.getName());
+                holder.name.setText(item.getName());
+                holder.next.setText(format.format(item.getNextOccurrence()));
                 break;
             case 1:
                 if (row == null) {
                     LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     row = inflater.inflate(R.layout.detailed_event_row, parent, false);
                     SingleEventHolder eventHolder = new SingleEventHolder();
-                    eventHolder.text = (TextView) row.findViewById(R.id.layout_event_row_name);
+                    eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
+                    eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
                     row.setTag(eventHolder);
                 }
                 SingleEventHolder holder2 = (SingleEventHolder) row.getTag();
-                holder2.text.setText(item.getName());
+                holder2.name.setText(item.getName());
+                holder2.next.setText("- " + format.format(item.getNextOccurrence()));
                 break;
             default:
                 Logger.log("unknown item type");
@@ -153,11 +160,13 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
 
     private static class SingleEventHolder {
-        public TextView text;
+        public TextView name;
+        public TextView next;
     }
 
     private static class WeekEventHolder {
-        public TextView text;
+        public TextView name;
+        public TextView next;
     }
 
 }

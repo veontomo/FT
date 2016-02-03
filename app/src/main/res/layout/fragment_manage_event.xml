@@ -19,7 +19,7 @@
         <!--android:id="@+id/frag_add_holiday_next"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--tools:text="15 November"/>-->
+        <!--tools:name="15 November"/>-->
     <com.beardedhen.androidbootstrap.AwesomeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

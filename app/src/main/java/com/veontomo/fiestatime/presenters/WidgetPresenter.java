@@ -96,7 +96,7 @@ public class WidgetPresenter {
     /**
      * Returns a phrase corresponding to the number of days to the daysToNearest event(s).
      * <p/>
-     * If the number of days is negative, then display "no event" text.
+     * If the number of days is negative, then display "no event" name.
      * If the number of days is equal to 0, then display "today" (localized).
      * If the number of days is equal to 1, then display "tomorrow" (localized).
      * In other cases display the argument.

@@ -13,6 +13,7 @@
     <TextView
         android:id="@+id/layout_event_row_next"
         android:layout_width="wrap_content"
+        android:textColor="#23862f"
         android:layout_height="wrap_content"/>
 
     <TextView

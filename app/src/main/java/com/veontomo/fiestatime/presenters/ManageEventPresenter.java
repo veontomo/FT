@@ -112,8 +112,8 @@ public class ManageEventPresenter implements MVPPresenter {
     /**
      * This method is called when a user clicks the "confirm" button
      *
-     * @param name content of the text mView corresponding to event's name
-     * @param next content of the date picker dialog text mView corresponding to event's date
+     * @param name content of the name mView corresponding to event's name
+     * @param next content of the date picker dialog name mView corresponding to event's date
      * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
     public void confirm(final String name, final String next, final int pos) {
@@ -131,7 +131,7 @@ public class ManageEventPresenter implements MVPPresenter {
                     msgCode = R.string.event_provider_missing;
                 }
                 if (msgCode != -1) {
-                    // once the message text is present, it is time to show it and exit
+                    // once the message name is present, it is time to show it and exit
                     view.showMessage(msgCode);
                     view.setEnableButtons(true);
                     return;

@@ -48,7 +48,7 @@ public class CountdownWidgetProvider extends AppWidgetProvider implements MVPVie
     }
 
     /**
-     * Fills in views (i.e., text views, image views, etc) present in current MVP-like mView (that is
+     * Fills in views (i.e., name views, image views, etc) present in current MVP-like mView (that is
      * in Android-like Activity, Fragment etc) with data stored in corresponding presenter
      */
     @Override
