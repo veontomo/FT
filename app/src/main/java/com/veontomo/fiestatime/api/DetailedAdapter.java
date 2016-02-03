@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     /**
      * List of items that this adapter is supposed to display
      */
-    List<T> items;
+    private final List<T> items;
 
     /**
      * number of items in {@link #items}
@@ -45,6 +46,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
     public DetailedAdapter(final Context context){
         this.mContext = context;
+        this.items = new ArrayList<>();
     }
 
 
@@ -73,8 +75,13 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     }
 
 
+    /**
+     * Load items into the adapter
+     * @param items
+     */
     public void load(List<T> items){
-        this.items = items;
+        this.items.clear();
+        this.items.addAll(items);
 
     }
 
@@ -91,17 +98,17 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
      * create a View manually or inflate it from an XML layout file. When the View is inflated, the
      * parent View (GridView, ListView...) will apply default layout parameters unless you use
      * {@link LayoutInflater#inflate(int, ViewGroup, boolean)}
-     * to specify a root view and to prevent attachment to the root.
+     * to specify a root mView and to prevent attachment to the root.
      *
-     * @param position    The position of the item within the adapter's data set of the item whose view
+     * @param position    The position of the item within the adapter's data set of the item whose mView
      *                    we want.
-     * @param convertView The old view to reuse, if possible. Note: You should check that this view
+     * @param convertView The old mView to reuse, if possible. Note: You should check that this mView
      *                    is non-null and of an appropriate type before using. If it is not possible to convert
-     *                    this view to display the correct data, this method can create a new view.
-     *                    Heterogeneous lists can specify their number of view types, so that this View is
+     *                    this mView to display the correct data, this method can create a new mView.
+     *                    Heterogeneous lists can specify their number of mView types, so that this View is
      *                    always of the right type (see {@link #getViewTypeCount()} and
      *                    {@link #getItemViewType(int)}).
-     * @param parent      The parent that this view will eventually be attached to
+     * @param parent      The parent that this mView will eventually be attached to
      * @return A View corresponding to the data at the specified position.
      */
     @Override

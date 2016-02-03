@@ -8,19 +8,19 @@ import android.os.Bundle;
 public interface MVPView {
 
     /**
-     * Fills in views (i.e., text views, image views, etc) present in current MVP-like view (that is
+     * Fills in views (i.e., text views, image views, etc) present in current MVP-like mView (that is
      * in Android-like Activity, Fragment etc) with data stored in corresponding presenter
      */
     void updateViews();
 
     /**
-     * Saves the state of the view in the bundle.
+     * Saves the state of the mView in the bundle.
      * @param b
      */
     void saveState(Bundle b);
 
     /**
-     * Restores the state of the view from the bundle
+     * Restores the state of the mView from the bundle
      * @param b
      */
     void restoreState(Bundle b);

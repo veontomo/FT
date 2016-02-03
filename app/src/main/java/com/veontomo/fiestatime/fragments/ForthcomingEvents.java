@@ -75,7 +75,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
     }
 
     /**
-     * Saves the state of the view in the bundle.
+     * Saves the state of the mView in the bundle.
      *
      * @param b
      */
@@ -85,7 +85,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
     }
 
     /**
-     * Restores the state of the view from the bundle
+     * Restores the state of the mView from the bundle
      *
      * @param b
      */

@@ -71,7 +71,7 @@ public class ManageEvent extends Fragment implements AddEventView {
                 MonthEvent.class.getCanonicalName(),
                 YearEvent.class.getCanonicalName()});
         // TODO: make the presenter use a task in order to load holiday info (if any) into
-        // the edit view. See how it is done in {@link MultiEvents#onActivityCreated}
+        // the edit mView. See how it is done in {@link MultiEvents#onActivityCreated}
         mPresenter.bindView(this);
 
         attachListeners();

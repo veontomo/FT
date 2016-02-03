@@ -2,7 +2,6 @@ package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.BaseAdapter;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.DetailedAdapter;
@@ -21,20 +20,21 @@ import java.util.List;
  */
 public class MultiEventPresenter implements MVPPresenter {
     private final static String HOLIDAYS_TOKEN = "mEvents";
-    protected final MultiEventView view;
-    protected ArrayList<Event> mEvents;
+    protected final MultiEventView mView;
+    protected final ArrayList<Event> mEvents;
     private final Context mContext;
     private DetailedAdapter<Event> mAdapter;
 
 
     public MultiEventPresenter(MultiEventView view, final Context context) {
-        this.view = view;
+        this.mView = view;
         this.mContext = context;
+        this.mEvents = new ArrayList<>();
     }
 
     public void setAdapter(DetailedAdapter<Event> adapter){
         this.mAdapter = adapter;
-        this.view.setAdapter(adapter);
+        this.mView.setAdapter(adapter);
     }
 
 
@@ -95,18 +95,14 @@ public class MultiEventPresenter implements MVPPresenter {
     public void restoreState(Bundle b) {
         if (b != null) {
             String[] items = b.getStringArray(HOLIDAYS_TOKEN);
-            this.mEvents = deserialize(items);
+            this.mEvents.addAll(deserialize(items));
         }
     }
 
     /**
-     * Loads mEvents into the presenter AND initializes the view
-     * TODO: split the method in two, since it performs two actions
+     * Loads events into the presenter
      */
     public void load(final List<Event> events) {
-        if (this.mEvents == null){
-            this.mEvents = new ArrayList<>();
-        }
         this.mEvents.addAll(events);
 
     }
@@ -120,7 +116,7 @@ public class MultiEventPresenter implements MVPPresenter {
 
     public void addEvent(Event h) {
         this.mEvents.add(h);
-        view.updateViews();
+        mView.updateViews();
     }
 
     /**
@@ -130,7 +126,7 @@ public class MultiEventPresenter implements MVPPresenter {
      */
     public void onItemClick(int index) {
         Logger.log("click on " + this.mEvents.get(index));
-        view.onEventClick(this.mEvents.get(index));
+        mView.onEventClick(this.mEvents.get(index));
     }
 
 
@@ -139,7 +135,7 @@ public class MultiEventPresenter implements MVPPresenter {
             if (event.getId() == h.getId()) {
                 int pos = this.mEvents.indexOf(event);
                 this.mEvents.set(pos, h);
-                view.updateViews();
+                mView.updateViews();
 
             }
         }

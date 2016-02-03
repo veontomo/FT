@@ -33,7 +33,7 @@ public interface MultiEventView extends MVPView {
     void updateEvent(Event h);
 
     /**
-     * Sets up the adapter for the list view
+     * Sets up the adapter for the list mView
      * @param adapter
      */
     void setAdapter(BaseAdapter adapter);

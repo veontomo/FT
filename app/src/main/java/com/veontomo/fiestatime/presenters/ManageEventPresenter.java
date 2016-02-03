@@ -112,8 +112,8 @@ public class ManageEventPresenter implements MVPPresenter {
     /**
      * This method is called when a user clicks the "confirm" button
      *
-     * @param name content of the text view corresponding to event's name
-     * @param next content of the date picker dialog text view corresponding to event's date
+     * @param name content of the text mView corresponding to event's name
+     * @param next content of the date picker dialog text mView corresponding to event's date
      * @param pos  index of the item selected from dropdown list corresponding to the event's periodicity
      */
     public void confirm(final String name, final String next, final int pos) {
@@ -314,7 +314,7 @@ public class ManageEventPresenter implements MVPPresenter {
          */
         public static ManageEventPresenter presenter;
         /**
-         * a view to which current date picker is bound
+         * a mView to which current date picker is bound
          */
         public static View boundView;
         private final Calendar calendar = Calendar.getInstance();

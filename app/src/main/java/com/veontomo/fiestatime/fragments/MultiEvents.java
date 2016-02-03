@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +53,9 @@ public class MultiEvents extends Fragment implements MultiEventView {
         super.onStart();
         this.mHostingActivity = (onActions) getActivity();
         this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
-        this.mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
-        mPresenter.setAdapter(new DetailedAdapter<>(getActivity().getApplicationContext()));
+        final Context context = getActivity().getApplicationContext();
+        this.mPresenter = new MultiEventPresenter(this, context);
+        mPresenter.setAdapter(new DetailedAdapter<>(context));
         mPresenter.bindView(this);
         mPresenter.loadEvents();
     }
@@ -77,7 +79,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
     }
 
     /**
-     * Restores the state of the view from the bundle
+     * Restores the state of the mView from the bundle
      *
      * @param b
      */
