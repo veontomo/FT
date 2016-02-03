@@ -142,6 +142,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
     @Override
     public void updateEvent(Event h) {
         mPresenter.updateEvent(h);
+        mPresenter.onLoaded();
     }
 
 
