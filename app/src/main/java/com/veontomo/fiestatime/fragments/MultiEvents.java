@@ -29,7 +29,6 @@ public class MultiEvents extends Fragment implements MultiEventView {
     private ListView mEventList;
 
     public MultiEvents() {
-
         // Required empty public constructor
     }
 
@@ -61,7 +60,6 @@ public class MultiEvents extends Fragment implements MultiEventView {
 
     @Override
     public void setAdapter(BaseAdapter adapter){
-
         this.mEventList.setAdapter(adapter);
         this.mEventList.setEmptyView(getActivity().findViewById(android.R.id.empty));
     }

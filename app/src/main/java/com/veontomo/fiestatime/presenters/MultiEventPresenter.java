@@ -35,7 +35,6 @@ public class MultiEventPresenter implements MVPPresenter {
     }
 
 
-
     @Override
     public void bindView(final MVPView v) {
         if (this.mEvents != null) {
@@ -98,13 +97,13 @@ public class MultiEventPresenter implements MVPPresenter {
     }
 
     /**
-     * Loads events into the presenter
+     * Loads events into the presenter and the adapter
      */
     public void load(final List<Event> events) {
         this.mEvents.addAll(events);
+        this.mAdapter.load(mEvents);
 
     }
-
 
 
     public ArrayList<Event> getEvents() {
@@ -141,10 +140,11 @@ public class MultiEventPresenter implements MVPPresenter {
     }
 
     /**
-     * This method is called after the events have been loaded into the presenter
+     * This method is called after the events have been loaded into the presenter.
+     * <br>
+     * Notifies the adapter that the data has been changed.
      */
     public void onLoaded() {
-        this.mAdapter.load(mEvents);
         this.mAdapter.notifyDataSetChanged();
 
     }
