@@ -104,6 +104,9 @@ public class MultiEventPresenter implements MVPPresenter {
      * TODO: split the method in two, since it performs two actions
      */
     public void load(final List<Event> events) {
+        if (this.mEvents == null){
+            this.mEvents = new ArrayList<>();
+        }
         this.mEvents.addAll(events);
 
     }

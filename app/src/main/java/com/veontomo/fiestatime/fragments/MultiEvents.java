@@ -53,7 +53,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
         this.mHostingActivity = (onActions) getActivity();
         this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
         this.mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
-        mPresenter.setAdapter(new DetailedAdapter<Event>());
+        mPresenter.setAdapter(new DetailedAdapter<>(getActivity().getApplicationContext()));
         mPresenter.bindView(this);
         mPresenter.loadEvents();
     }
