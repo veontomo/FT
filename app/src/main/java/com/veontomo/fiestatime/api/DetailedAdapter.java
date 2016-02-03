@@ -91,6 +91,10 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         return getItem(position).getClass().getSimpleName().equals("SingleEvent") ? 0 : 1;
     }
 
+    public void onClick(){
+
+    }
+
 
 
 

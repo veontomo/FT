@@ -1,5 +1,6 @@
 package com.veontomo.fiestatime.views;
 
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.veontomo.fiestatime.api.Event;
@@ -37,4 +38,6 @@ public interface MultiEventView extends MVPView {
      * @param adapter
      */
     void setAdapter(BaseAdapter adapter);
+
+    void setOnClickListener(AdapterView.OnItemClickListener listener);
 }

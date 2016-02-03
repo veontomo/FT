@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -62,6 +63,11 @@ public class MultiEvents extends Fragment implements MultiEventView {
     public void setAdapter(BaseAdapter adapter){
         this.mEventList.setAdapter(adapter);
         this.mEventList.setEmptyView(getActivity().findViewById(android.R.id.empty));
+    }
+
+    @Override
+    public void setOnClickListener(AdapterView.OnItemClickListener listener) {
+        this.mEventList.setOnItemClickListener(listener);
     }
 
 

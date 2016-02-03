@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +47,11 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
     @Override
     public void setAdapter(BaseAdapter adapter){
         this.mEventList.setAdapter(adapter);
+    }
+
+    @Override
+    public void setOnClickListener(AdapterView.OnItemClickListener listener) {
+        /// stub
     }
 
     @Override

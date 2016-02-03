@@ -2,6 +2,8 @@ package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.api.DetailedAdapter;
@@ -32,6 +34,15 @@ public class MultiEventPresenter implements MVPPresenter {
         this.mEvents = new ArrayList<>();
         this.mAdapter = adapter;
         this.mView.setAdapter(this.mAdapter);
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Logger.log("pos: " + position + ", id: " + id);
+
+            }
+        };
+        this.mView.setOnClickListener(listener);
+
     }
 
 
