@@ -1,6 +1,7 @@
 package com.veontomo.fiestatime.api;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ import java.util.List;
 public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
+
+    private static final int COLOR_1 = Color.parseColor("#303030");
+    private static final int COLOR_2 = Color.parseColor("#606060");
 
     private final Context mContext;
     /**
@@ -132,6 +136,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
                     WeekEventHolder eventHolder = new WeekEventHolder();
                     eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
                     eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
+                    eventHolder.next.setBackgroundColor(COLOR_1);
                     row.setTag(eventHolder);
                 }
                 WeekEventHolder holder = (WeekEventHolder) row.getTag();
@@ -145,11 +150,12 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
                     SingleEventHolder eventHolder = new SingleEventHolder();
                     eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
                     eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
+                    eventHolder.next.setBackgroundColor(COLOR_2);
                     row.setTag(eventHolder);
                 }
                 SingleEventHolder holder2 = (SingleEventHolder) row.getTag();
                 holder2.name.setText(item.getName());
-                holder2.next.setText("- " + format.format(item.getNextOccurrence()));
+                holder2.next.setText(format.format(item.getNextOccurrence()));
                 break;
             default:
                 Logger.log("unknown item type");
