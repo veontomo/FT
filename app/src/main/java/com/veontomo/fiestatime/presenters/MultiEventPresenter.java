@@ -37,8 +37,7 @@ public class MultiEventPresenter implements MVPPresenter {
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Logger.log("pos: " + position + ", id: " + id);
-
+                mView.onEventClick(mEvents.get(position));
             }
         };
         this.mView.setOnClickListener(listener);
