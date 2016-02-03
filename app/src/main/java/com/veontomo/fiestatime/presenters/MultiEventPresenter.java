@@ -142,9 +142,10 @@ public class MultiEventPresenter implements MVPPresenter {
             if (event.getId() == h.getId()) {
                 int pos = this.mEvents.indexOf(event);
                 this.mEvents.set(pos, h);
-                mView.updateViews();
-
+                break;
             }
+            mView.updateViews();
+            onLoaded();
         }
 
     }
