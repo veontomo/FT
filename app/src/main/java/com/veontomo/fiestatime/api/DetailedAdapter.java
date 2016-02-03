@@ -41,7 +41,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+        return 2;
     }
 
     public DetailedAdapter(final Context context){
@@ -116,6 +116,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         int itemType = getItemViewType(position);
+        T item = getItem(position);
         switch (itemType) {
             case 0:
                 if (row == null) {
@@ -126,18 +127,18 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
                     row.setTag(eventHolder);
                 }
                 WeekEventHolder holder = (WeekEventHolder) row.getTag();
-                holder.text.setText(getItem(position).getName());
+                holder.text.setText(item.getName());
                 break;
             case 1:
                 if (row == null) {
                     LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     row = inflater.inflate(R.layout.detailed_event_row, parent, false);
-                    SingleEventHolder proverbHolder = new SingleEventHolder();
-                    proverbHolder.text = (TextView) row.findViewById(R.id.layout_event_row_name);
-                    row.setTag(proverbHolder);
+                    SingleEventHolder eventHolder = new SingleEventHolder();
+                    eventHolder.text = (TextView) row.findViewById(R.id.layout_event_row_name);
+                    row.setTag(eventHolder);
                 }
                 SingleEventHolder holder2 = (SingleEventHolder) row.getTag();
-                holder2.text.setText(getItem(position).getName());
+                holder2.text.setText(item.getName());
                 break;
             default:
                 Logger.log("unknown item type");
