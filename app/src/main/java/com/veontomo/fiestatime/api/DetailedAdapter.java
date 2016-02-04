@@ -44,7 +44,17 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     private final int[] mEventLayouts;
 
 
+    /**
+     * a mapping from the event names to their indices inside {@link #mEventTypes}.
+     * <br> This variable serves to avoid looking up repetitively {@link #mEventTypes}
+     * in search of a position of a given string.
+     */
     private final HashMap<String, Integer> eventTypeToId;
+
+
+    private final Holder[] holders;
+
+
 
 
     /**
@@ -73,6 +83,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         this.items = new ArrayList<>();
         this.eventTypeToId = new HashMap<>();
         initializeMapping();
+        this.holders = (Holder[]) new Object[eventTypes.length];
     }
 
     /**
@@ -199,5 +210,11 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         public TextView name;
         public TextView next;
     }
+
+    private class Holder{
+        public TextView name;
+        public TextView next;
+    }
+
 
 }
