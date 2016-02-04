@@ -10,8 +10,12 @@ import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.EventDBProvider;
 import com.veontomo.fiestatime.api.Factory;
+import com.veontomo.fiestatime.api.MonthEvent;
 import com.veontomo.fiestatime.api.RetrieveAllEventsTask;
+import com.veontomo.fiestatime.api.SingleEvent;
 import com.veontomo.fiestatime.api.Storage;
+import com.veontomo.fiestatime.api.WeekEvent;
+import com.veontomo.fiestatime.api.YearEvent;
 import com.veontomo.fiestatime.views.MVPView;
 import com.veontomo.fiestatime.views.MultiEventView;
 
@@ -26,13 +30,17 @@ public class MultiEventPresenter implements MVPPresenter {
     protected final ArrayList<Event> mEvents;
     private final Context mContext;
     private final DetailedAdapter<Event> mAdapter;
+    private final String[] eventClassNames = new String[]{SingleEvent.class.getCanonicalName(),
+            WeekEvent.class.getCanonicalName(),
+            MonthEvent.class.getCanonicalName(),
+            YearEvent.class.getCanonicalName()};
 
 
-    public MultiEventPresenter(MultiEventView view, final Context context, DetailedAdapter<Event> adapter) {
+    public MultiEventPresenter(MultiEventView view, final Context context) {
         this.mView = view;
         this.mContext = context;
         this.mEvents = new ArrayList<>();
-        this.mAdapter = adapter;
+        this.mAdapter = new DetailedAdapter<>(context);
         this.mView.setAdapter(this.mAdapter);
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
@@ -165,6 +173,17 @@ public class MultiEventPresenter implements MVPPresenter {
      */
     public void loadEvents() {
         (new RetrieveAllEventsTask(new EventDBProvider(new Storage(mContext)), this)).execute();
+
+    }
+
+    /**
+     * Created by Mario Rossi on ${CURRENTDATE} at ${CURRENTTIME}.
+     *
+     * @author veontomo@gmail.com
+     * @since xx.xx
+     */
+    public void setEventTypes(String[] strings) {
+
 
     }
 }

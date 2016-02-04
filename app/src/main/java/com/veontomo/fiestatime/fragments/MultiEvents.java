@@ -15,6 +15,10 @@ import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
+import com.veontomo.fiestatime.api.MonthEvent;
+import com.veontomo.fiestatime.api.SingleEvent;
+import com.veontomo.fiestatime.api.WeekEvent;
+import com.veontomo.fiestatime.api.YearEvent;
 import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
@@ -54,13 +58,13 @@ public class MultiEvents extends Fragment implements MultiEventView {
         this.mHostingActivity = (onActions) getActivity();
         this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
         final Context context = getActivity().getApplicationContext();
-        this.mPresenter = new MultiEventPresenter(this, context, new DetailedAdapter<>(context));
+        this.mPresenter = new MultiEventPresenter(this, context);
         mPresenter.bindView(this);
         mPresenter.loadEvents();
     }
 
     @Override
-    public void setAdapter(BaseAdapter adapter){
+    public void setAdapter(BaseAdapter adapter) {
         this.mEventList.setAdapter(adapter);
         this.mEventList.setEmptyView(getActivity().findViewById(android.R.id.empty));
     }
