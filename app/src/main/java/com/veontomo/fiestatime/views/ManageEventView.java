@@ -7,7 +7,7 @@ import com.veontomo.fiestatime.api.Event;
 /**
  * View for adding mEvents
  */
-public interface AddEventView extends MVPView {
+public interface ManageEventView extends MVPView {
 
     void onDateClick(View v);
 

@@ -14,7 +14,7 @@ import com.veontomo.fiestatime.api.DeleteEventTask;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.Factory;
 import com.veontomo.fiestatime.api.IProvider;
-import com.veontomo.fiestatime.views.AddEventView;
+import com.veontomo.fiestatime.views.ManageEventView;
 import com.veontomo.fiestatime.views.MVPView;
 
 import java.text.ParseException;
@@ -42,7 +42,7 @@ public class ManageEventPresenter implements MVPPresenter {
     private static final String PERIODICITY_TOKEN = "periodicity";
 
 
-    private final AddEventView view;
+    private final ManageEventView view;
 
     /**
      * Date that corresponds to the event's next occurrence
@@ -70,7 +70,7 @@ public class ManageEventPresenter implements MVPPresenter {
      */
     private String[] mEventTypes;
 
-    public ManageEventPresenter(AddEventView view) {
+    public ManageEventPresenter(ManageEventView view) {
         this.view = view;
     }
 
