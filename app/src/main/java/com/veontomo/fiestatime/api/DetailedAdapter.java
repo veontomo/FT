@@ -31,6 +31,16 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
      * List of items that this adapter is supposed to display
      */
     private final List<T> items;
+    /**
+     * list of available event types (canonical name of event classes)
+     */
+    private final String[] mEventTypes;
+    /**
+     * list of layouts to use for each event type.
+     * <br> If the number of layouts is less than the number of available event types, then the
+     * first layout is to be used for events with missing layouts.
+     */
+    private final int[] mEventLayouts;
 
     /**
      * number of items in {@link #items}
@@ -48,11 +58,13 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return mEventTypes.length;
     }
 
-    public DetailedAdapter(final Context context){
+    public DetailedAdapter(final Context context, final String[] eventTypes, final int[] eventlayouts){
         this.mContext = context;
+        this.mEventTypes = eventTypes;
+        this.mEventLayouts = eventlayouts;
         this.items = new ArrayList<>();
     }
 
@@ -96,10 +108,6 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         return getItem(position).getClass().getSimpleName().equals("SingleEvent") ? 0 : 1;
-    }
-
-    public void onClick(){
-
     }
 
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.veontomo.fiestatime.Logger;
+import com.veontomo.fiestatime.R;
 import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
 import com.veontomo.fiestatime.api.EventDBProvider;
@@ -30,17 +31,24 @@ public class MultiEventPresenter implements MVPPresenter {
     protected final ArrayList<Event> mEvents;
     private final Context mContext;
     private final DetailedAdapter<Event> mAdapter;
+    /**
+     * list of available event types
+     */
     private final String[] eventClassNames = new String[]{SingleEvent.class.getCanonicalName(),
             WeekEvent.class.getCanonicalName(),
             MonthEvent.class.getCanonicalName(),
             YearEvent.class.getCanonicalName()};
+    /**
+     * list of ids of layouts corresponding to different event types
+     */
+    private final int[] eventLayouts = new int[]{R.layout.detailed_event_row};
 
 
     public MultiEventPresenter(MultiEventView view, final Context context) {
         this.mView = view;
         this.mContext = context;
         this.mEvents = new ArrayList<>();
-        this.mAdapter = new DetailedAdapter<>(context);
+        this.mAdapter = new DetailedAdapter<>(context, eventClassNames, eventLayouts);
         this.mView.setAdapter(this.mAdapter);
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
