@@ -13,6 +13,7 @@ import com.veontomo.fiestatime.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,6 +43,10 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
      */
     private final int[] mEventLayouts;
 
+
+    private final HashMap<String, Integer> eventTypeToId;
+
+
     /**
      * number of items in {@link #items}
      */
@@ -61,13 +66,24 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         return mEventTypes.length;
     }
 
-    public DetailedAdapter(final Context context, final String[] eventTypes, final int[] eventlayouts){
+    public DetailedAdapter(final Context context, final String[] eventTypes, final int[] eventLayouts){
         this.mContext = context;
         this.mEventTypes = eventTypes;
-        this.mEventLayouts = eventlayouts;
+        this.mEventLayouts = eventLayouts;
         this.items = new ArrayList<>();
+        this.eventTypeToId = new HashMap<>();
+        initializeMapping();
     }
 
+    /**
+     * Initialize the mapping from the
+     */
+    private void initializeMapping() {
+        int len = this.mEventTypes.length;
+        for (int i = 0; i < len; i++){
+            this.eventTypeToId.put(this.mEventTypes[i], i);
+        }
+    }
 
 
     /**
