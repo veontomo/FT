@@ -123,7 +123,8 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getClass().getSimpleName().equals("SingleEvent") ? 0 : 1;
+        String eventType = getItem(position).getClass().getCanonicalName();
+        return this.eventTypeToId.containsKey(eventType) ? this.eventTypeToId.get(eventType) : 0;
     }
 
 
