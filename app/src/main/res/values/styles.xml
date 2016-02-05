@@ -7,11 +7,36 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="event_row">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="single_event_row" parent="event_row">
+        <item name="android:background">#c5d7ccc8</item>
+    </style>
+
+    <style name="week_event_row" parent="event_row">
+        <item name="android:background">#f3efebe9</item>
+    </style>
+
+    <style name="month_event_row" parent="event_row">
+        <item name="android:background">#e4d7ccc8</item>
+    </style>
+
+    <style name="year_event_row" parent="event_row">
+        <item name="android:background">#dcedc8</item>
+    </style>
+
 
 </resources>
