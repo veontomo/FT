@@ -52,7 +52,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
     private final HashMap<String, Integer> eventTypeToId;
 
 
-    private final Holder[] holders;
+    private final TextView[] holders;
 
 
 
@@ -83,7 +83,7 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         this.items = new ArrayList<>();
         this.eventTypeToId = new HashMap<>();
         initializeMapping();
-        this.holders = (Holder[]) new Object[eventTypes.length];
+        this.holders = new TextView[2*eventTypes.length];
     }
 
     /**
@@ -164,39 +164,21 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         View row = convertView;
         int itemType = getItemViewType(position);
         T item = getItem(position);
-        switch (itemType) {
-            case 0:
-                if (row == null) {
-                    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    row = inflater.inflate(R.layout.detailed_event_row, parent, false);
-                    WeekEventHolder eventHolder = new WeekEventHolder();
-                    eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
-                    eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
-                    eventHolder.next.setBackgroundColor(COLOR_1);
-                    row.setTag(eventHolder);
-                }
-                WeekEventHolder holder = (WeekEventHolder) row.getTag();
-                holder.name.setText(item.getName());
-                holder.next.setText(format.format(item.getNextOccurrence()));
-                break;
-            case 1:
-                if (row == null) {
-                    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    row = inflater.inflate(R.layout.detailed_event_row, parent, false);
-                    SingleEventHolder eventHolder = new SingleEventHolder();
-                    eventHolder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
-                    eventHolder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
-                    eventHolder.next.setBackgroundColor(COLOR_2);
-                    row.setTag(eventHolder);
-                }
-                SingleEventHolder holder2 = (SingleEventHolder) row.getTag();
-                holder2.name.setText(item.getName());
-                holder2.next.setText(format.format(item.getNextOccurrence()));
-                break;
-            default:
-                Logger.log("unknown item type");
-
+        if (row == null){
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.detailed_event_row, parent, false);
+            Holder holder = new Holder();
+            holder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
+            holder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
+//            holders[2*itemType] = (TextView) row.findViewById(R.id.layout_event_row_name);
+//            holders[2*itemType + 1] = (TextView) row.findViewById(R.id.layout_event_row_next);
+            row.setTag(holder);
         }
+        final Holder holder = (Holder) row.getTag();
+        holder.name.setText(item.getName());
+        holder.next.setText(format.format(item.getNextOccurrence()));
+
+
         return row;
     }
 
