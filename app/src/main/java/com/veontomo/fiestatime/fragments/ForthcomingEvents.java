@@ -26,7 +26,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
 
     private OnFragmentInteractionListener mListener;
 
-    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext(), null);
+    private final MultiEventPresenter mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
 
     private TextView mTextView;
 
