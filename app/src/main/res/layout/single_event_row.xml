@@ -7,12 +7,14 @@
 
     <TextView
         android:id="@+id/layout_event_row_name"
+        style="@style/event_row_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2" />
 
     <TextView
         android:id="@+id/layout_event_row_next"
+        style="@style/event_row_next"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2" />
