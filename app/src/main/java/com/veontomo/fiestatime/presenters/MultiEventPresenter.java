@@ -41,7 +41,7 @@ public class MultiEventPresenter implements MVPPresenter {
     /**
      * list of ids of layouts corresponding to different event types
      */
-    private final int[] eventLayouts = new int[]{R.layout.detailed_event_row};
+    private final int[] eventLayouts = new int[]{R.layout.single_event_row, R.layout.week_event_row, R.layout.month_event_row, R.layout.year_event_row};
 
 
     public MultiEventPresenter(MultiEventView view, final Context context) {
