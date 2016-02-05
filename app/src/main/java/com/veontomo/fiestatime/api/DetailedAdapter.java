@@ -166,31 +166,17 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         T item = getItem(position);
         if (row == null){
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.detailed_event_row, parent, false);
+            int layoutIndex = mEventLayouts.length > itemType ? itemType : 0;
+            row = inflater.inflate(mEventLayouts[layoutIndex], parent, false);
             Holder holder = new Holder();
             holder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
             holder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
-//            holders[2*itemType] = (TextView) row.findViewById(R.id.layout_event_row_name);
-//            holders[2*itemType + 1] = (TextView) row.findViewById(R.id.layout_event_row_next);
             row.setTag(holder);
         }
         final Holder holder = (Holder) row.getTag();
         holder.name.setText(item.getName());
         holder.next.setText(format.format(item.getNextOccurrence()));
-
-
         return row;
-    }
-
-
-    private static class SingleEventHolder {
-        public TextView name;
-        public TextView next;
-    }
-
-    private static class WeekEventHolder {
-        public TextView name;
-        public TextView next;
     }
 
     private class Holder{
