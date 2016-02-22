@@ -6,4 +6,8 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+    <item android:id="@+id/action_load_from_calendar"
+        android:title="@string/action_load_from_calendar"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
 </menu>

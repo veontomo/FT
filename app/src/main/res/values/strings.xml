@@ -37,5 +37,6 @@
     <string name="event_update_failure">Failed to update the event</string>
     <string name="event_updated">Event updated</string>
     <string name="event_added">Event added</string>
+    <string name="action_load_from_calendar">Import events from calendar</string>
 
 </resources>
