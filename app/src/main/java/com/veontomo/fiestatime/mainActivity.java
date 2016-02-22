@@ -64,10 +64,10 @@ public class mainActivity extends AppCompatActivity implements ManageEvent.OnAct
                     builder.append(" ");
 
                 }
-//                builder.append(System.getProperty("line.separator", " "));
-//                Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
-//                Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
-//                Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
+                builder.append(System.getProperty("line.separator", " "));
+                Logger.log("title: " + cursor.getString(cursor.getColumnIndex("title")));
+                Logger.log("description: " + cursor.getString(cursor.getColumnIndex("description")));
+                Logger.log("dtstart: " + cursor.getString(cursor.getColumnIndex("dtstart")));
                 Logger.log(builder.toString());
             }
             cursor.close();
