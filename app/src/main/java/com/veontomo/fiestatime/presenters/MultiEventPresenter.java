@@ -2,6 +2,7 @@ package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -82,14 +83,11 @@ public class MultiEventPresenter implements MVPPresenter {
      * @return
      */
     private String[] serialize(List<Event> data) {
-        int s = (data == null) ? 0 : data.size();
-        String[] result = new String[s];
-        Event h;
-        for (int i = 0; i < s; i++) {
-            h = data.get(i);
-            result[i] = h.serialize();
+        List<String> res = new ArrayList();
+        for(Event h : data){
+            res.add(h.serialize());
         }
-        return result;
+        return res.toArray(new String[0]);
     }
 
     /**
