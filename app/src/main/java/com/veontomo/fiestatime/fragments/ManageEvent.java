@@ -32,7 +32,7 @@ public class ManageEvent extends Fragment implements ManageEventView {
     private BootstrapButton mConfirmButton;
     private BootstrapButton mCancelButton;
     private BootstrapButton mDeleteButton;
-    private onActions hostingActivity;
+    private OnActions hostingActivity;
 
     public ManageEvent() {
     }
@@ -81,7 +81,7 @@ public class ManageEvent extends Fragment implements ManageEventView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hostingActivity = (onActions) getActivity();
+        hostingActivity = (OnActions) getActivity();
         Storage storage = new Storage(getActivity().getApplicationContext());
         mPresenter.setEventProvider(new EventDBProvider(storage));
     }
@@ -233,7 +233,7 @@ public class ManageEvent extends Fragment implements ManageEventView {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    public interface onActions {
+    public interface OnActions {
         void onEventAdded(Event h);
 
         void onEventUpdated(Event h);

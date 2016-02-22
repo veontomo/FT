@@ -2,7 +2,6 @@ package com.veontomo.fiestatime.presenters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  */
 public class MultiEventPresenter implements MVPPresenter {
-    private final static String HOLIDAYS_TOKEN = "mEvents";
+    private static final String HOLIDAYS_TOKEN = "mEvents";
     protected final MultiEventView mView;
     protected final ArrayList<Event> mEvents;
     private final Context mContext;
@@ -35,14 +34,14 @@ public class MultiEventPresenter implements MVPPresenter {
     /**
      * list of available event types
      */
-    private final String[] eventClassNames = new String[]{SingleEvent.class.getCanonicalName(),
+    private static final String[] eventClassNames = new String[]{SingleEvent.class.getCanonicalName(),
             WeekEvent.class.getCanonicalName(),
             MonthEvent.class.getCanonicalName(),
             YearEvent.class.getCanonicalName()};
     /**
      * list of ids of layouts corresponding to different event types
      */
-    private final int[] eventLayouts = new int[]{R.layout.single_event_row, R.layout.week_event_row, R.layout.month_event_row, R.layout.year_event_row};
+    private static final int[] eventLayouts = new int[]{R.layout.single_event_row, R.layout.week_event_row, R.layout.month_event_row, R.layout.year_event_row};
 
 
     public MultiEventPresenter(MultiEventView view, final Context context) {
@@ -130,7 +129,7 @@ public class MultiEventPresenter implements MVPPresenter {
     }
 
 
-    public ArrayList<Event> getEvents() {
+    public List<Event> getEvents() {
         return this.mEvents;
     }
 
@@ -182,14 +181,5 @@ public class MultiEventPresenter implements MVPPresenter {
 
     }
 
-    /**
-     * Created by Mario Rossi on ${CURRENTDATE} at ${CURRENTTIME}.
-     *
-     * @author veontomo@gmail.com
-     * @since xx.xx
-     */
-    public void setEventTypes(String[] strings) {
 
-
-    }
 }

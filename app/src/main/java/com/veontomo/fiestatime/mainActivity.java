@@ -20,7 +20,7 @@ import com.veontomo.fiestatime.fragments.ManageEvent;
 import com.veontomo.fiestatime.fragments.MultiEvents;
 import com.veontomo.fiestatime.views.MultiEventView;
 
-public class mainActivity extends AppCompatActivity implements ManageEvent.onActions, MultiEvents.onActions {
+public class mainActivity extends AppCompatActivity implements ManageEvent.OnActions, MultiEvents.OnActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         TypefaceProvider.registerDefaultIconSets();

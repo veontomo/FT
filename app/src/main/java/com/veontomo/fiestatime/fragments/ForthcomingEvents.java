@@ -24,8 +24,6 @@ import com.veontomo.fiestatime.views.MultiEventView;
  */
 public class ForthcomingEvents extends Fragment implements MultiEventView {
 
-    private OnFragmentInteractionListener mListener;
-
     private final MultiEventPresenter mPresenter = new MultiEventPresenter(this, getActivity().getApplicationContext());
 
     private TextView mTextView;
@@ -66,12 +64,6 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
         super.onStart();
         mTextView = (TextView) getActivity().findViewById(R.id.frag_forth_holiday_name);
         mPresenter.bindView(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -144,7 +136,7 @@ public class ForthcomingEvents extends Fragment implements MultiEventView {
      */
     @Override
     public void onEventClick(Event event) {
-
+        Logger.log("event is clicked");
     }
 
     /**

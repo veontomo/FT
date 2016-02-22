@@ -1,14 +1,12 @@
 package com.veontomo.fiestatime.api;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
 
 import java.text.SimpleDateFormat;
@@ -22,10 +20,7 @@ import java.util.List;
  */
 public class DetailedAdapter<T extends Event> extends BaseAdapter {
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
-
-    private static final int COLOR_1 = Color.parseColor("#303030");
-    private static final int COLOR_2 = Color.parseColor("#606060");
+    private final SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
 
     private final Context mContext;
     /**
@@ -51,16 +46,20 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
      */
     private final HashMap<String, Integer> eventTypeToId;
 
-
-    private final TextView[] holders;
-
-
-
-
     /**
      * number of items in {@link #items}
      */
     int size = 0;
+
+    public DetailedAdapter(final Context context, final String[] eventTypes, final int[] eventLayouts){
+        this.mContext = context;
+        this.mEventTypes = eventTypes;
+        this.mEventLayouts = eventLayouts;
+        this.items = new ArrayList<>();
+        this.eventTypeToId = new HashMap<>();
+        initializeMapping();
+    }
+
     /**
      * How many items are in the data set represented by this Adapter.
      *
@@ -76,15 +75,6 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
         return mEventTypes.length;
     }
 
-    public DetailedAdapter(final Context context, final String[] eventTypes, final int[] eventLayouts){
-        this.mContext = context;
-        this.mEventTypes = eventTypes;
-        this.mEventLayouts = eventLayouts;
-        this.items = new ArrayList<>();
-        this.eventTypeToId = new HashMap<>();
-        initializeMapping();
-        this.holders = new TextView[2*eventTypes.length];
-    }
 
     /**
      * Initialize the mapping from the
@@ -168,20 +158,33 @@ public class DetailedAdapter<T extends Event> extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             int layoutIndex = mEventLayouts.length > itemType ? itemType : 0;
             row = inflater.inflate(mEventLayouts[layoutIndex], parent, false);
-            Holder holder = new Holder();
-            holder.name = (TextView) row.findViewById(R.id.layout_event_row_name);
-            holder.next = (TextView) row.findViewById(R.id.layout_event_row_next);
+            Holder holder = new Holder((TextView) row.findViewById(R.id.layout_event_row_name), (TextView) row.findViewById(R.id.layout_event_row_next));
             row.setTag(holder);
         }
         final Holder holder = (Holder) row.getTag();
-        holder.name.setText(item.getName());
-        holder.next.setText(format.format(item.getNextOccurrence()));
+        holder.getName().setText(item.getName());
+        holder.getNext().setText(format.format(item.getNextOccurrence()));
         return row;
     }
 
     private class Holder{
-        public TextView name;
-        public TextView next;
+        private final TextView name;
+        private final TextView next;
+
+        public Holder(TextView name, TextView next) {
+            this.name = name;
+            this.next = next;
+        }
+
+        public TextView getName() {
+            return name;
+        }
+
+        public TextView getNext() {
+            return next;
+        }
+
+
     }
 
 

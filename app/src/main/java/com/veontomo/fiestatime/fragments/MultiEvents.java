@@ -13,12 +13,7 @@ import android.widget.Toast;
 
 import com.veontomo.fiestatime.Logger;
 import com.veontomo.fiestatime.R;
-import com.veontomo.fiestatime.api.DetailedAdapter;
 import com.veontomo.fiestatime.api.Event;
-import com.veontomo.fiestatime.api.MonthEvent;
-import com.veontomo.fiestatime.api.SingleEvent;
-import com.veontomo.fiestatime.api.WeekEvent;
-import com.veontomo.fiestatime.api.YearEvent;
 import com.veontomo.fiestatime.presenters.MultiEventPresenter;
 import com.veontomo.fiestatime.views.MultiEventView;
 
@@ -29,7 +24,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
 
     private MultiEventPresenter mPresenter;
 
-    private onActions mHostingActivity;
+    private OnActions mHostingActivity;
 
     private ListView mEventList;
 
@@ -48,14 +43,14 @@ public class MultiEvents extends Fragment implements MultiEventView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Logger.log("MultiEvents onCreateView");
-//        restoreState(savedInstanceState);
+        // restoreState(savedInstanceState);
         return inflater.inflate(R.layout.fragment_all_events, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        this.mHostingActivity = (onActions) getActivity();
+        this.mHostingActivity = (OnActions) getActivity();
         this.mEventList = (ListView) getActivity().findViewById(R.id.frag_all_event_list);
         final Context context = getActivity().getApplicationContext();
         this.mPresenter = new MultiEventPresenter(this, context);
@@ -132,6 +127,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
         // TODO
     }
 
+    @Override
     public void onEventClick(Event event) {
         if (mHostingActivity != null) {
             mHostingActivity.onEventClicked(event);
@@ -149,7 +145,7 @@ public class MultiEvents extends Fragment implements MultiEventView {
     }
 
 
-    public interface onActions {
+    public interface OnActions {
         void onEventClicked(Event h);
     }
 }
